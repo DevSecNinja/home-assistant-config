@@ -14,3 +14,9 @@ blueprints/*/homeassistant/*
 
 # Never ever
 *secret*.y*ml
+
+# Skip upload for now until Home Assistant supports secrets via the GUI
+# Issue: https://github.com/home-assistant/frontend/issues/19871
+automations.yaml
+scripts.yaml
+packages/charge-points/laadpaal_rest.yaml
