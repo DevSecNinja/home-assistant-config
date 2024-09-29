@@ -1,0 +1,145 @@
+blueprint:
+  name: ZHA - Philips Hue Dimmer Switch Config - V2023.12.15
+  description: "Control lights with a Philips Hue Dimmer Switch (only RWL020 (US)
+    and RWL021 (EU), RWL022, the one that says 'hue' on the bottom, has a different
+    button layout.)\n\nThis blueprint is a simplified version of stefanroelofs's `ZHA
+    - Philis Hue Dimmer Switch V2', but this one has no default inputs and with full
+    configuration available. This makes the remote easily configurable for purposes
+    other than controlling lights.\n\nIf you are intending to just use it for use
+    as a light switch, I recommend using his blueprint, which you can find at https://gist.github.com/stefanroelofs/775e2e0a3cdb3d72a9451fb247492d59\n\nIt
+    includes customizable 'on' button behaviour and default setup of the dimmer buttons
+    to dim as they normally would. To make the configuration available for other automations,
+    I had to remove these very useful functionalities.\n\nPlease note that the Philips
+    Hue Dimmer Switch also supports triple, quadruple, and even quintuple button presses.
+    It's fairly easy to configure these yourself by editing this blueprint.\n\nPlease
+    also note that I am not much good at python and therefore probably cannot help
+    you if this does not work. All credit for figuring out how all this works goes
+    to stefanroelofs, vanstinator and warriorrocker. I just adapted their work to
+    make the dimming buttons free to execute other actions. \n\nDoes this blueprint
+    not work for you? Did you add your Hue dimmer to ZHA before July 2020?\nIt might
+    help to press the 'Reconfigure device' button on the ZHA Device info page.\nThe
+    naming of the command attribute in the zha_event was changed back then. \n"
+  domain: automation
+  source_url: https://gist.github.com/sandervv/f326ff3b2bcb945b5a9dc0bfb82e3308
+  input:
+    remote:
+      name: Philips Hue Dimmer Switch
+      description: Pick either RWL020 (US) or RWL021 (EU)
+      selector:
+        device:
+          integration: zha
+          manufacturer: Philips
+          entity:
+          - domain:
+            - sensor
+            device_class:
+            - battery
+          multiple: false
+    button_on_short_press:
+      name: On button short press
+      description: Action to run on short on button press.
+      default: []
+      selector:
+        action: {}
+    button_on_long_press:
+      name: On button long press
+      description: Action to run on long on button press.
+      default: []
+      selector:
+        action: {}
+    button_on_double_press:
+      name: On button double press
+      description: Action to run on double on button press.
+      default: []
+      selector:
+        action: {}
+    button_up_short_press:
+      name: Up button short press
+      description: Action to run on short up button press.
+      default: []
+      selector:
+        action: {}
+    button_up_long_press:
+      name: Up button long press
+      description: Action to run on long up button press.
+      default: []
+      selector:
+        action: {}
+    button_up_double_press:
+      name: Up button double press
+      description: Action to run on double up button press.
+      default: []
+      selector:
+        action: {}
+    button_down_short_press:
+      name: Down button short press
+      description: Action to run on short down button press.
+      default: []
+      selector:
+        action: {}
+    button_down_long_press:
+      name: Down button long press
+      description: Action to run on long down button press.
+      default: []
+      selector:
+        action: {}
+    button_down_double_press:
+      name: Down button double press
+      description: Action to run on double down button press.
+      default: []
+      selector:
+        action: {}
+    button_off_short_press:
+      name: Off button short press
+      description: Action to run on short off button press.
+      default: []
+      selector:
+        action: {}
+    button_off_long_press:
+      name: Off button long press
+      description: Action to run on long off button press.
+      default: []
+      selector:
+        action: {}
+    button_off_double_press:
+      name: Off button double press
+      description: Action to run on double off button press.
+      default: []
+      selector:
+        action: {}
+mode: restart
+max_exceeded: silent
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input remote
+    cluster_id: 64512
+action:
+- variables:
+    command: '{{ trigger.event.data.command }}'
+- choose:
+  - conditions: '{{ command == ''on_press'' }}'
+    sequence: !input button_on_short_press
+  - conditions: '{{ command == ''on_hold'' }}'
+    sequence: !input button_on_long_press
+  - conditions: '{{ command == ''on_double_press'' }}'
+    sequence: !input button_on_double_press
+  - conditions: '{{ command == ''off_press'' }}'
+    sequence: !input button_off_short_press
+  - conditions: '{{ command == ''off_hold'' }}'
+    sequence: !input button_off_long_press
+  - conditions: '{{ command == ''off_double_press'' }}'
+    sequence: !input button_off_double_press
+  - conditions: '{{ command == ''up_press'' }}'
+    sequence: !input button_up_short_press
+  - conditions: '{{ command == ''up_hold'' }}'
+    sequence: !input button_up_long_press
+  - conditions: '{{ command == ''up_double_press'' }}'
+    sequence: !input button_up_double_press
+  - conditions: '{{ command == ''down_press'' }}'
+    sequence: !input button_down_short_press
+  - conditions: '{{ command == ''down_hold'' }}'
+    sequence: !input button_down_long_press
+  - conditions: '{{ command == ''down_double_press'' }}'
+    sequence: !input button_down_double_press

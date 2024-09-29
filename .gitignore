@@ -1,0 +1,16 @@
+*
+!packages
+!packages/**/*
+!templates
+!templates/**/*
+!blueprints
+!blueprints/**/*
+blueprints/*/homeassistant/*
+!automations.yaml
+!configuration.yaml
+!scripts.yaml
+!README.md
+!.gitignore
+
+# Never ever
+*secret*.y*ml

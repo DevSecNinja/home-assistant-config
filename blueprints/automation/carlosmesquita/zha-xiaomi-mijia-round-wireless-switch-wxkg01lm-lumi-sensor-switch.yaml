@@ -1,0 +1,111 @@
+blueprint:
+  name: ZHA - Mijia Wireless Remote Switch (WXKG01LM)
+  description: Automate your Xiaomi Mijia Wireless Round Remote Switch using ZHA events.
+  domain: automation
+  input:
+    mijia_round_switch:
+      name: Mijia Wireless Round Switch
+      description: Mijia Wireless Round Switch to use
+      selector:
+        device:
+          integration: zha
+          manufacturer: LUMI
+          model: lumi.sensor_switch
+          multiple: false
+    remote_button_short_press:
+      name: Single Press
+      description: Action to run on single press
+      default: []
+      selector:
+        action: {}
+    remote_button_hold_press:
+      name: Hold
+      description: Action to run on hold
+      default: []
+      selector:
+        action: {}
+    holdtime:
+      name: Time interval for hold detection, in seconds
+      description: Time to wait until hold_press is activated
+      default: 0.6
+      selector:
+        number:
+          min: 0.15
+          max: 2.5
+          unit_of_measurement: seconds
+          step: 0.05
+          mode: slider
+    remote_button_double_press:
+      name: Double Press
+      description: Action to run on double press
+      default: []
+      selector:
+        action: {}
+    remote_button_triple_press:
+      name: Triple Press
+      description: Action to run on triple press
+      default: []
+      selector:
+        action: {}
+    remote_button_quadruple_press:
+      name: Quadruple Press
+      description: Action to run on quadruple press
+      default: []
+      selector:
+        action: {}
+    remote_button_multiple_press:
+      name: Multiple Press
+      description: Action to run on multiple press
+      default: []
+      selector:
+        action: {}
+  source_url: https://community.home-assistant.io/t/zha-xiaomi-mijia-round-wireless-switch-wxkg01lm-lumi-sensor-switch/258472
+mode: parallel
+max_exceeded: silent
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input mijia_round_switch
+action:
+- variables:
+    click_type: '{{ trigger.event.data.args.click_type }}'
+    attrname: '{{ trigger.event.data.args.attribute_name }}'
+    value: '{{ trigger.event.data.args.value }}'
+    command: '{{ trigger.event.data.command }}'
+- choose:
+  - conditions:
+    - '{{ attrname == ''on_off'' }}'
+    - '{{ value == true }}'
+    sequence:
+    - wait_for_trigger:
+      - platform: event
+        event_type: zha_event
+        event_data:
+          device_id: !input mijia_round_switch
+          command: attribute_updated
+          args:
+            attribute_id: 0
+            attribute_name: on_off
+            value: false
+      continue_on_timeout: true
+      timeout: !input holdtime
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ not wait.trigger }}'
+        sequence: !input remote_button_hold_press
+      default: !input remote_button_short_press
+  - conditions:
+    - condition: template
+      value_template: '{{ command == ''click'' }}'
+    sequence:
+    - choose:
+      - conditions: '{{ click_type == ''double'' }}'
+        sequence: !input remote_button_double_press
+      - conditions: '{{ click_type == ''triple'' }}'
+        sequence: !input remote_button_triple_press
+      - conditions: '{{ click_type == ''quadruple'' }}'
+        sequence: !input remote_button_quadruple_press
+      - conditions: '{{ click_type == ''furious'' }}'
+        sequence: !input remote_button_multiple_press

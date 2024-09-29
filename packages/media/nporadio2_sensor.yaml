@@ -1,0 +1,74 @@
+sensor:
+# Top 2000 / NPO Radio 2 sensor by Stefan S. and Helmer
+# https://github.com/helmerzNL/HA-Configuration/blob/main/Packages/house/media/top2000_sensor.yaml
+
+rest:
+  - scan_interval: 60
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
+    sensor:
+      - name: NPO Radio 2 - Huidige song - basic
+        json_attributes_path: "$.data.radioTrackPlays.data[0].radioTracks"
+        json_attributes:
+          - artist
+          - name
+          - coverUrl
+        value_template: "{{ value_json['data']['radioTrackPlays']['data'][0]['radioTracks'].name }}"
+      - name: NPO Radio 2 - Huidige song - extra
+        json_attributes_path: "$.data.radioTrackPlays.data[0].cmsChartEditionPositions"
+        json_attributes:
+          - position
+          - lastPosition
+          - totalPositions
+        value_template: "OK"
+      - name: NPO Radio 2 - Vorige song - basic
+        json_attributes_path: "$.data.radioTrackPlays.data[1].radioTracks"
+        json_attributes:
+          - artist
+          - name
+          - coverUrl
+        value_template: "{{ value_json['data']['radioTrackPlays']['data'][1]['radioTracks'].name }}"
+      - name: NPO Radio 2 - Vorige song - extra
+        json_attributes_path: "$.data.radioTrackPlays.data[1].cmsChartEditionPositions"
+        json_attributes:
+          - position
+          - lastPosition
+          - totalPositions
+        value_template: "OK"
+      - name: NPO Radio 2 - Huidige Programma
+        json_attributes_path: "$.data.radioBroadcasts.data[0]"
+        json_attributes:
+          - name
+          - from
+          - until
+        value_template: "{{ value_json['data']['radioBroadcasts']['data'][0].name }}"
+      - name: NPO Radio 2 - Huidige Programma Logo
+        json_attributes_path: "$.data.radioBroadcasts.data[0].radioPhotoAssets"
+        json_attributes:
+          - url
+        value_template: "OK"
+      - name: NPO Radio 2 - Huidige Presentator
+        json_attributes_path: "$.data.radioBroadcasts.data[0].radioPresenters[0]"
+        json_attributes:
+          - name
+        value_template: "{{ value_json['data']['radioBroadcasts']['data'][0]['radioPresenters'][0].name }}"
+      - name: NPO Radio 2 - Volgende Programma
+        json_attributes_path: "$.data.upcomingBroadcasts.data[0]"
+        json_attributes:
+          - name
+          - from
+          - until
+        value_template: "OK"
+      - name: NPO Radio 2 - Volgende Programma Logo
+        json_attributes_path: "$.data.upcomingBroadcasts.data[0].radioPhotoAssets"
+        json_attributes:
+          - url
+        value_template: "OK"
+      - name: NPO Radio 2 - Volgende Presentator
+        json_attributes_path: "$.data.upcomingBroadcasts.data[0].radioPresenters[0]"
+        json_attributes:
+          - name
+        value_template: "{{ value_json['data']['upcomingBroadcasts']['data'][0]['radioPresenters'][0].name }}"
