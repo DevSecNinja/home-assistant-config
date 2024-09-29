@@ -1,0 +1,25 @@
+#db_url: !secret db_url
+exclude:
+  domains:
+    - device_tracker
+    - media_player
+    - time_date
+    - uptime
+    - weather
+    - worldclock
+  entity_globs:
+    - sensor.*_smart_plug_voltage
+    - sensor.*_smart_plug_current
+    - sensor.clock*
+    - sensor.date*
+    - sensor.glances*
+    - sensor.load_*m
+    - sensor.network_*
+    - sensor.time*
+    - sensor.uptime*
+  entities:
+    - light.all_lights
+    - sensor.memory_use_percent
+    - sensor.processor_use
+    - sensor.hours_until_wakeup
+    - sensor.expected_bedtime

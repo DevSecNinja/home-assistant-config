@@ -1,0 +1,42 @@
+#
+# Sensors
+#
+
+# TP-Link Smart Home - Power Outlets
+- platform: template
+  sensors:
+    # Plug 1 - Ready changed from 6 to 4 at 2020-02-01 as it triggered too many false positives
+    washing_machine_status:
+      friendly_name_template: "{{ states.switch.washing_machine.name}} Status"  
+      value_template: >-  
+        {% if states('sensor.washing_machine_smart_plug_current_consumption') == 'unavailable' %}  
+          Unavailable
+        {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float <= 1) %}  
+          Off
+        {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float <= 4) %}  
+          On - Washing Machine Ready
+        {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float|round == 6) %}  
+          On - Dryer Ready
+        {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float|round >= 650) %}  
+          On - Drying
+        {% else %} 
+          On - Washing
+        {% endif %}
+
+# External IP Address
+- platform: rest
+  resource: https://api.ipify.org/?format=json
+  name: External IP
+  value_template: "{{ value_json.ip }}"
+
+# P2000
+- platform: p2000
+  scan_interval: 20
+  regios: 12
+  radius: 4000
+  contains: !secret zone_home_municipality
+
+# Shodan
+- platform: shodan
+  api_key: !secret shodan_api_key
+  query: !secret domain_fqdn

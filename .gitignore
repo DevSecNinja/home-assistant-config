@@ -1,11 +1,14 @@
 *
+!blueprints
+!blueprints/**/*
+blueprints/*/homeassistant/*
+!integrations
+!integrations/**/*
 !packages
 !packages/**/*
 !templates
 !templates/**/*
-!blueprints
-!blueprints/**/*
-blueprints/*/homeassistant/*
+
 !automations.yaml
 !configuration.yaml
 !scripts.yaml
@@ -20,3 +23,4 @@ blueprints/*/homeassistant/*
 automations.yaml
 scripts.yaml
 packages/charge-points/laadpaal_rest.yaml
+integrations/mqtt.yaml

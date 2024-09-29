@@ -1,0 +1,15 @@
+ssl_certificate: /ssl/fullchain.pem
+ssl_key: /ssl/privkey.pem
+
+# Ban IP addresses after 50 failed login attempts. Prevent blocking Cloudflare
+ip_ban_enabled: true
+login_attempts_threshold: 50
+
+# Proxy Settings
+use_x_forwarded_for: true
+trusted_proxies: 
+- 127.0.0.1
+- ::1
+- 172.16.0.0/12
+- 192.168.60.2
+- 172.30.33.0/24

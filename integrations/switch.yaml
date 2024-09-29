@@ -1,0 +1,6 @@
+# Wake on LAN - Desktop
+- platform: wake_on_lan
+  name: "Wake on LAN - Desktop"
+  host: !secret wakeonlan_desktop_host
+  broadcast_address: !secret wakeonlan_desktop_host # wakeonlan_corp_broadcast_address
+  mac: !secret wakeonlan_desktop_mac

@@ -1,0 +1,22 @@
+wakeup_time:
+  name: "Wake-up time"
+  has_time: true
+  has_date: false
+wakeup_light_transition:
+  name: "Wake-up light transition time"
+  has_time: true
+  has_date: false
+wakeup_in_advance:
+  name: "Wake-up minutes in advance when movement detected"
+  has_time: true
+  has_date: false
+
+vacuum_clean_time:
+  name: "Robot Vacuum Schedule Time"
+  has_time: true
+  has_date: false
+
+plant_sensor_notification_time:
+  name: "Plant Sensor Notification Time"
+  has_time: true
+  has_date: false

@@ -26,14 +26,12 @@ zha_toolkit:
 
 # Split the integrations with configurations into separate YAML files
 automation: !include automations.yaml
-debugpy: !include integrations/debugpy.yaml
 frontend: !include integrations/frontend.yaml
 homeassistant: !include integrations/homeassistant.yaml
 http: !include integrations/http.yaml
 influxdb: !include integrations/influxdb.yaml
 input_boolean: !include integrations/input_boolean.yaml
 input_datetime: !include integrations/input_datetime.yaml
-input_select: !include integrations/input_select.yaml
 mqtt: !include integrations/mqtt.yaml
 recorder: !include integrations/recorder.yaml
 script: !include scripts.yaml
