@@ -26,8 +26,6 @@ blueprint:
       name: Conditions
       description: Only turn the light on when these conditions are met.
       default:
-      - condition: time
-        alias: Run only at these times ( - Remove me if not needed - )
       selector:
         condition: {}
     target_light:
