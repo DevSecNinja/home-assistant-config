@@ -38,6 +38,14 @@ blueprint:
       selector:
         entity:
           multiple: false
+    check_alarm_status:
+      name: Entity that checks the alarm status
+      description: If set, checks if entity is 'on' before triggering. Use
+        e.g. the Sonos alarm switch or another switch that you use to define if the alarm is on or off.
+      default: none
+      selector:
+        entity:
+          multiple: false
     sunrise_duration:
       name: Sunrise duration
       description: The sunrise will start the configured number of minutes before
