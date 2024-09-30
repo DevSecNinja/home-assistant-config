@@ -1,18 +1,17 @@
 blueprint:
   name: The Everything Light with Media Player Override
   author: AntonH & DevSecNinja
-  description: "**Version 2.6**\nUpdated by DevSecNinja to support a Media Player override
-    so that the light brightness can be lowered when the TV is on.\n
-    The Everything Light: select any trigger and turn
-    on your light in multiple ways:\n  - just turn the light on in it's default state\n
-    \ - turn it on with a set brightness, color and/or temperature value\n  - turn
-    it on dynamically with a brightness value that changes according to an ambient
-    light sensor\n\nThe blueprint also allows you to turn the light off again in 3
-    ways:\n  - at a set time\n  - with 1 or more triggers\n  - with a staircase function
-    (turn off the light after a set time has passed)\n\n  Conditions can be set to
-    prevent both turn on and turn off functions.\n\n**The dynamic lighting logic is
-    based of the Smart Lux Dimmer Blueprint:**\n  - [Find it on the Home Assistant
-    Community forums:](https://community.home-assistant.io/t/smart-lux-dimmer-adjust-light-brightness-depending-on-light-sensor-value/403646)\n
+  description: "**Version 2.6**\nUpdated by DevSecNinja to support a Media Player
+    override so that the light brightness can be lowered when the TV is on.\n The
+    Everything Light: select any trigger and turn on your light in multiple ways:\n
+    \ - just turn the light on in it's default state\n  - turn it on with a set brightness,
+    color and/or temperature value\n  - turn it on dynamically with a brightness value
+    that changes according to an ambient light sensor\n\nThe blueprint also allows
+    you to turn the light off again in 3 ways:\n  - at a set time\n  - with 1 or more
+    triggers\n  - with a staircase function (turn off the light after a set time has
+    passed)\n\n  Conditions can be set to prevent both turn on and turn off functions.\n\n**The
+    dynamic lighting logic is based of the Smart Lux Dimmer Blueprint:**\n  - [Find
+    it on the Home Assistant Community forums:](https://community.home-assistant.io/t/smart-lux-dimmer-adjust-light-brightness-depending-on-light-sensor-value/403646)\n
     \ - [See the source on Github:](https://gist.github.com/Twanne/02dfb154084a8b9bf927c29160df4af3)\n"
   source_url: https://github.com/DevSecNinja/home-assistant-config/blob/main/blueprints/automation/DevSecNinja/the_everything_light.yaml
   domain: automation
@@ -27,8 +26,6 @@ blueprint:
       name: Conditions
       description: Only turn the light on when these conditions are met.
       default:
-      - condition: time
-        alias: Run only at these times ( - Remove me if not needed - )
       selector:
         condition: {}
     target_light:
@@ -131,7 +128,8 @@ blueprint:
         light values.
       default: 2000
       selector:
-        color_temp: {}
+        color_temp:
+          unit: mired
     brightness:
       name: Brightness (FIXED BRIGHTNESS MODE)
       description: Set the brightness value the light needs to turn on at
@@ -228,13 +226,17 @@ blueprint:
           unit_of_measurement: '%'
     media_player_entity:
       name: Media Player Entity
-      description: The media player entity that will override brightness levels if it is on.
+      description: The media player entity that will override brightness levels if
+        it is on.
       selector:
         entity:
-          domain: media_player
+          domain:
+          - media_player
+          multiple: false
     overridden_light_value_1:
       name: Overridden Brightness at maximum light level (DYNAMIC MODE)
-      description: Brightness of the light at maximum ambient light when media player is on.
+      description: Brightness of the light at maximum ambient light when media player
+        is on.
       default: 0
       selector:
         number:
@@ -245,7 +247,8 @@ blueprint:
           unit_of_measurement: '%'
     overridden_light_value_2:
       name: Overridden Brightness at minimum light level (DYNAMIC MODE)
-      description: Brightness of the light at minimum ambient light when media player is on.
+      description: Brightness of the light at minimum ambient light when media player
+        is on.
       default: 100
       selector:
         number:
@@ -301,14 +304,16 @@ blueprint:
         the set maximum value.
       default: 2000
       selector:
-        color_temp: {}
+        color_temp:
+          unit: mired
     light_temp_under_min:
       name: Temperature when ambient light value under min (DYNAMIC MODE)
       description: Temperature of the light when the ambient light is lower than the
         set minimum value.
       default: 2000
       selector:
-        color_temp: {}
+        color_temp:
+          unit: mired
     include_turn_off:
       name: Include light turn off function
       description: 'Select if the light needs to turn back off again and how you want
@@ -377,21 +382,14 @@ variables:
   light_sensor: !input light_sensor_entity
   maxB: !input max_brightness_value
   minB: !input min_brightness_value
-  light1: >
-    {% if states(media_player_entity) == 'on' %}
-      {{ !input overridden_light_value_1 }}
-    {% else %}
-      {{ !input light_value_1 }}
-    {% endif %}
-  light2: >
-    {% if states(media_player_entity) == 'on' %}
-      {{ !input overridden_light_value_2 }}
-    {% else %}
-      {{ !input light_value_2 }}
-    {% endif %}
+  light1: "{% if states(media_player_entity) == 'on' %}\n  {{ !input overridden_light_value_1
+    }}\n{% else %}\n  {{ !input light_value_1 }}\n{% endif %}\n"
+  light2: "{% if states(media_player_entity) == 'on' %}\n  {{ !input overridden_light_value_2
+    }}\n{% else %}\n  {{ !input light_value_2 }}\n{% endif %}\n"
   slope: '{{ ( light1 - light2 ) / ( maxB - minB ) }}'
   constant: '{{ light1 - ( slope * maxB ) }}'
-  dynamic_brightness_pct: "{% if mode == \"dynamic\" %}\n  {{ (( slope * states(light_sensor)|int ) + constant)|round }}\n{% else %}\n  0\n{% endif %}\n"
+  dynamic_brightness_pct: "{% if mode == \"dynamic\" %}\n  {{ (( slope * states(light_sensor)|int
+    ) + constant)|round }}\n{% else %}\n  0\n{% endif %}\n"
   include_color_or_temp_over_under: !input include_color_or_temp_over_under
   light_brightness_over_max: !input light_brightness_over_max
   light_color_over_max: !input light_color_over_max
@@ -416,12 +414,37 @@ action:
   - conditions: '{{ mode == "fixed" }}'
     sequence:
     - service: light.turn_on
-      data: "{% if include_color_or_temp == \"include_color\" %}\n  {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness, \"rgb_color\": light_color } }}\n{% elif include_color_or_temp == \"include_temperature\" %}\n  {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness, \"color_temp\": light_temperature } }}\n{% else %}\n  {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness } }}\n{% endif %}\n"
+      data: "{% if include_color_or_temp == \"include_color\" %}\n  {{ { \"transition\":
+        transition_time, \"brightness_pct\": light_brightness, \"rgb_color\": light_color
+        } }}\n{% elif include_color_or_temp == \"include_temperature\" %}\n  {{ {
+        \"transition\": transition_time, \"brightness_pct\": light_brightness, \"color_temp\":
+        light_temperature } }}\n{% else %}\n  {{ { \"transition\": transition_time,
+        \"brightness_pct\": light_brightness } }}\n{% endif %}\n"
       target: !input target_light
   - conditions: '{{ mode == "dynamic" }}'
     sequence:
     - service: light.turn_on
-      data: "{% if states(light_sensor)|int > maxB %}\n  {% if include_color_or_temp_over_under == \"include_color_outside_range\" %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_over_max, \"rgb_color\": light_color_over_max } }}\n  {% elif include_color_or_temp_over_under == \"include_temp_outside_range\" %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_over_max, \"color_temp\": light_temp_over_max } }}\n  {% else %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_over_max } }}\n  {% endif %}\n{% elif states(light_sensor)|int < minB %}\n  {% if include_color_or_temp_over_under == \"include_color_outside_range\" %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_under_min, \"rgb_color\": light_color_under_min } }}\n  {% elif include_color_or_temp_over_under == \"include_temp_outside_range\" %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_under_min, \"color_temp\": light_temp_under_min } }}\n  {% else %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_under_min } }}\n  {% endif %}\n{% else %}\n  {% if include_color_or_temp == \"include_color\" %}\n   {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct, \"rgb_color\": light_color } }}\n  {% elif include_color_or_temp == \"include_temperature\" %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct, \"color_temp\": light_temperature } }}\n  {% else %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct } }}\n  {% endif %}\n{% endif %}\n"
+      data: "{% if states(light_sensor)|int > maxB %}\n  {% if include_color_or_temp_over_under
+        == \"include_color_outside_range\" %}\n    {{ { \"transition\": transition_time,
+        \"brightness_pct\": light_brightness_over_max, \"rgb_color\": light_color_over_max
+        } }}\n  {% elif include_color_or_temp_over_under == \"include_temp_outside_range\"
+        %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_over_max,
+        \"color_temp\": light_temp_over_max } }}\n  {% else %}\n    {{ { \"transition\":
+        transition_time, \"brightness_pct\": light_brightness_over_max } }}\n  {%
+        endif %}\n{% elif states(light_sensor)|int < minB %}\n  {% if include_color_or_temp_over_under
+        == \"include_color_outside_range\" %}\n    {{ { \"transition\": transition_time,
+        \"brightness_pct\": light_brightness_under_min, \"rgb_color\": light_color_under_min
+        } }}\n  {% elif include_color_or_temp_over_under == \"include_temp_outside_range\"
+        %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_under_min,
+        \"color_temp\": light_temp_under_min } }}\n  {% else %}\n    {{ { \"transition\":
+        transition_time, \"brightness_pct\": light_brightness_under_min } }}\n  {%
+        endif %}\n{% else %}\n  {% if include_color_or_temp == \"include_color\" %}\n
+        \  {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct,
+        \"rgb_color\": light_color } }}\n  {% elif include_color_or_temp == \"include_temperature\"
+        %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct,
+        \"color_temp\": light_temperature } }}\n  {% else %}\n    {{ { \"transition\":
+        transition_time, \"brightness_pct\": dynamic_brightness_pct } }}\n  {% endif
+        %}\n{% endif %}\n"
       target: !input target_light
 - if: !input turn_off_conditions
   then:
@@ -436,7 +459,8 @@ action:
         - delay: !input staircase_duration
       - service: homeassistant.turn_off
         target: !input target_light
-    - conditions: '{{ "trigger" in include_turn_off and not "staircase" in include_turn_off }}'
+    - conditions: '{{ "trigger" in include_turn_off and not "staircase" in include_turn_off
+        }}'
       sequence:
       - wait_for_trigger: !input turn_off_triggers
       - service: homeassistant.turn_off
