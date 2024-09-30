@@ -3,12 +3,18 @@
 Welcome to my Home Assistant Configuration!
 I used to do a lot in YAML but since the push for GUI usage from Home Assistant, my configuration got slimmer too.
 
-## Some statistics about my installation
+## Home Assistant Details
+
+### Version
+
+2024.9.3
+
+### Stats
 
 Description | Count
 -- | --
-Number of entities | 1056
-Number of sensors | 520
+Number of entities | 1067
+Number of sensors | 530
 
 ## My installed extensions
 
