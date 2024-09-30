@@ -62,6 +62,7 @@ Number of sensors | 520
 - [Xiaomi Vacuum Map Card](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card)
 
 ### Themes
+None
 
 ***
 

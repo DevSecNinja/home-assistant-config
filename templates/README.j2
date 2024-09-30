@@ -14,27 +14,47 @@ Number of sensors | {{states.sensor | count}}
 
 ### Add-ons
 
-{%- for addon in addons | sort(attribute='name') %}
-- {{addon.name}}
-{%- endfor %}
+{%- set addons_list = addons | sort(attribute='name') %}
+{%- if addons_list %}
+    {%- for component in addons_list %}
+- {{component.name}}
+    {%- endfor %}
+{%- else %}
+None
+{%- endif %}
 
 ### Custom integrations
 
-{%- for component in hacs_components | selectattr('category', 'equalto', 'integration') | sort(attribute='name') %}
+{%- set integrations = hacs_components | selectattr('category', 'equalto', 'integration') | sort(attribute='name') %}
+{%- if integrations %}
+    {%- for component in integrations %}
 - [{{component.name}}]({{component.documentation}})
-{%- endfor %}
+    {%- endfor %}
+{%- else %}
+None
+{%- endif %}
 
 ### Lovelace plugins
 
-{%- for component in hacs_components | selectattr('category', 'equalto', 'plugin') | sort(attribute='name') %}
+{%- set plugins = hacs_components | selectattr('category', 'equalto', 'plugin') | sort(attribute='name') %}
+{%- if plugins %}
+    {%- for component in plugins %}
 - [{{component.name}}]({{component.documentation}})
-{%- endfor %}
+    {%- endfor %}
+{%- else %}
+None
+{%- endif %}
 
 ### Themes
 
-{%- for component in hacs_components | selectattr('category', 'equalto', 'theme') | sort(attribute='name') %}
+{%- set themes = hacs_components | selectattr('category', 'equalto', 'theme') | sort(attribute='name') %}
+{%- if themes %}
+    {%- for component in themes %}
 - [{{component.name}}]({{component.documentation}})
-{%- endfor %}
+    {%- endfor %}
+{%- else %}
+None
+{%- endif %}
 
 ***
 
