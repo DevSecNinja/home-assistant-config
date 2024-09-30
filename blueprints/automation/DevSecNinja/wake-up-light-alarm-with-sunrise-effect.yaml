@@ -119,6 +119,7 @@ variables:
   end_mired: '{{[state_attr(light_entity, ''min_mireds'')|int(0), min_mired|int(0)]|max}}'
   tick_time: '{{float(seconds) / float(range_brightness)}}'
   check_entity: !input check_entity
+  check_alarm_status: !input check_alarm_status
 trigger:
 - platform: time_pattern
   minutes: '*'
@@ -127,15 +128,17 @@ action:
 - wait_template: '{{sensor == ''none'' or as_timestamp(states(sensor), None) != None}}'
 - wait_template: '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
     ~ '' '' ~ manual_time) - as_timestamp(states(''sensor.date_time_iso'')) <= float(seconds)
-    and states(check_entity) in [''unknown'', ''on'', ''home'']}}'
+    and states(check_entity) in [''unknown'', ''on'', ''home'']
+    and states(check_alarm_status) in [''unknown'', ''on'']}}'
 - choose: []
   default: !input pre_sunrise_actions
 - condition: template
   value_template: '{{sensor == ''none'' or as_timestamp(states(sensor), None) != None}}'
 - condition: template
   value_template: '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
-    ~ '' '' ~ manual_time) - as_timestamp(now()) <= float(seconds) and states(check_entity)
-    in [''unknown'', ''on'', ''home'']}}'
+    ~ '' '' ~ manual_time) - as_timestamp(now()) <= float(seconds)
+    and states(check_entity) in [''unknown'', ''on'', ''home'']
+    and states(check_alarm_status) in [''unknown'', ''on'']}}'
 - choose:
   - conditions:
     - '{{state_attr(light_entity, ''min_mireds'') != None}}'
