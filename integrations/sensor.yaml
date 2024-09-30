@@ -7,7 +7,7 @@
   sensors:
     # Plug 1 - Ready changed from 6 to 4 at 2020-02-01 as it triggered too many false positives
     washing_machine_status:
-      friendly_name_template: "{{ states.switch.washing_machine.name}} Status"  
+      friendly_name_template: "{{ states.switch.washing_machine_smart_plug.friendly_name }} Status"  
       value_template: >-  
         {% if states('sensor.washing_machine_smart_plug_current_consumption') == 'unavailable' %}  
           Unavailable
