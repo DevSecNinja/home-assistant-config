@@ -1,5 +1,6 @@
 blueprint:
   name: Wake-up light alarm with sunrise effect
+  author: sbyx & DevSecNinja
   description: 'A wake-up light alarm with a brightness and color temperature sunrise
     effect. Note: Requires date_time_iso sensor in configuration, not manually executable!
     Source: sbyx blueprint modified by me. Version: 0.1'
