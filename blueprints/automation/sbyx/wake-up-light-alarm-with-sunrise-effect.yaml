@@ -131,13 +131,13 @@ action:
   - conditions:
     - '{{state_attr(light_entity, ''min_mireds'') != None}}'
     sequence:
-    - service: light.turn_on
+    - action: light.turn_on
       data:
         brightness: '{{start_brightness}}'
         color_temp: '{{start_mired}}'
       entity_id: !input light_entity
   default:
-  - service: light.turn_on
+  - action: light.turn_on
     data:
       brightness: '{{start_brightness}}'
     entity_id: !input light_entity
@@ -160,7 +160,7 @@ action:
           - conditions:
             - '{{state_attr(light_entity, ''min_mireds'') != None}}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               data:
                 brightness: '{{(float(end_brightness) - (float(range_brightness) *
                   (as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
@@ -172,7 +172,7 @@ action:
                   | int(0)}}'
               entity_id: !input light_entity
           default:
-          - service: light.turn_on
+          - action: light.turn_on
             data:
               brightness: '{{(float(end_brightness) - (float(range_brightness) * (as_timestamp(states(sensor)
                 if sensor != ''none'' else states(''sensor.date'') ~ '' '' ~ manual_time)
