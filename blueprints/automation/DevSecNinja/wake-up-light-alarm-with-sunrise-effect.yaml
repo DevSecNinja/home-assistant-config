@@ -2,8 +2,7 @@ blueprint:
   name: Wake-up light alarm with sunrise effect
   description: 'A wake-up light alarm with a brightness and color temperature sunrise
     effect. Note: Requires date_time_iso sensor in configuration, not manually executable!
-    Source: sbyx blueprint modified by me.
-    Version: 0.1'
+    Source: sbyx blueprint modified by me. Version: 0.1'
   domain: automation
   input:
     light_entity:
@@ -42,8 +41,9 @@ blueprint:
           multiple: false
     check_alarm_status:
       name: Entity that checks the alarm status
-      description: If set, checks if entity is 'on' before triggering. Use
-        e.g. the Sonos alarm switch or another switch that you use to define if the alarm is on or off.
+      description: If set, checks if entity is 'on' before triggering. Use e.g. the
+        Sonos alarm switch or another switch that you use to define if the alarm is
+        on or off.
       default: none
       selector:
         entity:
@@ -129,17 +129,17 @@ action:
 - wait_template: '{{sensor == ''none'' or as_timestamp(states(sensor), None) != None}}'
 - wait_template: '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
     ~ '' '' ~ manual_time) - as_timestamp(states(''sensor.date_time_iso'')) <= float(seconds)
-    and states(check_entity) in [''unknown'', ''on'', ''home'']
-    and states(check_alarm_status) in [''unknown'', ''on'']}}'
+    and states(check_entity) in [''unknown'', ''on'', ''home''] and states(check_alarm_status)
+    in [''unknown'', ''on'']}}'
 - choose: []
   default: !input pre_sunrise_actions
 - condition: template
   value_template: '{{sensor == ''none'' or as_timestamp(states(sensor), None) != None}}'
 - condition: template
   value_template: '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
-    ~ '' '' ~ manual_time) - as_timestamp(now()) <= float(seconds)
-    and states(check_entity) in [''unknown'', ''on'', ''home'']
-    and states(check_alarm_status) in [''unknown'', ''on'']}}'
+    ~ '' '' ~ manual_time) - as_timestamp(now()) <= float(seconds) and states(check_entity)
+    in [''unknown'', ''on'', ''home''] and states(check_alarm_status) in [''unknown'',
+    ''on'']}}'
 - choose:
   - conditions:
     - '{{state_attr(light_entity, ''min_mireds'') != None}}'

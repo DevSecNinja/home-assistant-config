@@ -1,7 +1,6 @@
 *
 !blueprints
 !blueprints/**/*
-blueprints/*/homeassistant/*
 !integrations
 !integrations/**/*
 !packages
