@@ -25,7 +25,7 @@ blueprint:
     run_conditions:
       name: Conditions
       description: Only turn the light on when these conditions are met.
-      default:
+      default: []
       selector:
         condition: {}
     target_light:
@@ -128,8 +128,7 @@ blueprint:
         light values.
       default: 2000
       selector:
-        color_temp:
-          unit: mired
+        color_temp: {}
     brightness:
       name: Brightness (FIXED BRIGHTNESS MODE)
       description: Set the brightness value the light needs to turn on at
@@ -228,6 +227,7 @@ blueprint:
       name: Media Player Entity
       description: The media player entity that will override brightness levels if
         it is on.
+      default:
       selector:
         entity:
           domain:
@@ -304,16 +304,14 @@ blueprint:
         the set maximum value.
       default: 2000
       selector:
-        color_temp:
-          unit: mired
+        color_temp: {}
     light_temp_under_min:
       name: Temperature when ambient light value under min (DYNAMIC MODE)
       description: Temperature of the light when the ambient light is lower than the
         set minimum value.
       default: 2000
       selector:
-        color_temp:
-          unit: mired
+        color_temp: {}
     include_turn_off:
       name: Include light turn off function
       description: 'Select if the light needs to turn back off again and how you want
@@ -382,14 +380,23 @@ variables:
   light_sensor: !input light_sensor_entity
   maxB: !input max_brightness_value
   minB: !input min_brightness_value
-  light1: "{% if states(media_player_entity) == 'on' %}\n  {{ !input overridden_light_value_1
-    }}\n{% else %}\n  {{ !input light_value_1 }}\n{% endif %}\n"
-  light2: "{% if states(media_player_entity) == 'on' %}\n  {{ !input overridden_light_value_2
-    }}\n{% else %}\n  {{ !input light_value_2 }}\n{% endif %}\n"
-  slope: '{{ ( light1 - light2 ) / ( maxB - minB ) }}'
-  constant: '{{ light1 - ( slope * maxB ) }}'
-  dynamic_brightness_pct: "{% if mode == \"dynamic\" %}\n  {{ (( slope * states(light_sensor)|int
-    ) + constant)|round }}\n{% else %}\n  0\n{% endif %}\n"
+  default_light1: !input light_value_1
+  default_light2: !input light_value_2
+  overridden_light1: !input overridden_light_value_1
+  overridden_light2: !input overridden_light_value_2
+  slope: >-
+    {% if states(input.media_player_entity) == 'on' %}
+      {{ (overridden_light1 - overridden_light2) / (maxB - minB) }}
+    {% else %}
+      {{ (default_light1 - default_light2) / (maxB - minB) }}
+    {% endif %}
+  constant: >-
+    {% if states(input.media_player_entity) == 'on' %}
+      {{ overridden_light1 - (slope * maxB) }}
+    {% else %}
+      {{ default_light1 - (slope * maxB) }}
+    {% endif %}
+  dynamic_brightness_pct: "{% if mode == \"dynamic\" %}\n  {{ (( slope * states(light_sensor)|int ) + constant)|round }}\n{% else %}\n  0\n{% endif %}\n"
   include_color_or_temp_over_under: !input include_color_or_temp_over_under
   light_brightness_over_max: !input light_brightness_over_max
   light_color_over_max: !input light_color_over_max
@@ -439,7 +446,7 @@ action:
         \"color_temp\": light_temp_under_min } }}\n  {% else %}\n    {{ { \"transition\":
         transition_time, \"brightness_pct\": light_brightness_under_min } }}\n  {%
         endif %}\n{% else %}\n  {% if include_color_or_temp == \"include_color\" %}\n
-        \  {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct,
+        \   {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness,
         \"rgb_color\": light_color } }}\n  {% elif include_color_or_temp == \"include_temperature\"
         %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct,
         \"color_temp\": light_temperature } }}\n  {% else %}\n    {{ { \"transition\":
