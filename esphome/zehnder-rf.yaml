@@ -1,0 +1,159 @@
+esphome:
+  name: utility-bridge
+  comment: Fan controller
+  friendly_name: Utility Bridge
+  platform: ESP8266
+  board: nodemcuv2
+
+substitutions:
+  devicename: utility_bridge
+  upper_devicename: Utility Bridge
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  use_address: !secret utility_bridge_ip_address
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: !secret utility_bridge_ap_ssid
+    password: !secret utility_bridge_ap_password
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret utility_bridge_api_encryption_key
+
+  services:
+    - service: set_speed
+      variables:
+        run_speed: int
+        run_time: int
+      then:
+        - lambda: |-
+            zehnder_fan->setSpeed(run_speed, run_time);
+
+ota: 
+  - password: !secret utility_bridge_ota_password
+    platform: esphome
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: Europe/Amsterdam
+
+button:
+  - platform: restart
+    id: ${devicename}_esphome_restart
+    name: ${upper_devicename} herstart
+
+  - platform: template
+    id: ${devicename}_high_10
+    name: ${upper_devicename} High 10
+    on_press:
+      then:
+        lambda: |-
+          zehnder_fan->setSpeed(3, 10);
+
+  - platform: template
+    id: ${devicename}_high_30
+    name: ${upper_devicename} High 30
+    on_press:
+      then:
+        lambda: |-
+          zehnder_fan->setSpeed(3, 30);
+
+  - platform: template
+    id: ${devicename}_esphome_setup
+    name: ${upper_devicename} Setup
+    entity_category: config
+    on_press:
+      then:
+        lambda: |-
+          id(zehnder_fan).setup();
+          
+  - platform: template
+    id: ${devicename}_esphome_dump_logs
+    name: ${upper_devicename} Dump logs
+    entity_category: config
+    on_press:
+      then:
+        lambda: |-
+          id(zehnder_fan).dump_config();
+
+text_sensor:
+  - platform: version
+    id: ${devicename}_esphome_version
+    name: ${upper_devicename} version
+
+binary_sensor:
+  - platform: status
+    id: ${devicename}_esphome_status
+    name: ${upper_devicename} status
+
+sensor:
+  - platform: wifi_signal
+    id: ${devicename}_esphome_wifi_signal
+    name: ${upper_devicename} wifi signaal
+    update_interval: 10s
+
+  - platform: uptime
+    id: ${devicename}_esphome_uptime
+    name: ${upper_devicename} uptime
+
+# Load external components
+external_components:
+  - source:
+      type: local
+      path: custom_components
+
+# SPI
+spi:
+  clk_pin: D5
+  mosi_pin: D7
+  miso_pin: D6
+
+# nRF905 config
+nrf905:
+  id: "nrf905_rf"
+  cs_pin: D8
+  # cd_pin: D9 # We can't use the D4 pin on NodeMCU V2 esp8266. Using dummy data
+  ce_pin: D2
+  pwr_pin: D3
+  txen_pin: D0
+  # We don't need AM and DR at the moment as they are read from the internal registers
+  # am_pin: D4 # We can't use the D4 pin on NodeMCU V2 esp8266. Using dummy data
+  dr_pin: D1
+
+# The FAN controller
+fan:
+  - platform: zehnder
+    id: zehnder_fan
+    name: "Ventilation"
+    nrf905: nrf905_rf
+    update_interval: "60s"
+
+
+
+# # SPI
+# spi:
+#   clk_pin: D5
+#   mosi_pin: D7
+#   miso_pin: D6
+
+# # nRF905 config
+# nrf905:
+#   id: "nrf905_rf"
+#   cs_pin: D8
+#   # cd_pin: D9 # We can't use the D4 pin on NodeMCU V2 esp8266. Using dummy data
+#   ce_pin: D2
+#   pwr_pin: D3
+#   txen_pin: D0
+#   # We don't need AM and DR at the moment as they are read from the internal registers
+#   # am_pin: D4 # We can't use the D4 pin on NodeMCU V2 esp8266. Using dummy data
+#   dr_pin: D1

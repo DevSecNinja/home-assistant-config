@@ -23,3 +23,7 @@ automations.yaml
 scripts.yaml
 packages/charge-points/laadpaal_rest.yaml
 integrations/mqtt.yaml
+
+# ESPHome has it's own gitignore
+!esphome
+!esphome/**/*
