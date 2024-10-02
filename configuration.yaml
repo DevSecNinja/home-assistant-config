@@ -1,36 +1,3 @@
-# Integrations without configurations
-api:
-person:
-system_health:
-wake_on_lan:
-
-# Get default config
-default_config:
-
-# BEGIN HACS
-battery_notes:
-    # Hide the standard battery when adding Battery+. This will not effect existing dashboards, automations etc.
-    hide_battery: true
-    # Round battery+ to whole percentages.
-    round_battery: true
-
-powercalc:
-readme:
-zha_toolkit:
-# END HACS
-
-# Split the integrations with configurations into separate YAML files
-automation: !include automations.yaml
-frontend: !include integrations/frontend.yaml
-homeassistant: !include integrations/homeassistant.yaml
-http: !include integrations/http.yaml
-influxdb: !include integrations/influxdb.yaml
-input_boolean: !include integrations/input_boolean.yaml
-input_datetime: !include integrations/input_datetime.yaml
-mqtt: !include integrations/mqtt.yaml
-recorder: !include integrations/recorder.yaml
-script: !include scripts.yaml
-sensor: !include integrations/sensor.yaml
-switch: !include integrations/switch.yaml
-tts: !include integrations/tts.yaml
-zone: !include integrations/zone.yaml
+homeassistant:
+    # Load packages
+    packages: !include_dir_named integrations

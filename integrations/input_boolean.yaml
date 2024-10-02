@@ -1,55 +1,56 @@
-# Awake
-awake:
-  name: Awake
+input_boolean:
+  # Awake
+  awake:
+    name: Awake
 
-# Wake up
-wakeup_enabled:
-  name: "Wake-up alarm scheduled"
-  icon: mdi:theme-light-dark
+  # Wake up
+  wakeup_enabled:
+    name: "Wake-up alarm scheduled"
+    icon: mdi:theme-light-dark
 
-# Backup trigger
-backup_trigger:
-  name: "Backup Home Assistant now"
-  initial: off
+  # Backup trigger
+  backup_trigger:
+    name: "Backup Home Assistant now"
+    initial: off
 
-# Vacuum cleaner
-vacuum_clean_enabled:
-  name: "Robot Vacuum Scheduled Clean"
-  icon: mdi:robot-vacuum
+  # Vacuum cleaner
+  vacuum_clean_enabled:
+    name: "Robot Vacuum Scheduled Clean"
+    icon: mdi:robot-vacuum
 
-# Notifications
-plant_sensor1_notification:
-  name: "Enable notifications for Plant Sensor 1"
-  icon: mdi:bell-ring
-plant_sensor2_notification:
-  name: "Enable notifications for Plant Sensor 2"
-  icon: mdi:bell-ring
-plant_sensor3_notification:
-  name: "Enable notifications for Plant Sensor 3"
-  icon: mdi:bell-ring
-washing_machine_reminder_notification:
-  name: "Enable notifications for Washing Machine reminders"
-  icon: mdi:bell-ring
-awake_turn_off_notification:
-  name: "Enable notifications for Awake turn off reminders"
-  icon: mdi:bell-ring
-memory_warning_notification:
-  name: "Enable notifications for Memory warnings"
-  icon: mdi:bell-ring
-vacuum_clean_notification:
-  name: "Enable notifications for Vacuum Cleaner"
-  icon: mdi:bell-ring
-washing_room_humidity_notification:
-  name: "Enable notifications for Washing Room Humidity"
-  icon: mdi:bell-ring
+  # Notifications
+  plant_sensor1_notification:
+    name: "Enable notifications for Plant Sensor 1"
+    icon: mdi:bell-ring
+  plant_sensor2_notification:
+    name: "Enable notifications for Plant Sensor 2"
+    icon: mdi:bell-ring
+  plant_sensor3_notification:
+    name: "Enable notifications for Plant Sensor 3"
+    icon: mdi:bell-ring
+  washing_machine_reminder_notification:
+    name: "Enable notifications for Washing Machine reminders"
+    icon: mdi:bell-ring
+  awake_turn_off_notification:
+    name: "Enable notifications for Awake turn off reminders"
+    icon: mdi:bell-ring
+  memory_warning_notification:
+    name: "Enable notifications for Memory warnings"
+    icon: mdi:bell-ring
+  vacuum_clean_notification:
+    name: "Enable notifications for Vacuum Cleaner"
+    icon: mdi:bell-ring
+  washing_room_humidity_notification:
+    name: "Enable notifications for Washing Room Humidity"
+    icon: mdi:bell-ring
 
-# Dummy booleans
-light_living_room_automation_pause:
-  name: "Pause Living Room Light Automation for 60 minutes"
-  icon: mdi:lightbulb
+  # Dummy booleans
+  light_living_room_automation_pause:
+    name: "Pause Living Room Light Automation for 60 minutes"
+    icon: mdi:lightbulb
 
-# Switch PC Audio trigger
-pc_audio_trigger:
-  name: "Turn on receiver for PC Audio"
-  initial: off
-  icon: mdi:volume-high
+  # Switch PC Audio trigger
+  pc_audio_trigger:
+    name: "Turn on receiver for PC Audio"
+    initial: off
+    icon: mdi:volume-high
