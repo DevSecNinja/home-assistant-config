@@ -5,8 +5,6 @@
 !blueprints/**/*
 !integrations
 !integrations/**/*
-!packages
-!packages/**/*
 !scripts
 !scripts/**/*
 !templates
@@ -25,7 +23,6 @@
 # Issue: https://github.com/home-assistant/frontend/issues/19871
 automations.yaml
 scripts.yaml
-packages/charge-points/laadpaal_rest.yaml
 integrations/mqtt.yaml
 
 # ESPHome has it's own gitignore

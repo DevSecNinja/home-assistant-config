@@ -1,0 +1,7 @@
+---
+# This handles the loading of my packages
+#
+# https://www.home-assistant.io/docs/packages/
+#
+automation: !include ../automations.yaml
+automation split: !include_dir_list ../automations
