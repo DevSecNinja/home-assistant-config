@@ -1,10 +1,14 @@
 *
+!automations
+!automations/**/*
 !blueprints
 !blueprints/**/*
 !integrations
 !integrations/**/*
 !packages
 !packages/**/*
+!scripts
+!scripts/**/*
 !templates
 !templates/**/*
 
