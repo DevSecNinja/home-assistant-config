@@ -64,3 +64,34 @@ template:
           short_code: "kitchen"
           room_id: "16"
           type: "vacuum_room"
+
+input_datetime:
+  vacuum_room_living_room:
+    name: "Vacuum Room - Living Room"
+    has_date: true
+    has_time: true
+
+  vacuum_room_bathroom:
+    name: "Vacuum Room - Bathroom"
+    has_date: true
+    has_time: true
+
+  vacuum_room_hall:
+    name: "Vacuum Room - Hall"
+    has_date: true
+    has_time: true
+
+  vacuum_room_toilet:
+    name: "Vacuum Room - Toilet"
+    has_date: true
+    has_time: true
+
+  vacuum_room_bedroom:
+    name: "Vacuum Room - Bedroom"
+    has_date: true
+    has_time: true
+
+  vacuum_room_kitchen:
+    name: "Vacuum Room - Kitchen"
+    has_date: true
+    has_time: true
