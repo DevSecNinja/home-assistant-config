@@ -130,8 +130,7 @@ action:
 - wait_template: '{{sensor == ''none'' or as_timestamp(states(sensor), None) != None}}'
 - wait_template: '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
     ~ '' '' ~ manual_time) - as_timestamp(states(''sensor.date_time_iso'')) <= float(seconds)
-    and states(check_entity) in [''unknown'', ''on'', ''home''] and states(check_alarm_status)
-    in [''unknown'', ''on'']}}'
+    and states(check_entity) in [''unknown'', ''on'', ''home'']}}'
 - choose: []
   default: !input pre_sunrise_actions
 - condition: template
@@ -139,8 +138,7 @@ action:
 - condition: template
   value_template: '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
     ~ '' '' ~ manual_time) - as_timestamp(now()) <= float(seconds) and states(check_entity)
-    in [''unknown'', ''on'', ''home''] and states(check_alarm_status) in [''unknown'',
-    ''on'']}}'
+    in [''unknown'', ''on'', ''home'']}}'
 - choose:
   - conditions:
     - '{{state_attr(light_entity, ''min_mireds'') != None}}'
