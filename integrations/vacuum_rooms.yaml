@@ -1,69 +1,9 @@
 #
-# This config creates the sensors that maintains when a room was
-# last cleaned by the vacuum cleaner.
+# This config creates the sensors that maintain when a room was
+# last cleaned by the vacuum cleaner. The vacuum script will
+# update these input_datetime sensors with a timestamp of when
+# the vacuuming took place.
 #
-
-template:
-  - sensor:
-      - name: "Vacuum Room - Living Room"
-        device_class: "timestamp"
-        state: none
-        icon: mdi:sofa
-        unique_id: vacuum_room_living_room
-        attributes:
-          short_code: "living_room"
-          room_id: "21"
-          type: "vacuum_room"
-
-      - name: "Vacuum Room - Bathroom"
-        device_class: "timestamp"
-        state: none
-        icon: mdi:shower
-        unique_id: vacuum_room_bathroom
-        attributes:
-          short_code: "bathroom"
-          room_id: "20"
-          type: "vacuum_room"
-
-      - name: "Vacuum Room - Hall"
-        device_class: "timestamp"
-        state: none
-        icon: mdi:hall
-        unique_id: vacuum_room_hall
-        attributes:
-          short_code: "hall"
-          room_id: "19"
-          type: "vacuum_room"
-
-      - name: "Vacuum Room - Toilet"
-        device_class: "timestamp"
-        state: none
-        icon: mdi:toilet
-        unique_id: vacuum_room_toilet
-        attributes:
-          short_code: "toilet"
-          room_id: "18"
-          type: "vacuum_room"
-
-      - name: "Vacuum Room - Bedroom"
-        device_class: "timestamp"
-        state: none
-        icon: mdi:bed
-        unique_id: vacuum_room_bedroom
-        attributes:
-          short_code: "bedroom"
-          room_id: "17"
-          type: "vacuum_room"
-
-      - name: "Vacuum Room - Kitchen"
-        device_class: "timestamp"
-        state: none
-        icon: mdi:fridge
-        unique_id: vacuum_room_kitchen
-        attributes:
-          short_code: "kitchen"
-          room_id: "16"
-          type: "vacuum_room"
 
 input_datetime:
   vacuum_room_living_room:
@@ -95,3 +35,65 @@ input_datetime:
     name: "Vacuum Room - Kitchen"
     has_date: true
     has_time: true
+
+template:
+  - sensor:
+      - name: "Vacuum Room - Living Room"
+        device_class: "timestamp"
+        state: "{{ as_timestamp(states('input_datetime.vacuum_room_living_room')) | timestamp_custom('%Y-%m-%dT%H:%M:%S%z', true) }}"
+        icon: mdi:sofa
+        unique_id: vacuum_room_living_room
+        attributes:
+          short_code: "living_room"
+          room_id: "21"
+          type: "vacuum_room"
+
+      - name: "Vacuum Room - Bathroom"
+        device_class: "timestamp"
+        state: "{{ as_timestamp(states('input_datetime.vacuum_room_bathroom')) | timestamp_custom('%Y-%m-%dT%H:%M:%S%z', true) }}"
+        icon: mdi:shower
+        unique_id: vacuum_room_bathroom
+        attributes:
+          short_code: "bathroom"
+          room_id: "20"
+          type: "vacuum_room"
+
+      - name: "Vacuum Room - Hall"
+        device_class: "timestamp"
+        state: "{{ as_timestamp(states('input_datetime.vacuum_room_hall')) | timestamp_custom('%Y-%m-%dT%H:%M:%S%z', true) }}"
+        icon: mdi:coat-rack
+        unique_id: vacuum_room_hall
+        attributes:
+          short_code: "hall"
+          room_id: "19"
+          type: "vacuum_room"
+
+      - name: "Vacuum Room - Toilet"
+        device_class: "timestamp"
+        state: "{{ as_timestamp(states('input_datetime.vacuum_room_toilet')) | timestamp_custom('%Y-%m-%dT%H:%M:%S%z', true) }}"
+        icon: mdi:toilet
+        unique_id: vacuum_room_toilet
+        attributes:
+          short_code: "toilet"
+          room_id: "18"
+          type: "vacuum_room"
+
+      - name: "Vacuum Room - Bedroom"
+        device_class: "timestamp"
+        state: "{{ as_timestamp(states('input_datetime.vacuum_room_bedroom')) | timestamp_custom('%Y-%m-%dT%H:%M:%S%z', true) }}"
+        icon: mdi:bed
+        unique_id: vacuum_room_bedroom
+        attributes:
+          short_code: "bedroom"
+          room_id: "17"
+          type: "vacuum_room"
+
+      - name: "Vacuum Room - Kitchen"
+        device_class: "timestamp"
+        state: "{{ as_timestamp(states('input_datetime.vacuum_room_kitchen')) | timestamp_custom('%Y-%m-%dT%H:%M:%S%z', true) }}"
+        icon: mdi:fridge
+        unique_id: vacuum_room_kitchen
+        attributes:
+          short_code: "kitchen"
+          room_id: "16"
+          type: "vacuum_room"
