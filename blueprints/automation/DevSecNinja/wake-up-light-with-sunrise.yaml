@@ -1,0 +1,179 @@
+blueprint:
+  name: Wake-up light with sunrise effect
+  author: DevSecNinja
+  description: 'A wake-up light with a brightness and color temperature sunrise
+    effect that turns on based on your alarm time. You can use a Sonos alarm,
+    Android or iOS alarm as an input, as long as the sensor is of device
+    class timestamp with the date & time the alarm should ring.
+    Credit: idea for the inputs from sbyx blueprint'
+  domain: automation
+  input:
+    light_entity:
+      name: Wake-up light entity
+      description: The light to control. Turning it off during the sunrise will keep
+        it off. Color temperature range is auto-detected.
+      selector:
+        entity:
+          domain:
+          - light
+          multiple: false
+    timestamp_sensor:
+      name: Alarm timestamp sensor
+      description: 'Sensor with timestamp of next alarm with device_class: timestamp.'
+      default: none
+      selector:
+        entity:
+          device_class:
+          - timestamp
+          multiple: false
+    check_entity:
+      name: Entities to check before sunrise is triggered
+      description: If set, checks if entities are 'on' or 'home' before triggering. Use
+        e.g. workday sensors, alarm or awake switches, device_trackers or person entities.
+      default: []
+      selector:
+        entity:
+          multiple: true
+    minimum_brightness_threshold:
+      name: Minimum brightness threshold
+      description: NOT IMPLEMENTED YET - If the light is already above this brightness, the automation will not run (assumes you are already awake)
+      default: 100
+      selector:
+        number:
+          min: 1.0
+          max: 255.0
+          step: 1.0
+          mode: slider
+    sunrise_duration:
+      name: Sunrise duration
+      description: The sunrise will start the configured number of minutes before
+        the timestamp.
+      default: 25
+      selector:
+        number:
+          min: 5.0
+          max: 60.0
+          step: 5.0
+          unit_of_measurement: min
+          mode: slider
+    start_brightness:
+      name: Minimum brightness
+      description: The brightness to start with. Some lights ignore very low values
+        and may turn on with full brightness instead!
+      default: 1
+      selector:
+        number:
+          min: 1.0
+          max: 255.0
+          step: 1.0
+          mode: slider
+    end_brightness:
+      name: Maximum brightness
+      description: The brightness will be transitioned from the minimum to the configured
+        value.
+      default: 254
+      selector:
+        number:
+          min: 5.0
+          max: 255.0
+          step: 1.0
+          mode: slider
+    min_mired:
+      name: Minimum color temperature
+      description: 'The minimum color temperature to use. (0: lowest supported)'
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 500.0
+          step: 5.0
+          mode: slider
+          unit_of_measurement: mired
+    pre_sunrise_actions:
+      name: Pre-sunrise actions
+      description: Optional actions to run before sunrise starts.
+      default: []
+      selector:
+        action: {}
+    post_sunrise_actions:
+      name: Post-sunrise actions
+      description: Optional actions to run after sunrise ends (around the alarm time).
+      default: []
+      selector:
+        action: {}
+  source_url: https://github.com/DevSecNinja/home-assistant-config/blob/main/blueprints/automation/DevSecNinja/wake-up-light-with-sunrise-effect.yaml
+variables:
+  light_entity: !input light_entity
+  timestamp_sensor: !input timestamp_sensor
+  check_entity: !input check_entity
+  sunrise_duration: !input sunrise_duration
+  start_brightness: !input start_brightness
+  end_brightness: !input end_brightness
+  min_mired: !input min_mired
+  minimum_brightness_threshold: !input minimum_brightness_threshold
+  range_brightness: '{{float(end_brightness)-float(start_brightness)}}'
+  seconds: '{{float(sunrise_duration) * 60}}'
+  start_mired: '{{state_attr(light_entity, ''max_mireds'')}}'
+  end_mired: '{{[state_attr(light_entity, ''min_mireds'')|int(0), min_mired|int(0)]|max}}'
+  tick_time: '{{float(seconds) / float(range_brightness)}}'
+trigger:
+- platform: time_pattern
+  minutes: '*'
+condition:
+  - condition: template
+    value_template: >
+      {% set alarm_time = as_datetime(states(timestamp_sensor)) %}
+      {% set start_time = alarm_time - timedelta(minutes=sunrise_duration) %}
+      {% set current = now() %}
+      {{ current >= start_time and current <= alarm_time }}
+  - condition: template
+    value_template: >
+      {% if check_entity %}
+        {% for entity in check_entity %}
+          {% if not is_state(entity, 'on') and not is_state(entity, 'home') %}
+            {{ false }}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        {{ true }}
+      {% else %}
+        {{ true }}
+      {% endif %}
+action:
+  - variables:
+      current_time: "{{ now() }}"
+      alarm_time: "{{ as_datetime(states(timestamp_sensor)) }}"
+      start_time: >
+        {{ as_datetime(states(timestamp_sensor)) - timedelta(minutes=sunrise_duration|int) }}
+      progress: >
+        {% set total_duration = (as_datetime(states(timestamp_sensor)) - (as_datetime(states(timestamp_sensor)) - timedelta(minutes=sunrise_duration|int))).total_seconds() %}
+        {% set elapsed = (now() - (as_datetime(states(timestamp_sensor)) - timedelta(minutes=sunrise_duration|int))).total_seconds() %}
+        {{ elapsed / total_duration }}
+  # Execute pre-sunrise actions when progress is 0
+  - if:
+      - condition: template
+        value_template: "{{ progress <= 0.01 }}"
+    then:
+      - choose: []
+        default: !input pre_sunrise_actions
+  # Main sunrise effect
+  - service: light.turn_on
+    target:
+      entity_id: !input light_entity
+    data:
+      brightness: >
+        {% set brightness_range = end_brightness|int - start_brightness|int %}
+        {{ start_brightness|int + (brightness_range * progress)|int }}
+      color_temp: >
+        {% set mired_range = start_mired|int - end_mired|int %}
+        {{ start_mired|int - (mired_range * progress)|int }}
+      transition: 60
+  # Execute post-sunrise actions when complete
+  - if:
+      - condition: template
+        value_template: "{{ progress >= 0.98 }}"
+    then:
+      - choose: []
+        default: !input post_sunrise_actions
+mode: single
+max_exceeded: silent
