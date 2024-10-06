@@ -1,0 +1,22 @@
+---
+name: "Run Todo to Issue"
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  run:
+    name: "Run Todo to Issue"
+    runs-on: "ubuntu-24.04"
+    steps:
+      - uses: "actions/checkout@v4"
+      - name: "TODO to Issue"
+        uses: "alstr/todo-to-issue-action@v5"
+        with:
+          AUTO_ASSIGN: false
