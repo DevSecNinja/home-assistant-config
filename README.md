@@ -7,21 +7,20 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2024.9.3
+2024.10.1
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1068
-Number of sensors | 531
+Number of entities | 1060
+Number of sensors | 514
 
 ## My installed extensions
 
 ### Add-ons
 - [edge] Wmbusmeters (W-MBus to MQTT)
 - Advanced SSH & Web Terminal
-- Bluetooth Presence Monitor
 - ESPHome
 - Grafana
 - InfluxDB
@@ -29,14 +28,13 @@ Number of sensors | 531
 - Mosquitto broker
 - Nginx Proxy Manager
 - Node-RED
-- Samba share
 - Studio Code Server
-- WireGuard
 - Wmbusmeters (W-MBus to MQTT)
 
 ### Custom integrations
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting)
 - [Alarmo](https://github.com/nielsfaber/alarmo)
+- [Azure Openai Conversation](https://github.com/joselcaguilar/azure-openai-ha)
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
 - [Clean Up Snapshots Service](https://github.com/tmonck/clean_up_snapshots)
 - [Flightradar24](https://github.com/AlexandrErohin/home-assistant-flightradar24)
@@ -72,4 +70,4 @@ None
 
 ***
 
-Generated at 2024-09-30, 14:24 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2024-10-06, 00:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

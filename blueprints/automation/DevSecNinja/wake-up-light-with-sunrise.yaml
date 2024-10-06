@@ -97,7 +97,7 @@ blueprint:
         action: {}
     post_sunrise_actions:
       name: Post-sunrise actions
-      description: Optional actions to run after sunrise ends (around the alarm time).
+      description: NOT WORKING YET - Optional actions to run after sunrise ends (around the alarm time).
       default: []
       selector:
         action: {}
