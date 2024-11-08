@@ -104,6 +104,8 @@ wifi:
   power_save_mode: HIGH
   fast_connect: true
   domain: ".IOT-INTERNAL"
+  # When you are changing an IP address, it seems that !secret doesn't work
+  # and you have to hardcode it here...
   use_address: !secret utility_bridge_ip_address
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
