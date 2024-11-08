@@ -386,9 +386,9 @@ blueprint:
                 value: use_rgbww_colour
               - label: Disable Colour Control
                 value: disable_colour_control
+              multiple: false
               custom_value: false
               sort: false
-              multiple: false
         light_colour_temperature:
           name: Colour Temperature
           description: 'The colour temperature setting for the lights when they are
@@ -514,9 +514,9 @@ blueprint:
               - label: 9 - Sun Elevation Lighting - Colour Temp + Lux Controlled Brightness
                   Inverted
                 value: enable_sun_elevation_colour_lux_brightness_inv
+              multiple: false
               custom_value: false
               sort: false
-              multiple: false
         dynamic_lighting_lux_sensor:
           name: Dynamic Lighting - Ambient Light Sensor
           description: '**Used in options 1, 2, 8 or 9** - Enter the specific ambient
@@ -889,9 +889,9 @@ blueprint:
                 value: weekday_enabled
               - label: Disable the weekday option
                 value: weekday_disabled
+              multiple: false
               custom_value: false
               sort: false
-              multiple: false
         weekday_options:
           name: Weekdays
           description: 'Select the days of the week on which you want the automation
@@ -954,9 +954,9 @@ blueprint:
                 value: night_lights_enabled
               - label: Disable the night lights options
                 value: night_lights_disabled
+              multiple: false
               custom_value: false
               sort: false
-              multiple: false
         night_lights_conditions:
           name: Night Lights Conditions (Required For Night Lights)
           description: 'Select any night light condition from the options provided.
@@ -1176,9 +1176,9 @@ blueprint:
                 value: use_rgbww_colour
               - label: Disable Colour Control
                 value: disable_colour_control
+              multiple: false
               custom_value: false
               sort: false
-              multiple: false
         night_light_colour_temperature:
           name: Night Lights - Colour Temperature
           description: 'The colour temperature setting for the night lights when they

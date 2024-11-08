@@ -1,0 +1,13 @@
+---
+id: '1644326252130'
+alias: Let's Encrypt Renewal
+description: >-
+  Starts the Let's Encrypt add-on to renew the TLS certificates
+trigger:
+- platform: time
+  at: 00:00:00
+action:
+- action: hassio.addon_restart
+  data:
+    addon: core_letsencrypt
+initial_state: true

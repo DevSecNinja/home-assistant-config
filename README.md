@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2024.10.1
+2024.10.4
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1060
-Number of sensors | 514
+Number of entities | 1161
+Number of sensors | 591
 
 ## My installed extensions
 
@@ -25,9 +25,11 @@ Number of sensors | 514
 - Grafana
 - InfluxDB
 - Let's Encrypt
+- Matter Server
 - Mosquitto broker
 - Nginx Proxy Manager
 - Node-RED
+- SQLite Web
 - Studio Code Server
 - Wmbusmeters (W-MBus to MQTT)
 
@@ -41,6 +43,7 @@ Number of sensors | 514
 - [Generate Readme](https://github.com/custom-components/readme)
 - [HACS](https://github.com/hacs/integration)
 - [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo)
+- [KNMI](https://github.com/golles/ha-knmi)
 - [Neerslag App](https://github.com/aex351/home-assistant-neerslag-app)
 - [Node Red Companion](https://github.com/zachowj/hass-node-red)
 - [P2000 Sensor](https://github.com/cyberjunky/home-assistant-p2000)
@@ -63,6 +66,7 @@ Number of sensors | 514
 - [Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
 - [Vacuum Card](https://github.com/denysdovhan/vacuum-card)
 - [Weather Card](https://github.com/bramkragten/weather-card)
+- [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
 - [Xiaomi Vacuum Map Card](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card)
 
 ### Themes
@@ -70,4 +74,4 @@ None
 
 ***
 
-Generated at 2024-10-06, 00:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2024-11-03, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
