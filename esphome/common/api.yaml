@@ -1,0 +1,17 @@
+---
+# Native API component
+#
+# The ESPHome native API is used to communicate with clients directly, with a
+# highly-optimized network protocol. Currently, only the ESPHome tool and
+# Home Assistant use this native API.
+#
+# https://esphome.io/components/api.html
+#
+
+api:
+  id: component_api
+  encryption:
+    key: !secret api_encryption_key
+
+  # Can be set for troubleshooting/debugging
+  # reboot_timeout: 30min

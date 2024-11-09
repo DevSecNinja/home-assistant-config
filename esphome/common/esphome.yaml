@@ -1,0 +1,21 @@
+---
+# ESPHome Core configuration
+#
+# Sets the defaults for the main core configuration of my ESPHome devices.
+#
+# https://esphome.io/components/esphome.html
+#
+
+esphome:
+  name: ${hostname}
+  friendly_name: ${device_name}
+  comment: ${device_name}
+  area: ${device_area}
+  project:
+    name: ${project_name}
+    version: ${device_name}
+
+preferences:
+  # Prevent rapid changes to a component from being quickly written to the flash and wearing it out
+  # https://esphome.io/components/esphome.html#adjusting-flash-writes
+  flash_write_interval: 1d

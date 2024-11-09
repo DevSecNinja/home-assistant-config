@@ -1,3 +1,11 @@
+#
+# Zehnder Remote Control device
+# Usage: controls my Zehnder ComfoFan S ventilation system
+
+# Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
+packages:
+  <<: !include_dir_named common
+
 # Load external components
 # https://esphome.io/components/external_components.html#external-components-git
 external_components:
@@ -5,33 +13,28 @@ external_components:
       type: git
       url: https://github.com/DevSecNinja/ESPHome-Zehnder-RF.git
       ref: main
-    refresh: 0s # Always check for updates on the Git repository
+    # refresh: 0s # Always check for updates on the Git repository. Turn this on regularly committing to the repo e.g. during troubleshooting
     components: [ nrf905, zehnder ]
 
 substitutions:
   hostname: zehnder-comfofan
   device_name: Zehnder ComfoFan
   device_id: zehnder_comfofan
+  device_area: Fuse Box
+  project_name: ESPHome.Zehnder
 
 esphome:
-  name: ${hostname}
-  comment: "Zehnder ComfoFan"
-  project:
-    name: "ESPHome.Zehnder"
-    version: "Zehnder ComfoFan"
-
   on_boot:
     priority: -100
     then:
+      # Injects the Zehnder config at boot to ensure we always have the correct config set
       - lambda: !secret zehnder_config # ${device_id}_ventilation->set_config(<Fan networkId>, <Fan my device type>, <Fan my device id>, <Fan main_unit type>, <Fan main unit id>); # You can obtain this from ${device_id}_ventilation->dump_config()
+      # Dump the config for debug purposes
       - lambda: ${device_id}_ventilation->dump_config();
 
 esp8266:
   board: nodemcuv2
   restore_from_flash: false
-
-preferences:
-  flash_write_interval: 1d
 
 # SPI
 spi:
@@ -51,15 +54,8 @@ nrf905:
   # We don't need AM and DR at the moment as they are read from the internal registers
   # Also, the NodeMCU V2 ESP8266 doesn't have enough pins. Using dummy data
 
-# Enable logging
-logger:
-  level: DEBUG
-  # level: INFO
-
 # Enable Home Assistant API
 api:
-  encryption:
-    key: !secret utility_bridge_api_encryption_key
   services:
     - service: set_speed
       variables:
@@ -93,46 +89,14 @@ api:
               ESP_LOGW("zehnder", "Unknown mode %s", mode);
             }
 
-ota: 
-  - password: !secret utility_bridge_ota_password
-    platform: esphome
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  # Could result in unreliable WiFi connection
-  # I personally haven't experienced this
-  power_save_mode: HIGH
-  fast_connect: true
-  domain: ".IOT-INTERNAL"
-  # When you are changing an IP address, it seems that !secret doesn't work
-  # and you have to hardcode it here...
-  use_address: !secret utility_bridge_ip_address
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: !secret utility_bridge_ap_ssid
-    password: !secret utility_bridge_ap_password
-
-web_server:
-  port: 80
-  local: true
-  version: 2
-  auth:
-    username: admin
-    password: !secret web_password
-
-captive_portal:
-
-time:
-  - platform: sntp
-    timezone: Europe/Amsterdam
-    servers:
-      - "pool.ntp.org"
+# # When you change an IP address, you have to use this config.
+# # It seems that !secret doesn't work, so you have to hardcode the IP address
+# wifi:
+#   use_address: <local IP>
 
 light:
   - platform: status_led
-    name: "${device_name} Status LED"
+    name: "Status LED"
     id: "${device_id}_status_led"
     internal: true
     pin:
@@ -141,29 +105,22 @@ light:
 
 binary_sensor:
   - platform: template
-    name: "${device_name} Timer"
+    name: "Timer"
     id: "${device_id}_timer"
     icon: mdi:fan-clock
     lambda: !lambda 'return ${device_id}_ventilation->timer;'
 
-  - platform: status
-    id: ${device_id}_esphome_status
-    name: ${device_name} Status
+  # - platform: status
+  #   id: ${device_id}_esphome_status
+  #   name: Status
 
 sensor:
-  - platform: wifi_signal
-    name: "${device_name} RSSI"
-    update_interval: 60s
-
-  - platform: uptime
-    name: "${device_name} Uptime"
-
   - platform: adc
     pin: VCC
-    name: "${device_name} Power Supply"
+    name: "Power Supply"
 
   - platform: template
-    name: "${device_name} Ventilation Percentage"
+    name: "Ventilation Percentage"
     id: "${device_id}_ventilation_percentage"
     state_class: measurement
     unit_of_measurement: '%'
@@ -173,18 +130,8 @@ sensor:
     lambda: !lambda 'return ${device_id}_ventilation->voltage;'
 
 text_sensor:
-  - platform: wifi_info
-    ip_address:
-      name: "${device_name} IP Address"
-    ssid:
-      name: "${device_name} SSID"
-    bssid:
-      name: "${device_name} BSSID"
-    mac_address:
-      name: "${device_name} MAC"
-
   - platform: template
-    name: "${device_name} Ventilation Mode"
+    name: "Ventilation Mode"
     id: "${device_id}_ventilation_mode"
     update_interval: 15s
     icon: mdi:information
@@ -196,20 +143,10 @@ text_sensor:
                      default: return std::string("Auto");
                  }'
 
-  - platform: version
-    id: ${device_id}_esphome_version
-    name: ${device_name} Version
-
-switch:
-  - platform: safe_mode
-    name: "${device_name} Restart (Safe Mode)"
-  - platform: restart
-    name: "${device_name} Restart"
-
 button:
   - platform: template
     id: ${device_id}_auto
-    name: ${device_name} Auto
+    name: Auto
     icon: mdi:fan-auto
     on_press:
       then:
@@ -220,7 +157,7 @@ button:
           ${device_id}_ventilation->setSpeed(0, 0);
   - platform: template
     id: ${device_id}_low
-    name: ${device_name} Low
+    name: Low
     icon: mdi:fan-speed-1
     on_press:
       then:
@@ -231,7 +168,7 @@ button:
           ${device_id}_ventilation->setSpeed(1, 0);
   - platform: template
     id: ${device_id}_medium
-    name: ${device_name} Medium
+    name: Medium
     icon: mdi:fan-speed-2
     on_press:
       then:
@@ -242,7 +179,7 @@ button:
           ${device_id}_ventilation->setSpeed(2, 0);
   - platform: template
     id: ${device_id}_high
-    name: ${device_name} High
+    name: High
     icon: mdi:fan-speed-3
     on_press:
       then:
@@ -253,7 +190,7 @@ button:
           ${device_id}_ventilation->setSpeed(3, 0);
   - platform: template
     id: ${device_id}_max_10
-    name: ${device_name} Max 10
+    name: Max 10
     icon: mdi:fast-forward-10
     on_press:
       then:
@@ -264,7 +201,7 @@ button:
           ${device_id}_ventilation->setSpeed(4, 10);
   - platform: template
     id: ${device_id}_max_30
-    name: ${device_name} Max 30
+    name: Max 30
     icon: mdi:fast-forward-30
     on_press:
       then:
@@ -275,7 +212,7 @@ button:
           ${device_id}_ventilation->setSpeed(4, 30);
   - platform: template
     id: ${device_id}_max_60
-    name: ${device_name} Max 60
+    name: Max 60
     icon: mdi:fast-forward-60
     on_press:
       then:
@@ -286,8 +223,8 @@ button:
           ${device_id}_ventilation->setSpeed(4, 60);
 
   - platform: template
-    id: ${device_id}_esphome_dump_config
-    name: ${device_name} Dump Config
+    id: ${device_id}_dump_config
+    name: Dump Config
     entity_category: config
     on_press:
       then:
@@ -295,24 +232,16 @@ button:
           id(${device_id}_ventilation).dump_config();
 
   - platform: template
-    id: ${device_id}_esphome_set_config
-    name: ${device_name} Set Config
+    id: ${device_id}_set_config
+    name: Set Config
     entity_category: config
     on_press:
       then:
         lambda: !secret zehnder_config
-    
-  - platform: template
-    id: ${device_id}_high_30
-    name: ${device_name} TEST High 30
-    on_press:
-      then:
-        lambda: |-
-          ${device_id}_ventilation->setSpeed(3, 30);
 
   - platform: template
-    id: ${device_id}_esphome_setup
-    name: ${device_name} Setup
+    id: ${device_id}_setup
+    name: Setup
     entity_category: config
     on_press:
       then:
@@ -323,7 +252,7 @@ button:
 fan:
   - platform: zehnder
     id: ${device_id}_ventilation
-    name: "${device_name} Ventilation"
+    name: "Ventilation"
     nrf905: nrf905_rf
     update_interval: "15s"
     on_speed_set:

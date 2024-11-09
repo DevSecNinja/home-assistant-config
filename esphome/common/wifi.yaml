@@ -1,0 +1,36 @@
+---
+# Wi-Fi component package
+#
+# Contains my common Wi-Fi setup.
+#
+# https://esphome.io/components/wifi.html
+#
+
+substitutions:
+  wifi_ssid: !secret wifi_iot_internal_ssid
+  wifi_domain: ".IOT-INTERNAL"
+  wifi_password: !secret wifi_iot_internal_password
+  wifi_ap_password: !secret wifi_ap_password
+
+wifi:
+  id: component_wifi
+  ssid: "${wifi_ssid}"
+  password: "${wifi_password}"
+  reboot_timeout: 10min
+  fast_connect: true
+  domain: "${wifi_domain}"
+  # Could result in unreliable WiFi connection
+  # I personally haven't experienced this
+  power_save_mode: HIGH
+  ap:
+    ssid: "${device_name}"
+    password: "${wifi_ap_password}"
+
+sensor:
+  - <<: !include ../sensors/wifi_signal_percentage.yaml
+  - <<: !include ../sensors/wifi_signal.yaml
+    on_value:
+      - component.update: sensor_wifi_signal_percentage
+
+text_sensor:
+  - <<: !include ../text_sensors/wifi_info.yaml
