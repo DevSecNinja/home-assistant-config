@@ -1,0 +1,25 @@
+---
+# NodeMCU V2
+#
+# An ESP8266-based board with 4MB flash, Wi-Fi but no Bluetooth
+#
+# https://store.arduino.cc/en-nl/products/nodemcu-esp8266
+#
+
+esp8266:
+  board: nodemcuv2
+
+light:
+  - platform: status_led
+    name: "Status LED"
+    id: "${device_id}_status_led"
+    # internal: true # Use this to hide the sensor from Home Assistant
+    pin:
+      number: GPIO2
+      inverted: true
+
+sensor:
+  - platform: adc
+    pin: VCC
+    name: "Power Supply"
+    id: "${device_id}_power_supply"

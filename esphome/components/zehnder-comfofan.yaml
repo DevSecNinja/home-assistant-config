@@ -1,0 +1,316 @@
+---
+# Zehnder ComfoFan
+#
+# This component is able to manage Zehnder ComfoFan S
+# ventilation systems by using an nRF905 radio
+#
+
+esp8266:
+  restore_from_flash: true
+
+# Load external components
+# https://esphome.io/components/external_components.html#external-components-git
+external_components:
+  - source:
+      type: git
+      url: https://github.com/DevSecNinja/ESPHome-Zehnder-RF.git
+      ref: main
+    # refresh: 0s # Always check for updates on the Git repository. Turn this on regularly committing to the repo e.g. during troubleshooting
+    components: [ nrf905, zehnder ]
+
+esphome:
+  on_boot:
+    priority: -100
+    then:
+      # Injects the Zehnder config at boot to ensure we always have the correct config set
+      - lambda: !secret zehnder_config # ${device_id}_ventilation->set_config(<Fan networkId>, <Fan my device type>, <Fan my device id>, <Fan main_unit type>, <Fan main unit id>); # You can obtain this from ${device_id}_ventilation->dump_config()
+      # Dump the config for debug purposes
+      - lambda: ${device_id}_ventilation->dump_config();
+
+# SPI
+spi:
+  clk_pin:  D5 # GPIO14 - This should be sck since clk doesn't show any messages
+  mosi_pin: D7 # GPIO13
+  miso_pin: D6 # GPIO12
+
+# nRF905 config
+nrf905:
+  id: "nrf905_rf"
+  cs_pin:   D8 # GPIO15
+  cd_pin:   D1 # GPIO5
+  ce_pin:   D2 # GPIO4
+  pwr_pin:  D3 # GPIO0
+  txen_pin: D0 # GPIO16
+
+  # We don't need AM and DR at the moment as they are read from the internal registers
+  # Also, the NodeMCU V2 ESP8266 doesn't have enough pins. Using dummy data
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: set_speed
+      variables:
+        run_speed: int
+        run_time: int
+      then:
+        - lambda: |-
+            id(${device_id}_ventilation).setSpeed(run_speed, run_time);
+    - service: set_mode
+      variables:
+        mode: string
+      # The reason we have all these lambda statements is to initialize the sensor values at startup
+      # Without this, the sensors will stay unavailable in Home Assistant until a mode is set via this device.
+      then:
+        - lambda: |-
+            if (mode == "Auto") {
+              id(${device_id}_ventilation).setSpeed(0, 0);
+            } else if (mode == "Low") {
+              id(${device_id}_ventilation).setSpeed(1, 0);
+            } else if (mode == "Medium") {
+              id(${device_id}_ventilation).setSpeed(2, 0);
+            } else if (mode == "High") {
+              id(${device_id}_ventilation).setSpeed(3, 0);
+            } else if (mode == "Max_10m") {
+              id(${device_id}_ventilation).setSpeed(4, 10);
+            } else if (mode == "Max_30m") {
+              id(${device_id}_ventilation).setSpeed(4, 30);
+            } else if (mode == "Max_60m") {
+              id(${device_id}_ventilation).setSpeed(4, 60);
+            } else {
+              ESP_LOGW("zehnder", "Unknown mode %s", mode);
+            }
+
+binary_sensor:
+  - platform: template
+    name: "Timer"
+    id: "${device_id}_timer"
+    icon: mdi:fan-clock
+    lambda: !lambda 'return ${device_id}_ventilation->timer;'
+
+sensor:
+  - platform: template
+    name: "Ventilation Percentage"
+    id: "${device_id}_ventilation_percentage"
+    state_class: measurement
+    unit_of_measurement: '%'
+    icon: mdi:percent
+    accuracy_decimals: 0
+    update_interval: 15s
+    lambda: !lambda 'return ${device_id}_ventilation->voltage;'
+
+text_sensor:
+  - platform: template
+    name: "Ventilation Mode"
+    id: "${device_id}_ventilation_mode"
+    update_interval: 15s
+    icon: mdi:information
+    lambda: !lambda 'switch (${device_id}_ventilation->speed) {
+                     case 1: return std::string("Low");
+                     case 2: return std::string("Medium");
+                     case 3: return std::string("High");
+                     case 4: return std::string("Max");
+                     default: return std::string("Auto");
+                 }'
+
+button:
+  # Auto
+  - platform: template
+    id: ${device_id}_auto
+    name: Auto
+    icon: mdi:fan-auto
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(0, 0);
+  # Low/Medium/High
+  - platform: template
+    id: ${device_id}_low
+    name: Low
+    icon: mdi:fan-speed-1
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(1, 0);
+  - platform: template
+    id: ${device_id}_medium
+    name: Medium
+    icon: mdi:fan-speed-2
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(2, 0);
+  - platform: template
+    id: ${device_id}_high
+    name: High
+    icon: mdi:fan-speed-3
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 0);
+  # Low 10/30/60
+  - platform: template
+    id: ${device_id}_low_10
+    name: Low 10
+    icon: mdi:fast-forward-10
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 10);
+  - platform: template
+    id: ${device_id}_low_30
+    name: Low 30
+    icon: mdi:fast-forward-30
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 30);
+  - platform: template
+    id: ${device_id}_low_60
+    name: Low 60
+    icon: mdi:fast-forward-60
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 60);
+  # Medium 10/30/60
+  - platform: template
+    id: ${device_id}_medium_10
+    name: Medium 10
+    icon: mdi:fast-forward-10
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 10);
+  - platform: template
+    id: ${device_id}_medium_30
+    name: Medium 30
+    icon: mdi:fast-forward-30
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 30);
+  - platform: template
+    id: ${device_id}_medium_60
+    name: Medium 60
+    icon: mdi:fast-forward-60
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 60);
+  # Max 10/30/60
+  - platform: template
+    id: ${device_id}_max_10
+    name: Max 10
+    icon: mdi:fast-forward-10
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(4, 10);
+  - platform: template
+    id: ${device_id}_max_30
+    name: Max 30
+    icon: mdi:fast-forward-30
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(4, 30);
+  - platform: template
+    id: ${device_id}_max_60
+    name: Max 60
+    icon: mdi:fast-forward-60
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(4, 60);
+
+  - platform: template
+    id: ${device_id}_dump_config
+    name: Dump Config
+    entity_category: config
+    on_press:
+      then:
+        lambda: |-
+          id(${device_id}_ventilation).dump_config();
+
+  - platform: template
+    id: ${device_id}_set_config
+    name: Set Config
+    entity_category: config
+    on_press:
+      then:
+        lambda: !secret zehnder_config
+
+  - platform: template
+    id: ${device_id}_setup
+    name: Setup
+    entity_category: config
+    on_press:
+      then:
+        lambda: |-
+          id(${device_id}_ventilation).setup();
+
+# The FAN controller
+fan:
+  - platform: zehnder
+    id: ${device_id}_ventilation
+    name: "Ventilation"
+    nrf905: nrf905_rf
+    update_interval: "15s"
+    on_speed_set:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - sensor.template.publish:
+          id: ${device_id}_ventilation_percentage
+          state: !lambda 'return ${device_id}_ventilation->voltage;'
+      - binary_sensor.template.publish:
+          id: ${device_id}_timer
+          state: !lambda 'return ${device_id}_ventilation->timer;'
+      - text_sensor.template.publish:
+          id: ${device_id}_ventilation_mode
+          state: !lambda 'switch (${device_id}_ventilation->speed) {
+                             case 1: return "Low";
+                             case 2: return "Medium";
+                             case 3: return "High";
+                             case 4: return "Max";
+                             default: return "Auto";
+                         }'
