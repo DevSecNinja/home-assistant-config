@@ -9,7 +9,7 @@
 esphome:
   name: ${hostname}
   friendly_name: ${device_name}
-  comment: ${device_name}
+  comment: ${project_description}
   area: ${device_area}
   project:
     name: ${project_name}

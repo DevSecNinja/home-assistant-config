@@ -8,6 +8,7 @@ substitutions:
   device_id: zehnder_comfofan
   device_area: Fuse Box
   project_name: ESPHome.Zehnder
+  project_description: Ventilation Control System
 
 # Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
 packages:
