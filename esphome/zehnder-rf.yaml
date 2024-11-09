@@ -4,7 +4,8 @@ external_components:
   - source:
       type: git
       url: https://github.com/DevSecNinja/ESPHome-Zehnder-RF.git
-      ref: 90d9647291f4e07113b281fe5f282f9785f2f615
+      ref: main
+    refresh: 0s # Always check for updates on the Git repository
     components: [ nrf905, zehnder ]
 
 substitutions:
