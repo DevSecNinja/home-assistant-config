@@ -20,8 +20,7 @@ wifi:
   fast_connect: true
   domain: "${wifi_domain}"
   # Could result in unreliable WiFi connection
-  # I personally haven't experienced this
-  power_save_mode: HIGH
+  # power_save_mode: HIGH
   ap:
     ssid: "${device_name}"
     password: "${wifi_ap_password}"
