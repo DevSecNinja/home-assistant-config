@@ -126,6 +126,8 @@ button:
       - lambda: |-
           ${device_id}_ventilation->setSpeed(0, 0);
   # Low/Medium/High/Max
+  # TODO: [zehnder] Solve issue with RF only working with max.
+  # Issue: Sending 1,2,3 or 4 for speed always results in max. CO2 sensor will only show the MAX icon
   - platform: template
     id: ${device_id}_low
     name: Low
