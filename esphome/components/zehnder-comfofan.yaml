@@ -15,7 +15,8 @@ external_components:
       type: git
       url: https://github.com/DevSecNinja/ESPHome-Zehnder-RF.git
       ref: main
-    # refresh: 0s # Always check for updates on the Git repository. Turn this on regularly committing to the repo e.g. during troubleshooting
+    #   ref: fix/9-low-medium-high-auto-buttons-not-working
+    # refresh: 0s # Always check for updates on the Git repository. Turn this on when regularly committing to the repo e.g. during troubleshooting
     components: [ nrf905, zehnder ]
 
 esphome:
@@ -113,6 +114,7 @@ text_sensor:
                  }'
 
 button:
+  # TODO: [zehnder] Solve issue with Timer RF (0, 9) not turning off
   # Auto
   - platform: template
     id: ${device_id}_auto
@@ -132,6 +134,7 @@ button:
     id: ${device_id}_low
     name: Low
     icon: mdi:fan-speed-1
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -143,6 +146,7 @@ button:
     id: ${device_id}_medium
     name: Medium
     icon: mdi:fan-speed-2
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -154,6 +158,7 @@ button:
     id: ${device_id}_high
     name: High
     icon: mdi:fan-speed-3
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -165,6 +170,7 @@ button:
     id: ${device_id}_max
     name: Max
     icon: mdi:fan-plus
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -177,6 +183,7 @@ button:
     id: ${device_id}_low_10
     name: Low 10
     icon: mdi:fast-forward-10
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -188,6 +195,7 @@ button:
     id: ${device_id}_low_30
     name: Low 30
     icon: mdi:fast-forward-30
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -199,6 +207,7 @@ button:
     id: ${device_id}_low_60
     name: Low 60
     icon: mdi:fast-forward-60
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -211,6 +220,7 @@ button:
     id: ${device_id}_medium_10
     name: Medium 10
     icon: mdi:fast-forward-10
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -222,6 +232,7 @@ button:
     id: ${device_id}_medium_30
     name: Medium 30
     icon: mdi:fast-forward-30
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -233,6 +244,7 @@ button:
     id: ${device_id}_medium_60
     name: Medium 60
     icon: mdi:fast-forward-60
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -245,6 +257,7 @@ button:
     id: ${device_id}_high_10
     name: High 10
     icon: mdi:fast-forward-10
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -256,6 +269,7 @@ button:
     id: ${device_id}_high_30
     name: High 30
     icon: mdi:fast-forward-30
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
@@ -267,6 +281,7 @@ button:
     id: ${device_id}_high_60
     name: High 60
     icon: mdi:fast-forward-60
+    disabled_by_default: true
     on_press:
       then:
       - light.turn_on: "${device_id}_status_led"
