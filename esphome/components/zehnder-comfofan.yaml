@@ -125,7 +125,7 @@ button:
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
           ${device_id}_ventilation->setSpeed(0, 0);
-  # Low/Medium/High
+  # Low/Medium/High/Max
   - platform: template
     id: ${device_id}_low
     name: Low
@@ -159,6 +159,17 @@ button:
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
           ${device_id}_ventilation->setSpeed(3, 0);
+  - platform: template
+    id: ${device_id}_max
+    name: Max
+    icon: mdi:fan-plus
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(4, 0);
   # Low 10/30/60
   - platform: template
     id: ${device_id}_low_10
@@ -170,7 +181,7 @@ button:
       - delay: 500ms
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
-          ${device_id}_ventilation->setSpeed(3, 10);
+          ${device_id}_ventilation->setSpeed(1, 10);
   - platform: template
     id: ${device_id}_low_30
     name: Low 30
@@ -181,7 +192,7 @@ button:
       - delay: 500ms
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
-          ${device_id}_ventilation->setSpeed(3, 30);
+          ${device_id}_ventilation->setSpeed(1, 30);
   - platform: template
     id: ${device_id}_low_60
     name: Low 60
@@ -192,7 +203,7 @@ button:
       - delay: 500ms
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
-          ${device_id}_ventilation->setSpeed(3, 60);
+          ${device_id}_ventilation->setSpeed(1, 60);
   # Medium 10/30/60
   - platform: template
     id: ${device_id}_medium_10
@@ -204,7 +215,7 @@ button:
       - delay: 500ms
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
-          ${device_id}_ventilation->setSpeed(3, 10);
+          ${device_id}_ventilation->setSpeed(2, 10);
   - platform: template
     id: ${device_id}_medium_30
     name: Medium 30
@@ -215,10 +226,44 @@ button:
       - delay: 500ms
       - light.turn_off: "${device_id}_status_led"
       - lambda: |-
-          ${device_id}_ventilation->setSpeed(3, 30);
+          ${device_id}_ventilation->setSpeed(2, 30);
   - platform: template
     id: ${device_id}_medium_60
     name: Medium 60
+    icon: mdi:fast-forward-60
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(2, 60);
+  # High 10/30/60
+  - platform: template
+    id: ${device_id}_high_10
+    name: High 10
+    icon: mdi:fast-forward-10
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 10);
+  - platform: template
+    id: ${device_id}_high_30
+    name: High 30
+    icon: mdi:fast-forward-30
+    on_press:
+      then:
+      - light.turn_on: "${device_id}_status_led"
+      - delay: 500ms
+      - light.turn_off: "${device_id}_status_led"
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(3, 30);
+  - platform: template
+    id: ${device_id}_high_60
+    name: High 60
     icon: mdi:fast-forward-60
     on_press:
       then:
