@@ -3,6 +3,6 @@ tts:
     api_key: !secret tts_microsoft_api
     region: westeurope
     language: en-us
-    #type: AriaNeural
+    type: JennyNeural
     # Try out here: https://speech.microsoft.com/portal/voicegallery
     # Check with table here: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts
