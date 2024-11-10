@@ -15,3 +15,9 @@ packages:
   <<: !include_dir_named common
   board: !include boards/esp8266.yaml
   zehnder-comfofan: !include components/zehnder-comfofan.yaml
+
+logger:
+  id: component_logger
+  level: INFO
+  # Make sure to select 'CP2102 USB to UART Bridge Controller'
+  baud_rate: 115200
