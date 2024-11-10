@@ -113,6 +113,23 @@ text_sensor:
                      default: return std::string("Auto");
                  }'
 
+number:
+  - platform: template
+    id: ${device_id}_timer_in_minutes
+    name: "Timer in minutes"
+    optimistic: true
+    min_value: 0
+    max_value: 60
+    initial_value: 0
+    step: 5
+    set_action:
+      then:
+      - lambda: |-
+          ${device_id}_ventilation->setSpeed(4, x);
+      - number.set:
+          id: ${device_id}_timer_in_minutes
+          value: 0
+
 button:
   # Auto
   - platform: template
