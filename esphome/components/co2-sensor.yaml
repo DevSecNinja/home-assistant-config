@@ -25,7 +25,7 @@ select:
     initial_option: "9600"
     optimistic: true
     restore_value: True
-    internal: true
+    internal: false
     entity_category: config
     icon: mdi:swap-horizontal
     set_action:
