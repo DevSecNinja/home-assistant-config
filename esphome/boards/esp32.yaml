@@ -10,11 +10,11 @@
 esp32:
   board: denky32
 
-# light:
-#   - platform: status_led
-#     name: "Status LED"
-#     id: "${device_id}_status_led"
-#     # internal: true # Use this to hide the sensor from Home Assistant
-#     pin:
-#       number: GPIO2
-#       inverted: true
+light:
+  - platform: status_led
+    name: "Status LED"
+    id: "${device_id}_status_led"
+    # internal: true # Use this to hide the sensor from Home Assistant
+    pin:
+      number: GPIO2
+      inverted: true

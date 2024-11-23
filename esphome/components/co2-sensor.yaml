@@ -1,0 +1,64 @@
+substitutions:
+  mhz19b_pin_tx: GPIO3 # 6 Make sure this is a UART port & reversed RX/TX - see pinout scheme
+  mhz19b_pin_rx: GPIO1 # 7 Make sure this is a UART port & reversed RX/TX - see pinout scheme
+
+uart:
+  - id: "${device_id}_uard"
+    rx_pin: ${mhz19b_pin_tx}
+    tx_pin: ${mhz19b_pin_rx}
+    baud_rate: 9600
+    # debug:
+
+select:
+  - id: "${device_id}_change_baud_rate"
+    name: Baud rate
+    platform: template
+    options:
+      - "2400"
+      - "9600"
+      - "38400"
+      - "57600"
+      - "115200"
+      - "256000"
+      - "512000"
+      - "921600"
+    initial_option: "9600"
+    optimistic: true
+    restore_value: True
+    internal: true
+    entity_category: config
+    icon: mdi:swap-horizontal
+    set_action:
+      - lambda: |-
+          id(${device_id}_uard).flush();
+          uint32_t new_baud_rate = stoi(x);
+          ESP_LOGD("change_baud_rate", "Changing baud rate from %i to %i",id(${device_id}_uard).get_baud_rate(), new_baud_rate);
+          if (id(${device_id}_uard).get_baud_rate() != new_baud_rate) {
+            id(${device_id}_uard).set_baud_rate(new_baud_rate);
+            id(${device_id}_uard).load_settings();
+          }
+
+sensor:
+  - platform: mhz19
+    id: "${device_id}_mhz19"
+    uart_id: "${device_id}_uard"
+    co2:
+      name: CO₂
+      id: "${device_id}_co2"
+    temperature:
+      name: Temperature
+      id: "${device_id}_temperature"
+    update_interval: 15s
+    automatic_baseline_calibration: false # False = best for indoor
+    warmup_time: 75s # Should be enough to accomodate preheating
+
+api:
+  actions:
+    - action: mhz19_calibrate_zero
+      then:
+        - mhz19.calibrate_zero: ${device_id}_mhz19
+
+logger:
+    # Disable UART Logging as we need it for the RX/TX
+    baud_rate: 0
+    # level: VERY_VERBOSE

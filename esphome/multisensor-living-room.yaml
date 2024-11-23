@@ -15,3 +15,4 @@ substitutions:
 packages:
   <<: !include_dir_named common
   board: !include boards/esp32.yaml
+  co2-sensor: !include components/co2-sensor.yaml
