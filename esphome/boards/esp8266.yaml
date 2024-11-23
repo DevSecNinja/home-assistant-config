@@ -8,6 +8,7 @@
 
 esp8266:
   board: nodemcuv2
+  restore_from_flash: true
 
 light:
   - platform: status_led
@@ -23,3 +24,4 @@ sensor:
     pin: VCC
     name: "Power Supply"
     id: "${device_id}_power_supply"
+  

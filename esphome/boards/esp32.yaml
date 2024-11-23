@@ -9,6 +9,8 @@
 
 esp32:
   board: denky32
+  framework:
+    type: arduino
 
 light:
   - platform: status_led

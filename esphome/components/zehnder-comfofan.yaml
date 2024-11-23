@@ -5,9 +5,6 @@
 # ventilation systems by using an nRF905 radio
 #
 
-esp8266:
-  restore_from_flash: true
-
 # Load external components
 # https://esphome.io/components/external_components.html#external-components-git
 external_components:
@@ -38,8 +35,10 @@ spi:
 nrf905:
   id: "nrf905_rf"
   cs_pin:   ${nrf905_pin_cs}
+  am_pin:   ${nrf905_pin_am}
   cd_pin:   ${nrf905_pin_cd}
   ce_pin:   ${nrf905_pin_ce}
+  dr_pin:   ${nrf905_pin_dr}
   pwr_pin:  ${nrf905_pin_pwr}
   txen_pin: ${nrf905_pin_txen}
 

@@ -11,19 +11,21 @@ substitutions:
   project_name: ESPHome.Zehnder
   project_description: Ventilation Control System
   # NRF905
-  nrf905_pin_clk: D5 # GPIO14 - This should be sck since clk doesn't show any messages
-  nrf905_pin_mosi: D7 # GPIO13
-  nrf905_pin_miso: D6 # GPIO12
-  nrf905_pin_cs: D8 # GPIO15
-  nrf905_pin_cd: D1 # GPIO5
-  nrf905_pin_ce: D2 # GPIO4
-  nrf905_pin_pwr: D3 # GPIO0
-  nrf905_pin_txen: D0 # GPIO16
+  nrf905_pin_clk: GPIO14 # Also called SCK on the NRF905
+  nrf905_pin_mosi: GPIO13
+  nrf905_pin_miso: GPIO12
+  nrf905_pin_cs: GPIO15 # Also called CSN on the NRF905
+  nrf905_pin_am: GPIO32
+  nrf905_pin_cd: GPIO33
+  nrf905_pin_ce: GPIO27
+  nrf905_pin_dr: GPIO35
+  nrf905_pin_pwr: GPIO26
+  nrf905_pin_txen: GPIO25 # Also called TXE on the NRF905
 
 # Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
 packages:
   <<: !include_dir_named common
-  board: !include boards/esp8266.yaml
+  board: !include boards/esp32.yaml
   zehnder-comfofan: !include components/zehnder-comfofan.yaml
 
 logger:
