@@ -12,6 +12,9 @@ uart:
 sensor:
   - <<: !include ../sensors/mhz19b.yaml
 
+text_sensor:
+  - <<: !include ../text_sensors/co2_air_quality.yaml
+
 select:
   - <<: !include ../select/uart.yaml
 
@@ -27,6 +30,7 @@ logger:
 
 # Show the user whether the sensor has been calibrated yet
 binary_sensor:
+  - <<: !include ../binary_sensors/co2_problem_indicator.yaml
   - platform: template
     name: "CO₂ sensor calibrated"
     id: "${device_id}_co2_calibrated"

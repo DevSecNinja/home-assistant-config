@@ -1,0 +1,14 @@
+#
+# Sensor to alert of a problem when the CO2 levels are too high
+#
+
+platform: template
+name: "CO₂ Problem Indicator"
+id: "${device_id}_co2_problem"
+device_class: "problem"
+lambda: |-
+  if (id(${device_id}_co2).state >= 1000) {
+    return true;
+  } else {
+    return false;
+  }

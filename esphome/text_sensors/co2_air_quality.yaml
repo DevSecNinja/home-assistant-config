@@ -1,0 +1,18 @@
+#
+# Sensor to define the air quality state based on the CO2 sensor
+#
+
+platform: template
+name: "Air Quality"
+id: "${device_id}_air_quality"
+lambda: |-
+  if (isnan(id(${device_id}_co2).state)) {  
+    return {"Unknown"};  
+  } else if (id(${device_id}_co2).state < 1000) {
+    return {"Healthy"};
+  } else if (id(${device_id}_co2).state >= 1000 && id(${device_id}_co2).state < 2000) {
+    return {"Moderate"};
+  } else {
+    return {"Unhealthy"};
+  }
+icon: "mdi:air-filter"

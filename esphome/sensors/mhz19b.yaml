@@ -9,6 +9,9 @@ uart_id: "${device_id}_uart"
 co2:
   name: CO₂
   id: "${device_id}_co2"
+  on_value:
+    then:
+      - component.update: "${device_id}_air_quality"
 temperature:
   name: Temperature
   id: "${device_id}_temperature"
