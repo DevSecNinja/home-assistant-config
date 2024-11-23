@@ -1,0 +1,17 @@
+#
+# Multi-Sensor Living Room
+# Usage: air quality meter and more...
+#
+
+substitutions:
+  hostname: multisensor-living-room
+  device_name: Multisensor Living Room
+  device_id: multisensor_living_room
+  device_area: Living Room
+  project_name: ESPHome.multisensor_living_room
+  project_description: Multisensor with air quality meter and more
+
+# Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
+packages:
+  <<: !include_dir_named common
+  board: !include boards/esp32.yaml

@@ -1,0 +1,20 @@
+---
+# NodeMCU
+#
+# An ESP32-based board with 4MB flash, Wi-Fi and Bluetooth
+# Chip description: WROOM32
+#
+# https://www.amazon.nl/-/en/dp/B0CL9VZKMT
+#
+
+esp32:
+  board: denky32
+
+# light:
+#   - platform: status_led
+#     name: "Status LED"
+#     id: "${device_id}_status_led"
+#     # internal: true # Use this to hide the sensor from Home Assistant
+#     pin:
+#       number: GPIO2
+#       inverted: true
