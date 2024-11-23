@@ -27,6 +27,7 @@ packages:
   <<: !include_dir_named common
   board: !include boards/esp32.yaml
   zehnder-comfofan: !include components/zehnder-comfofan.yaml
+  bluetooth-proxy: !include packages/bluetooth_proxy.yaml
 
 # logger:
 #  id: component_logger

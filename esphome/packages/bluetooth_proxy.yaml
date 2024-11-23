@@ -1,0 +1,21 @@
+#
+# Enable Bluetooth Proxy capabilities
+#
+# For performance reasons, make sure to select `esp-idf` as your
+# target framework instead of Arduino. You can only change your
+# framework when connected over USB!
+#
+# Also note that the Bluetooth Proxy eats a lot of your flash storage
+# Here are my stats for the Multisensor Living Room device with CO2 sensor
+#
+# Flash: [========= ]  94.2% (used 1728081 bytes from 1835008 bytes)
+#
+
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1100ms
+    window: 1100ms
+    active: true
+
+bluetooth_proxy:
+  active: true

@@ -10,7 +10,8 @@
 esp32:
   board: denky32
   framework:
-    type: arduino
+    # esp-idf is needed to have a better performance on Bluetooth Proxy vs Arduino
+    type: esp-idf
 
 light:
   - platform: status_led
