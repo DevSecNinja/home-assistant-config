@@ -17,4 +17,4 @@ light:
     # internal: true # Use this to hide the sensor from Home Assistant
     pin:
       number: GPIO2
-      inverted: true
+      inverted: false
