@@ -7,21 +7,37 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2024.11.2
+2024.11.3
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1194
-Number of sensors | 610
+Number of entities | 1231
+Number of sensors | 616
+
+## Hardware
+
+### Hardware List
+
+For the full hardware list, see my [home repository](https://github.com/DevSecNinja/home?tab=readme-ov-file#hardware).
+
+### USB
+
+USB Device name | Host identifier short | Description | Purpose
+-- | -- | -- | -- |
+usb0 | 1cf1 | ConBee II | Zigbee Stick
+usb1 | 10c4 | WiMOD iM871A | wmbusmeters stick for heat/water sensors
+usb2 | 0403 | FT232R USB UART | DSMR Smart Energy Meter
+usb3 | 2357 | TP-Link UB500 | Bluetooth Adapter 
+usb4 | 1a86 | USB Serial | Various connections such as ESP32
 
 ## My installed extensions
 
 ### Add-ons
 - [edge] Wmbusmeters (W-MBus to MQTT)
 - Advanced SSH & Web Terminal
-- ESPHome
+- ESPHome Device Compiler
 - Grafana
 - InfluxDB
 - Let's Encrypt
@@ -74,4 +90,4 @@ None
 
 ***
 
-Generated at 2024-11-17, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2024-11-23, 22:28 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
