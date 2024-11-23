@@ -3,62 +3,69 @@ substitutions:
   mhz19b_pin_rx: GPIO1 # 7 Make sure this is a UART port & reversed RX/TX - see pinout scheme
 
 uart:
-  - id: "${device_id}_uard"
+  - id: "${device_id}_uart"
     rx_pin: ${mhz19b_pin_tx}
     tx_pin: ${mhz19b_pin_rx}
     baud_rate: 9600
     # debug:
 
-select:
-  - id: "${device_id}_change_baud_rate"
-    name: Baud rate
-    platform: template
-    options:
-      - "2400"
-      - "9600"
-      - "38400"
-      - "57600"
-      - "115200"
-      - "256000"
-      - "512000"
-      - "921600"
-    initial_option: "9600"
-    optimistic: true
-    restore_value: True
-    internal: false
-    entity_category: config
-    icon: mdi:swap-horizontal
-    set_action:
-      - lambda: |-
-          id(${device_id}_uard).flush();
-          uint32_t new_baud_rate = stoi(x);
-          ESP_LOGD("change_baud_rate", "Changing baud rate from %i to %i",id(${device_id}_uard).get_baud_rate(), new_baud_rate);
-          if (id(${device_id}_uard).get_baud_rate() != new_baud_rate) {
-            id(${device_id}_uard).set_baud_rate(new_baud_rate);
-            id(${device_id}_uard).load_settings();
-          }
-
 sensor:
-  - platform: mhz19
-    id: "${device_id}_mhz19"
-    uart_id: "${device_id}_uard"
-    co2:
-      name: CO₂
-      id: "${device_id}_co2"
-    temperature:
-      name: Temperature
-      id: "${device_id}_temperature"
-    update_interval: 15s
-    automatic_baseline_calibration: false # False = best for indoor
-    warmup_time: 75s # Should be enough to accomodate preheating
+  - <<: !include ../sensors/mhz19b.yaml
 
-api:
-  actions:
-    - action: mhz19_calibrate_zero
-      then:
-        - mhz19.calibrate_zero: ${device_id}_mhz19
+select:
+  - <<: !include ../select/uart.yaml
 
 logger:
     # Disable UART Logging as we need it for the RX/TX
     baud_rate: 0
+    # Uncomment when debugging UART
     # level: VERY_VERBOSE
+
+# Source: koenvervloesem/ESPHome-Air-Quality-Monitor/blob/main/common/mh-z19b.yaml
+# MIT License - Copyright (c) 2021 Koen Vervloesem
+# See for full license, modules/aqi.yaml
+
+# Show the user whether the sensor has been calibrated yet
+binary_sensor:
+  - platform: template
+    name: "CO₂ sensor calibrated"
+    id: "${device_id}_co2_calibrated"
+    # on_press:
+    #   then:
+    #     - switch.turn_on: show_calibrating
+    # on_release:
+    #   then:
+    #     - switch.turn_off: show_calibrating
+
+# The sensor starts in an uncalibrated state after boot
+esphome:
+  on_boot:
+    priority: 500
+    then:
+      - binary_sensor.template.publish:
+          id: "${device_id}_co2_calibrated"
+          state: OFF
+
+# Warn when the calibration interval has passed.
+interval:
+  - interval: ${mhz19b_calibration_interval}
+    then:
+      - binary_sensor.template.publish:
+          id: "${device_id}_co2_calibrated"
+          state: OFF
+
+# Switch to calibrate the sensor from within Home Assistant.
+switch:
+  - platform: template
+    name: "Calibrate CO₂ sensor"
+    id: "${device_id}_co2_calibrate"
+    optimistic: true
+    on_turn_on:
+      then:
+        - mhz19.calibrate_zero: "${device_id}_mhz19"
+        # - switch.turn_on: show_calibrating
+        - delay: 20min
+        - switch.turn_off: "${device_id}_co2_calibrate"
+        - binary_sensor.template.publish:
+            id: "${device_id}_co2_calibrated"
+            state: ON

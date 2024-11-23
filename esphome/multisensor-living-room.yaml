@@ -10,6 +10,12 @@ substitutions:
   device_area: Living Room
   project_name: ESPHome.multisensor_living_room
   project_description: Multisensor with air quality meter and more
+  # MHZ19
+  mhz19b_pin_tx: GPIO3 # 6 Make sure this is a UART port & reversed RX/TX - see pinout scheme
+  mhz19b_pin_rx: GPIO1 # 7 Make sure this is a UART port & reversed RX/TX - see pinout scheme
+  mhz19b_update_interval: 60s
+  mhz19b_calibration_interval: 30d
+  mhz19b_warmup_time: 75s # Should be enough to accomodate preheating
 
 # Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
 packages:

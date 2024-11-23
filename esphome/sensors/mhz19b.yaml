@@ -1,0 +1,17 @@
+---
+#
+# MHZ19 CO2 Sensor
+#
+
+platform: mhz19
+id: "${device_id}_mhz19"
+uart_id: "${device_id}_uart"
+co2:
+  name: CO₂
+  id: "${device_id}_co2"
+temperature:
+  name: Temperature
+  id: "${device_id}_temperature"
+update_interval: ${mhz19b_update_interval}
+automatic_baseline_calibration: false # False = best for indoor
+warmup_time: ${mhz19b_warmup_time}
