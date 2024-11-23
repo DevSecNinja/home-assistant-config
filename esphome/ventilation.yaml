@@ -1,6 +1,7 @@
 #
 # Zehnder Remote Control device
 # Usage: controls my Zehnder ComfoFan S ventilation system
+#
 
 substitutions:
   hostname: zehnder-comfofan
@@ -9,6 +10,15 @@ substitutions:
   device_area: Fuse Box
   project_name: ESPHome.Zehnder
   project_description: Ventilation Control System
+  # NRF905
+  nrf905_pin_clk: D5 # GPIO14 - This should be sck since clk doesn't show any messages
+  nrf905_pin_mosi: D7 # GPIO13
+  nrf905_pin_miso: D6 # GPIO12
+  nrf905_pin_cs: D8 # GPIO15
+  nrf905_pin_cd: D1 # GPIO5
+  nrf905_pin_ce: D2 # GPIO4
+  nrf905_pin_pwr: D3 # GPIO0
+  nrf905_pin_txen: D0 # GPIO16
 
 # Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
 packages:

@@ -30,18 +30,18 @@ esphome:
 
 # SPI
 spi:
-  clk_pin:  D5 # GPIO14 - This should be sck since clk doesn't show any messages
-  mosi_pin: D7 # GPIO13
-  miso_pin: D6 # GPIO12
+  clk_pin:  ${nrf905_pin_clk}
+  mosi_pin: ${nrf905_pin_mosi}
+  miso_pin: ${nrf905_pin_miso}
 
 # nRF905 config
 nrf905:
   id: "nrf905_rf"
-  cs_pin:   D8 # GPIO15
-  cd_pin:   D1 # GPIO5
-  ce_pin:   D2 # GPIO4
-  pwr_pin:  D3 # GPIO0
-  txen_pin: D0 # GPIO16
+  cs_pin:   ${nrf905_pin_cs}
+  cd_pin:   ${nrf905_pin_cd}
+  ce_pin:   ${nrf905_pin_ce}
+  pwr_pin:  ${nrf905_pin_pwr}
+  txen_pin: ${nrf905_pin_txen}
 
   # We don't need AM and DR at the moment as they are read from the internal registers
   # Also, the NodeMCU V2 ESP8266 doesn't have enough pins. Using dummy data
