@@ -11,15 +11,15 @@ substitutions:
   project_name: ESPHome.Zehnder
   project_description: Ventilation Control System
   # NRF905
-  nrf905_pin_clk: GPIO14 # Also called SCK on the NRF905
+  nrf905_pin_clk:  GPIO14 # Also called SCK on the NRF905
   nrf905_pin_mosi: GPIO13
   nrf905_pin_miso: GPIO12
-  nrf905_pin_cs: GPIO15 # Also called CSN on the NRF905
-  nrf905_pin_am: GPIO32
-  nrf905_pin_cd: GPIO33
-  nrf905_pin_ce: GPIO27
-  nrf905_pin_dr: GPIO35
-  nrf905_pin_pwr: GPIO26
+  nrf905_pin_cs:   GPIO15 # Also called CSN on the NRF905
+  nrf905_pin_am:   GPIO32
+  nrf905_pin_cd:   GPIO33
+  nrf905_pin_ce:   GPIO27
+  nrf905_pin_dr:   GPIO35
+  nrf905_pin_pwr:  GPIO26
   nrf905_pin_txen: GPIO25 # Also called TXE on the NRF905
 
 # Note: I import my common configurations all at once to prevent duplicated configs across my ESPHome devices
@@ -28,8 +28,8 @@ packages:
   board: !include boards/esp32.yaml
   zehnder-comfofan: !include components/zehnder-comfofan.yaml
 
-logger:
-  id: component_logger
-  level: INFO
-  # Make sure to select 'CP2102 USB to UART Bridge Controller'
-  baud_rate: 115200
+# logger:
+#  id: component_logger
+#  level: VERBOSE
+#  # Make sure to select 'CP2102 USB to UART Bridge Controller'
+# #  baud_rate: 115200

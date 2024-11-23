@@ -31,19 +31,8 @@ spi:
   mosi_pin: ${nrf905_pin_mosi}
   miso_pin: ${nrf905_pin_miso}
 
-# nRF905 config
-nrf905:
-  id: "nrf905_rf"
-  cs_pin:   ${nrf905_pin_cs}
-  am_pin:   ${nrf905_pin_am}
-  cd_pin:   ${nrf905_pin_cd}
-  ce_pin:   ${nrf905_pin_ce}
-  dr_pin:   ${nrf905_pin_dr}
-  pwr_pin:  ${nrf905_pin_pwr}
-  txen_pin: ${nrf905_pin_txen}
-
-  # We don't need AM and DR at the moment as they are read from the internal registers
-  # Also, the NodeMCU V2 ESP8266 doesn't have enough pins. Using dummy data
+packages:
+  nrf905: !include ../sensors/nrf905.yaml
 
 # Enable Home Assistant API
 api:
@@ -70,6 +59,8 @@ api:
               id(${device_id}_ventilation).setSpeed(2, 0);
             } else if (mode == "High") {
               id(${device_id}_ventilation).setSpeed(3, 0);
+            } else if (mode == "Max") {
+              id(${device_id}_ventilation).setSpeed(4, 0);
             } else if (mode == "Max_10m") {
               id(${device_id}_ventilation).setSpeed(4, 10);
             } else if (mode == "Max_30m") {

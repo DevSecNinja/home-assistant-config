@@ -1,0 +1,18 @@
+---
+#
+# NRF-905 Radio
+#
+
+nrf905:
+  id: "nrf905_rf"
+  cs_pin:   ${nrf905_pin_cs}
+  am_pin:   ${nrf905_pin_am}
+  cd_pin:   ${nrf905_pin_cd}
+  ce_pin:   ${nrf905_pin_ce}
+  dr_pin:   ${nrf905_pin_dr}
+  pwr_pin:  ${nrf905_pin_pwr}
+  txen_pin: ${nrf905_pin_txen}
+
+  # IMPORTANT for NodeMCU V2 ESP8266 users:
+  # The NodeMCU V2 ESP8266 doesn't have enough pins. 
+  # Therefore, we don't need AM and DR as they are read from the internal registers
