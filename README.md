@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2024.11.3
+2024.12.5
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1176
-Number of sensors | 586
+Number of entities | 1206
+Number of sensors | 612
 
 ## Hardware
 
@@ -37,7 +37,7 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 ### Add-ons
 - [edge] Wmbusmeters (W-MBus to MQTT)
 - Advanced SSH & Web Terminal
-- ESPHome Device Compiler
+- ESPHome Device Builder
 - Grafana
 - InfluxDB
 - Let's Encrypt
@@ -57,11 +57,12 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [Clean Up Snapshots Service](https://github.com/tmonck/clean_up_snapshots)
 - [Flightradar24](https://github.com/AlexandrErohin/home-assistant-flightradar24)
 - [Generate Readme](https://github.com/custom-components/readme)
+- [Greenchoice](https://github.com/barisdemirdelen/homeassistant-greenchoice)
 - [HACS](https://github.com/hacs/integration)
+- [Ics Calendar (Icalendar)](https://github.com/franc6/ics_calendar)
 - [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo)
 - [KNMI](https://github.com/golles/ha-knmi)
 - [Neerslag App](https://github.com/aex351/home-assistant-neerslag-app)
-- [Node Red Companion](https://github.com/zachowj/hass-node-red)
 - [P2000 Sensor](https://github.com/cyberjunky/home-assistant-p2000)
 - [Powercalc](https://github.com/bramstroker/homeassistant-powercalc)
 - [Proxmox Ve](https://github.com/dougiteixeira/proxmoxve)
@@ -90,4 +91,4 @@ None
 
 ***
 
-Generated at 2024-11-29, 07:19 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2024-12-22, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

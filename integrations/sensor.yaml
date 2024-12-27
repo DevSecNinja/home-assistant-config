@@ -43,6 +43,12 @@ sensor:
     api_key: !secret shodan_api_key
     query: !secret domain_fqdn
 
+  # Greenchoice
+  - platform: greenchoice
+    name: greenchoice
+    password: !secret greenchoicepass
+    username: !secret greenchoiceuser
+
 rest:
   # Top 2000 / NPO Radio 2 sensor by Stefan S. and Helmer
   # https://github.com/helmerzNL/HA-Configuration/blob/main/Packages/house/media/top2000_sensor.yaml
