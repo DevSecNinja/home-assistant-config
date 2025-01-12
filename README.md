@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2024.12.5
+2025.1.2
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1206
-Number of sensors | 612
+Number of entities | 1230
+Number of sensors | 631
 
 ## Hardware
 
@@ -73,6 +73,7 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [🧰 Zha Toolkit   Service For Advanced Zigbee Usage](https://github.com/mdeweerd/zha-toolkit)
 
 ### Lovelace plugins
+- [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Battery State Card / Entity Row](https://github.com/maxwroc/battery-state-card)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
 - [Custom Brand Icons](https://github.com/elax46/custom-brand-icons)
@@ -91,4 +92,4 @@ None
 
 ***
 
-Generated at 2024-12-22, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-01-12, 10:05 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

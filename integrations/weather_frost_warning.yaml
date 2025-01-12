@@ -1,0 +1,113 @@
+#
+# Frost Warning
+#
+# Source: https://community.home-assistant.io/t/frost-warning-via-weather-forecast/75973/12
+#
+
+template:
+  - trigger:
+      - platform: time_pattern
+        hours: "/4"
+      - platform: state
+        entity_id: weather.buienradar
+      - platform: homeassistant
+        event: start
+      - platform: event
+        event_type: event_template_reloaded
+
+    action:
+      - action: weather.get_forecasts
+        data:
+          type: daily
+        target:
+          entity_id: weather.buienradar
+        response_variable: daily_weather
+
+    sensor:
+      - name: "Forecasted Minimal Temperature"
+        unique_id: "a148a623-7999-4d76-9af2"
+        unit_of_measurement: "°C"
+        icon: "mdi:thermometer-chevron-down"
+        state: >-
+          {%  set ns = namespace(templow=999) %}
+          {%- for fc in daily_weather['weather.buienradar'].forecast -%}
+              {%- if fc.templow < ns.templow -%}
+                  {%- set ns.templow = fc.templow -%}
+              {%- endif -%} 
+          {%- endfor -%}
+          {{ns.templow}}
+        attributes:
+          datetime: >-
+            {%  set ns = namespace(templow=999, datetime=0) %}
+            {%- for fc in daily_weather['weather.buienradar'].forecast -%}
+                {%- if fc.templow < ns.templow -%}
+                    {%- set ns.datetime = fc.datetime -%}
+                {%- endif -%} 
+            {%- endfor -%}
+            {{ns.datetime}}
+          forecastdays: >-
+            {%  set ns = namespace(days=0) %}
+            {%- for fc in daily_weather['weather.buienradar'].forecast -%}
+                {%- set ns.days = ns.days + 1 -%}
+            {%- endfor -%}
+            {{ns.days}}
+
+      - name: "Frost Warning"
+        unique_id: "39a5e512-b92f-449c-b681"
+        icon: "mdi:snowflake-alert"
+        state: >-
+          {% if states('sensor.forecasted_minimal_temperature') | float < 0 %}
+              on
+          {% else %}
+              off
+          {% endif %}
+        attributes:
+          frostdays: >-
+            {% set ns = namespace(frostdays=0) %}
+            {%- for fc in daily_weather['weather.buienradar'].forecast -%}
+                {%- if fc.templow < 0 -%}
+                    {%- set ns.frostdays = ns.frostdays + 1 -%}
+                {%- endif -%}
+            {%- endfor -%}
+            {{ns.frostdays}}
+          first_frost_date: >-
+            {% set ns = namespace(date=0) %}
+            {%- for fc in daily_weather['weather.buienradar'].forecast -%}
+                {%- if fc.templow < 0 and ns.date == 0 -%}
+                    {%- set ns.date = fc.datetime -%}
+                {%- endif -%}
+            {%- endfor -%}
+            {{ns.date}}
+          date_low: "{{state_attr('sensor.forecasted_minimal_temperature', 'datetime')}}"
+          temp_low: "{{states('sensor.forecasted_minimal_temperature')}}"
+          forecastdays: "{{state_attr('sensor.forecasted_minimal_temperature', 'forecastdays')}}"
+
+automation:
+  - id: '1728145134278'
+    alias: 'Weather Frost Warning: Send Notification'
+    description: If frost is forecast in the weather forecast, then send out a notification
+      so that the windshield can be put in front of the car window.
+    triggers:
+    - entity_id: sensor.frost_warning
+      from: 'off'
+      to: 'on'
+      trigger: state
+    - trigger: time
+      at:
+        - '18:00:00'
+    conditions:
+    - condition: state
+      entity_id: sensor.frost_warning
+      state: 'on'
+    actions:
+    - data:
+        title: ⚠️ Frost Warning!
+        message: From {{ as_timestamp(state_attr("sensor.frost_warning", "first_frost_date"))
+          | timestamp_custom("%a %d %b", True) }}, it should freeze with temperatures
+          down to {{ state_attr('sensor.frost_warning', 'temp_low') }}°C on {{state_attr('sensor.frost_warning',
+          'frostdays') }} days in the coming {{state_attr('sensor.frost_warning', 'forecastdays')
+          }} days.
+        data:
+          priority: 1
+      action: notify.mobile_app_jean_pauls_iphone
+    mode: single
