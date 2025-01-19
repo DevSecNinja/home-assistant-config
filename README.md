@@ -13,7 +13,7 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 Description | Count
 -- | --
-Number of entities | 1230
+Number of entities | 1236
 Number of sensors | 631
 
 ## Hardware
@@ -29,7 +29,6 @@ USB Device name | Host identifier short | Description | Purpose
 usb0 | 1cf1 | ConBee II | Zigbee Stick
 usb1 | 10c4 | WiMOD iM871A | wmbusmeters stick for heat/water sensors
 usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
-usb3 | 2357 | TP-Link UB500 | Bluetooth Adapter 
 usb4 | 1a86 | USB Serial | Various connections such as ESP32
 
 ## My installed extensions
@@ -92,4 +91,4 @@ None
 
 ***
 
-Generated at 2025-01-12, 10:05 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-01-19, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

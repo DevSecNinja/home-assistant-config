@@ -1,6 +1,9 @@
 #
 # Frost Warning
 #
+# Very useful to get a notification the evening before frost to put the 
+# Snow Cover on the car window to prevent having to defrost the windows.
+#
 # Source: https://community.home-assistant.io/t/frost-warning-via-weather-forecast/75973/12
 #
 
@@ -55,8 +58,9 @@ template:
       - name: "Frost Warning"
         unique_id: "39a5e512-b92f-449c-b681"
         icon: "mdi:snowflake-alert"
+        # Adjusted to < 2 as sometimes it was still needed to clean the car window
         state: >-
-          {% if states('sensor.forecasted_minimal_temperature') | float < 0 %}
+          {% if states('sensor.forecasted_minimal_temperature') | float < 2 %}
               on
           {% else %}
               off
@@ -105,7 +109,7 @@ automation:
         message: From {{ as_timestamp(state_attr("sensor.frost_warning", "first_frost_date"))
           | timestamp_custom("%a %d %b", True) }}, it should freeze with temperatures
           down to {{ state_attr('sensor.frost_warning', 'temp_low') }}°C on {{state_attr('sensor.frost_warning',
-          'frostdays') }} days in the coming {{state_attr('sensor.frost_warning', 'forecastdays')
+          'frostdays') }} day(s) in the coming {{state_attr('sensor.frost_warning', 'forecastdays')
           }} days.
         data:
           priority: 1
