@@ -6,6 +6,22 @@
 #
 # Source: https://community.home-assistant.io/t/frost-warning-via-weather-forecast/75973/12
 #
+# Use the following widget on your dashboard:
+# 
+# type: markdown
+# content: |-
+#   From {{ as_timestamp(state_attr("sensor.frost_warning", "first_frost_date"))
+#             | timestamp_custom("%a %d %b", True) }}, it should freeze with temperatures
+#             down to {{ state_attr('sensor.frost_warning', 'temp_low') }}°C on {{state_attr('sensor.frost_warning',
+#             'frostdays') }} day(s) in the coming {{state_attr('sensor.frost_warning', 'forecastdays')
+#             }} days.
+# visibility:
+#   - condition: state
+#     entity: sensor.frost_warning
+#     state: "on"
+# grid_options:
+#   columns: 6
+#   rows: 2
 
 template:
   - trigger:
