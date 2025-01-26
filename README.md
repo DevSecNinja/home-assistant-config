@@ -13,8 +13,8 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 Description | Count
 -- | --
-Number of entities | 1236
-Number of sensors | 631
+Number of entities | 1220
+Number of sensors | 615
 
 ## Hardware
 
@@ -91,4 +91,4 @@ None
 
 ***
 
-Generated at 2025-01-19, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-01-26, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

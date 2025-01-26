@@ -69,7 +69,7 @@ template:
           frostdays: >-
             {% set ns = namespace(frostdays=0) %}
             {%- for fc in daily_weather['weather.buienradar'].forecast -%}
-                {%- if fc.templow < 0 -%}
+                {%- if fc.templow < 2 -%}
                     {%- set ns.frostdays = ns.frostdays + 1 -%}
                 {%- endif -%}
             {%- endfor -%}
@@ -77,7 +77,7 @@ template:
           first_frost_date: >-
             {% set ns = namespace(date=0) %}
             {%- for fc in daily_weather['weather.buienradar'].forecast -%}
-                {%- if fc.templow < 0 and ns.date == 0 -%}
+                {%- if fc.templow < 2 and ns.date == 0 -%}
                     {%- set ns.date = fc.datetime -%}
                 {%- endif -%}
             {%- endfor -%}
