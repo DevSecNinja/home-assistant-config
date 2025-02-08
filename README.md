@@ -7,13 +7,13 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2025.1.2
+2025.2.0
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1220
+Number of entities | 1219
 Number of sensors | 615
 
 ## Hardware
@@ -53,7 +53,6 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [Alarmo](https://github.com/nielsfaber/alarmo)
 - [Azure Openai Conversation](https://github.com/joselcaguilar/azure-openai-ha)
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
-- [Clean Up Snapshots Service](https://github.com/tmonck/clean_up_snapshots)
 - [Flightradar24](https://github.com/AlexandrErohin/home-assistant-flightradar24)
 - [Generate Readme](https://github.com/custom-components/readme)
 - [Greenchoice](https://github.com/barisdemirdelen/homeassistant-greenchoice)
@@ -91,4 +90,4 @@ None
 
 ***
 
-Generated at 2025-01-26, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-02-08, 11:51 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
