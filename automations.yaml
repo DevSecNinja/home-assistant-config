@@ -2593,3 +2593,10 @@
       ambient_light_sensor: sensor.living_room_window_illuminance
       ambient_light_value: 1100
       ambient_light_value_off: 1200
+      include_dynamic_lighting: enable_lux_controled_brightness
+      dynamic_lighting_max_brightness: 80
+      dynamic_lighting_min_brightness: 20
+      dynamic_lighting_max_lux: 1000
+      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_living_room
+      dynamic_lighting_min_lux: 200
