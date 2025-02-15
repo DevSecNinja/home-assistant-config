@@ -210,13 +210,15 @@
       night_lights_entity_state:
       - input_boolean.awake
       include_dynamic_lighting: enable_lux_controled_brightness
-      dynamic_lighting_lux_sensor: sensor.hall_illuminance
+      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_hall
       night_light_brightness: 10
       include_ambient: ambient_disabled
       ambient_light_options: ambient_light_option_disabled
-      dynamic_lighting_min_lux: 20
+      dynamic_lighting_min_lux: 100
       dynamic_lighting_max_brightness: 80
+      dynamic_lighting_max_lux: 1200
+      dynamic_lighting_min_brightness: 0
 - id: '1725701251585'
   alias: Notification - Low Battery
   description: ''
