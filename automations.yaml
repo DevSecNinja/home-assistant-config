@@ -2028,50 +2028,6 @@
       message: 'Weather today: {{ states(''sensor.temperature'') | round(0) }} °C,
         {{ states(''sensor.full_condition'') | lower }}.'
   mode: single
-- id: '1728417442294'
-  alias: Light - Living Room
-  description: ''
-  use_blueprint:
-    path: Blackshome/smart-light.yaml
-    input:
-      light_switch:
-        entity_id: light.living_room
-      include_ambient:
-      - ambient_low
-      - ambient_high
-      ambient_light_sensor: sensor.living_room_window_illuminance
-      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_living_room
-      include_dynamic_lighting: disable_dynamic_lighting
-      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
-      include_bypass:
-      - bypass_enabled_turn_off
-      bypass_lights_off:
-      - binary_sensor.light_living_room_bypass_sensor
-      night_lights_entity_state:
-      - switch.light_living_room_night_light_scene
-      include_night_lights: night_lights_enabled
-      night_lights_conditions:
-      - entity_state_enabled
-      night_lights:
-        entity_id: light.living_room
-      include_night_light_control:
-      - use_brightness
-      - if_lights_are_on_adjust_when_crossing_over
-      - use_transition
-      night_light_brightness: 50
-      include_light_control: []
-      ambient_light_value_off: 1200
-      include_entity_state: []
-      ambient_light_value: 1100
-      night_light_transition_off: 1
-      night_light_transition_on: 10
-      dynamic_lighting_max_lux: 750
-      dynamic_lighting_min_brightness: 20
-      dynamic_lighting_max_brightness: 70
-      dynamic_lighting_max_colour_temp: 2650
-      dynamic_lighting_min_colour_temp: 2000
-      include_night_light_colour_control: use_colour_temperature
-      night_light_colour_temperature: 2000
 - id: '1728493873160'
   alias: Clear timers automatically
   description: ''
@@ -2606,50 +2562,6 @@
       include_dynamic_lighting: enable_lux_controled_brightness
       dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_workplace
-- id: '1739084652230'
-  alias: Light - Hall Backup 09-02
-  description: ''
-  use_blueprint:
-    path: Blackshome/sensor-light.yaml
-    input:
-      motion_trigger:
-      - binary_sensor.sensor_light_hall
-      light_switch:
-        entity_id: light.hall
-      time_delay: 1
-      night_lights_conditions:
-      - sun_enabled
-      include_night_lights: night_lights_enabled
-      include_night_light_control:
-      - use_brightness
-      - use_transition
-      night_lights:
-        entity_id: light.hall
-      night_time_delay: 1
-      night_light_transition_off: 5
-      light_transition_off: 5
-      light_brightness: 80
-      include_light_control:
-      - use_brightness
-      - use_transition
-      light_rgb_colour:
-      - 255
-      - 136
-      - 13
-      include_light_colour_control: use_colour_temperature
-      include_night_light_colour_control: use_colour_temperature
-      night_light_rgb_colour:
-      - 255
-      - 136
-      - 13
-      light_colour_temperature: 2700
-      night_light_colour_temperature: 2700
-      night_lights_entity_state:
-      - input_boolean.awake
-      include_dynamic_lighting: enable_lux_controled_brightness
-      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
-      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_hall
-      night_light_brightness: 10
 - id: '1739629434251'
   alias: Light - Living Room
   description: ''
