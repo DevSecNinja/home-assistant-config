@@ -1,0 +1,2683 @@
+- id: '1598779260284'
+  alias: Enable PC Audio on Receiver
+  description: ''
+  trigger:
+  - entity_id: automation.enable_pc_audio_on_receiver
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    action: media_player.turn_on
+    target:
+      entity_id:
+      - media_player.living_room_receiver_http
+  - timeout: '5'
+    wait_template: is_state(''media_player.living_room_receiver_http'', ''on'')
+  - data:
+      source: Denon
+    entity_id: media_player.living_room_tv
+    action: media_player.select_source
+  - data:
+      source: Media Player
+    entity_id: media_player.living_room_receiver_http
+    action: media_player.select_source
+  - data:
+      entity_id: automation.enable_pc_audio_on_receiver
+    action: automation.turn_off
+  mode: single
+  initial_state: false
+- id: '1651856970463'
+  alias: Restart Home Assistant on button press
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.restart_home_assistant
+  condition: []
+  action:
+  - action: homeassistant.restart
+    data: {}
+  mode: single
+- id: '1709450048502'
+  alias: Notify - Server Power Above 40W
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.server_power_switch_0_power
+    for:
+      hours: 4
+      minutes: 0
+      seconds: 0
+    above: 40
+  condition: []
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      title: Server Power
+      message: Above 40W for 4 hours!
+  mode: single
+- id: '1720873118886'
+  alias: Notify Days Left for Countdown Timers
+  description: Send a notification with days left for countdown timers if they haven't
+    expired
+  trigger:
+  - platform: time
+    at: 06:00:00
+  condition: []
+  action:
+  - variables:
+      now: '{{ as_timestamp(now()) }}'
+      entity_id_1: input_datetime.countdown_timer_1
+      entity_id_2: input_datetime.countdown_timer_2
+      countdown_date_1: '{{ as_timestamp(states(entity_id_1)) }}'
+      countdown_date_2: '{{ as_timestamp(states(entity_id_2)) }}'
+      delta_1: '{{ (countdown_date_1 - now) // 86400 }}'
+      delta_2: '{{ (countdown_date_2 - now) // 86400 }}'
+      friendly_name_1: '{{ state_attr(entity_id_1, ''friendly_name'') }}'
+      friendly_name_2: '{{ state_attr(entity_id_2, ''friendly_name'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ delta_1 > 0 or delta_2 > 0 }}'
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: Countdown Update
+          message: "{% set messages = [] %} {% if delta_1 > 0 %}\n  {% set messages
+            = messages + [friendly_name_1 ~ \": \" ~ delta_1 | int ~ \" days left\"]
+            %}\n{% endif %} {% if delta_2 > 0 %}\n  {% set messages = messages + [friendly_name_2
+            ~ \": \" ~ delta_2 | int ~ \" days left\"] %}\n{% endif %} {{ messages
+            | join('\\n') }}\n"
+- id: '1724168359521'
+  alias: Light - Toilet
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.toilet_motion
+      light_switch:
+        entity_id: light.toilet
+      time_delay: 3
+      night_lights_conditions:
+      - sun_enabled
+      include_night_lights: night_lights_enabled
+      include_night_light_control:
+      - use_brightness
+      - use_transition
+      night_lights:
+        entity_id: light.toilet
+      night_time_delay: 3
+      night_light_transition_off: 5
+      light_transition_off: 5
+      light_brightness: 80
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_rgb_colour:
+      - 255
+      - 136
+      - 13
+      include_light_colour_control: use_colour_temperature
+      include_night_light_colour_control: use_colour_temperature
+      night_light_rgb_colour:
+      - 255
+      - 136
+      - 13
+      light_colour_temperature: 2700
+      night_light_colour_temperature: 2700
+      night_light_brightness: 10
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_toilet
+- id: '1725698323949'
+  alias: Light - Bathroom
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.bathroom_motion
+      light_switch:
+        entity_id: light.bathroom
+      time_delay: 3
+      night_lights_conditions:
+      - sun_enabled
+      include_night_lights: night_lights_enabled
+      include_night_light_control:
+      - use_brightness
+      - use_transition
+      night_lights:
+        entity_id: light.bathroom
+      night_time_delay: 3
+      night_light_transition_off: 5
+      light_transition_off: 5
+      light_brightness: 80
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_rgb_colour:
+      - 255
+      - 152
+      - 55
+      include_light_colour_control: use_colour_temperature
+      include_night_light_colour_control: use_colour_temperature
+      night_light_rgb_colour:
+      - 255
+      - 152
+      - 55
+      light_colour_temperature: 2200
+      night_light_colour_temperature: 2200
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_bathroom
+- id: '1725699907962'
+  alias: Light - Hall
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.sensor_light_hall
+      light_switch:
+        entity_id: light.hall
+      time_delay: 1
+      night_lights_conditions:
+      - sun_enabled
+      include_night_lights: night_lights_enabled
+      include_night_light_control:
+      - use_brightness
+      - use_transition
+      night_lights:
+        entity_id: light.hall
+      night_time_delay: 1
+      night_light_transition_off: 5
+      light_transition_off: 5
+      light_brightness: 80
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_rgb_colour:
+      - 255
+      - 136
+      - 13
+      include_light_colour_control: use_colour_temperature
+      include_night_light_colour_control: use_colour_temperature
+      night_light_rgb_colour:
+      - 255
+      - 136
+      - 13
+      light_colour_temperature: 2700
+      night_light_colour_temperature: 2700
+      night_lights_entity_state:
+      - input_boolean.awake
+      include_dynamic_lighting: enable_lux_controled_brightness
+      dynamic_lighting_lux_sensor: sensor.hall_illuminance
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_hall
+      night_light_brightness: 10
+      include_ambient: ambient_disabled
+      ambient_light_options: ambient_light_option_disabled
+      dynamic_lighting_min_lux: 20
+      dynamic_lighting_max_brightness: 80
+- id: '1725701251585'
+  alias: Notification - Low Battery
+  description: ''
+  use_blueprint:
+    path: Blackshome/low-battery-notifications-and-actions.yaml
+    input:
+      include_time: time_enabled
+      time: 09:00:00
+      weekday_options:
+      - sun
+      battery_level: 10
+      include_easy_notify: enable_easy_notify
+      notify_device:
+      - 46543360583f3c2044f992f533f51051
+      notify_interruption_level: passive
+      exclude_sensors:
+        entity_id:
+        - sensor.hall_battery_plus
+        - sensor.bedroom_battery_plus
+        - sensor.bathroom_battery_plus
+        - sensor.fuse_box_battery_plus
+        - sensor.bathroom_battery_plus_2
+        - sensor.living_room_battery_plus
+        - sensor.living_room_battery_plus_2
+        - sensor.kitchen_door_battery_plus
+        - sensor.toilet_battery_plus
+        - sensor.washing_room_battery_plus
+        - sensor.bathroom_dimmer_battery_plus
+        - sensor.dishwasher_leak_battery_plus
+        - sensor.jean_paul_s_ipad_battery_plus
+        - sensor.living_room_cube_battery_plus
+        - sensor.jean_paul_s_iphone_battery_plus
+        - sensor.living_room_dimmer_battery_plus
+        - sensor.living_room_window_battery_plus
+        - sensor.kitchen_smoke_alarm_battery_plus
+        - sensor.bedroom_dimmer_battery_plus
+        - sensor.bedroom_battery_plus_2
+        - sensor.front_door_battery_plus
+        - sensor.washing_machine_leak_battery_plus
+        - sensor.living_room_workplace_switch_battery_plus
+        - sensor.bedroom_window_battery_plus
+        - sensor.living_room_window_battery_plus_2
+        - sensor.ev6_ev_battery_level
+        - binary_sensor.ev6_smart_key_battery_warning
+        - binary_sensor.hall_battery_plus_low
+        - binary_sensor.toilet_battery_plus_low
+        - binary_sensor.bedroom_battery_plus_low
+        - binary_sensor.bedroom_battery_plus_low_2
+        - binary_sensor.bathroom_battery_plus_low
+        - binary_sensor.bathroom_battery_plus_low_2
+        - binary_sensor.fuse_box_battery_plus_low
+        - binary_sensor.front_door_battery_plus_low
+        - binary_sensor.living_room_battery_plus_low
+        - binary_sensor.living_room_battery_plus_low_2
+        - binary_sensor.kitchen_door_battery_plus_low
+        - binary_sensor.washing_room_battery_plus_low
+        - binary_sensor.bedroom_dimmer_battery_plus_low
+        - binary_sensor.bedroom_window_battery_plus_low
+        - binary_sensor.bathroom_dimmer_battery_plus_low
+        - binary_sensor.dishwasher_leak_battery_plus_low
+        - binary_sensor.jean_paul_s_ipad_battery_plus_low
+        - binary_sensor.living_room_cube_battery_plus_low
+        - binary_sensor.jean_paul_s_iphone_battery_plus_low
+        - binary_sensor.living_room_dimmer_battery_plus_low
+        - binary_sensor.living_room_window_battery_plus_low
+        - binary_sensor.living_room_window_battery_plus_low_2
+        - binary_sensor.kitchen_smoke_alarm_battery_plus_low
+        - binary_sensor.washing_machine_leak_battery_plus_low
+        - binary_sensor.living_room_workplace_switch_battery_plus_low
+- id: '1725710736258'
+  alias: Notification - Leak - Washing Machine
+  description: ''
+  use_blueprint:
+    path: Blackshome/state-notifications-and-actions.yaml
+    input:
+      start_trigger_state: 'on'
+      start_trigger_state_entity:
+      - binary_sensor.washing_machine_leak_moisture
+      start_notify_device:
+      - 3a8b570c2364844265d6b63628d76f16
+      - 46543360583f3c2044f992f533f51051
+      include_start_notify: enable_start_notify_options
+      start_title: ⚠️ LEAKAGE DETECTED!
+      start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} is
+        leaking! Power will be turned off & confirmation will be sent.'
+      start_notify_interruption_level: critical
+      start_action_1:
+      - repeat:
+          sequence:
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.washing_machine_smart_plug
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 3
+              milliseconds: 0
+          while:
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: switch.washing_machine_smart_plug
+              state: 'on'
+            - condition: state
+              entity_id: switch.washing_machine_smart_plug
+              state: unavailable
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F50C {{ states[trigger.entity_id].attributes.friendly_name
+            }} disconnected!"
+          message: Don't forget to enable power after the leakage
+          data:
+            push:
+              interruption-level: critical
+      - action: notify.mobile_app_ipad
+        data:
+          title: "\U0001F50C {{ states[trigger.entity_id].attributes.friendly_name
+            }} disconnected!"
+          message: Don't forget to enable power after the leakage
+          data:
+            push:
+              interruption-level: critical
+      include_start_auto_actions:
+      - enable_start_action_1
+      include_end_notify: disable_end_notify_options
+      end_notify_device:
+      - 3a8b570c2364844265d6b63628d76f16
+      - 46543360583f3c2044f992f533f51051
+      end_title: ✅ LEAKAGE RESTORED!
+      end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} does
+        not seem to be leaking anymore. Don''t forget to turn on the power.'
+      end_notify_interruption_level: critical
+      end_trigger_state: 'off'
+      end_trigger_state_entity:
+      - binary_sensor.washing_machine_leak_moisture
+- id: '1725714559016'
+  alias: Notification - Leak - Dishwasher
+  description: ''
+  use_blueprint:
+    path: Blackshome/state-notifications-and-actions.yaml
+    input:
+      start_trigger_state: 'on'
+      start_trigger_state_entity:
+      - binary_sensor.dishwasher_leak_moisture
+      start_notify_device:
+      - 3a8b570c2364844265d6b63628d76f16
+      - 46543360583f3c2044f992f533f51051
+      include_start_notify: enable_start_notify_options
+      start_title: ⚠️ LEAKAGE DETECTED!
+      start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} is
+        leaking!'
+      start_notify_interruption_level: critical
+      start_action_1: []
+      include_start_auto_actions: []
+      include_end_notify: disable_end_notify_options
+      end_notify_device:
+      - 3a8b570c2364844265d6b63628d76f16
+      - 46543360583f3c2044f992f533f51051
+      end_title: ✅ LEAKAGE RESTORED!
+      end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} does
+        not seem to be leaking anymore. Don''t forget to turn on the power.'
+      end_notify_interruption_level: critical
+      end_trigger_state: 'off'
+      end_trigger_state_entity:
+      - binary_sensor.dishwasher_leak_moisture
+- id: '1726315782295'
+  alias: Daily ZNP Backup - Monthly rotation
+  description: ''
+  use_blueprint:
+    path: mdeweerd/backup_znp.yaml
+    input:
+      backup_time: 01:00:00
+- id: '1726588601617'
+  alias: Alarm - Notify on Front Door Open
+  description: ''
+  triggers:
+  - entity_id:
+    - binary_sensor.front_door_opening
+    to: 'on'
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      message: request_location_update
+    alias: Force iOS Location Update
+  - action: notify.notify
+    metadata: {}
+    data:
+      title: ⚠️ Front Door was opened
+      message: 'Alarm status: {{ states(''alarm_control_panel.alarmo'') }}'
+      data:
+        actions:
+        - action: ALARMO_DISARM
+          title: Disarm
+          icon: sfsymbols:bell.slash.fill
+          authenticationRequired: true
+          destructive: true
+        - action: ALARMO_ARM_AWAY
+          title: Arm Away
+          icon: sfsymbols:lock.fill
+          authenticationRequired: true
+        - action: ALARMO_ARM_HOME
+          title: Arm Home
+          icon: sfsymbols:house.fill
+          authenticationRequired: true
+        - action: ALARMO_ARM_VACATION
+          title: Arm Vacation
+          icon: sfsymbols:sun.min.fill
+          authenticationRequired: true
+  mode: single
+- id: '1726648274903'
+  alias: Dimmer - Living Room
+  description: ''
+  use_blueprint:
+    path: sandervv/ZHA - Hue Dimmer Fully Configurable.yaml
+    input:
+      remote: 357be757f3e7423296d4287e7c044113
+      button_on_short_press:
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.living_room
+      - action: timer.cancel
+        metadata: {}
+        data: {}
+        target:
+          entity_id: timer.pause_the_automation_living_room_light
+      button_off_short_press:
+      - action: timer.start
+        metadata: {}
+        data:
+          duration: 00:30:00
+        target:
+          entity_id: timer.pause_the_automation_living_room_light
+      - if:
+        - condition: state
+          entity_id: media_player.spotify_jptjee
+          state: playing
+        - condition: state
+          entity_id: media_player.living_room_receiver_http
+          attribute: source
+          state: HEOS Music
+        - condition: state
+          entity_id: media_player.living_room_tv
+          state: 'off'
+        then:
+        - action: media_player.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.living_room_receiver_http
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.living_room
+- id: '1726648299745'
+  alias: Dimmer - Bedroom
+  description: ''
+  use_blueprint:
+    path: sandervv/ZHA - Hue Dimmer Fully Configurable.yaml
+    input:
+      remote: ab27ab06c2984b10ab36dc74befa6c07
+      button_on_short_press:
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.bedroom
+      button_down_short_press:
+      - if:
+        - condition: state
+          entity_id: media_player.bedroom
+          state: playing
+        then:
+        - action: media_player.media_pause
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.bedroom
+        else:
+        - action: light.turn_on
+          metadata: {}
+          data:
+            brightness_pct: 85
+            transition: 2
+          target:
+            entity_id: light.bedroom
+        - action: script.play_spotify_playlist
+          metadata: {}
+          data:
+            media_player: media_player.bedroom
+      button_off_short_press:
+      - action: light.turn_off
+        metadata: {}
+        data:
+          transition: 2
+        target:
+          entity_id: light.all_lights
+      button_up_short_press:
+      - action: script.wake_up_good_night
+        metadata: {}
+        data: {}
+      button_on_long_press:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          brightness_step_pct: 10
+        target:
+          entity_id: light.bedroom
+      button_off_long_press:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          brightness_step_pct: -10
+        target:
+          entity_id: light.bedroom
+- id: '1726661632133'
+  alias: Alarm - Arm on awake = off
+  description: ''
+  triggers:
+  - entity_id:
+    - input_boolean.awake
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: alarm_control_panel.alarmo
+    state: disarmed
+  actions:
+  - action: alarmo.arm
+    data:
+      mode: home
+      skip_delay: false
+      entity_id: alarm_control_panel.alarmo
+  mode: single
+- id: '1726661669538'
+  alias: Alarm - Disarm on awake = on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.awake
+    to: 'on'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      attribute: arm_mode
+      state: disarmed
+  action:
+  - action: alarmo.disarm
+    data:
+      entity_id: alarm_control_panel.alarmo
+  mode: single
+- id: '1726764794273'
+  alias: Alarm - Arm on leaving home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.jean_paul
+    from: home
+  conditions:
+  - condition: state
+    entity_id: alarm_control_panel.alarmo
+    state: disarmed
+  actions:
+  - action: alarm_control_panel.alarm_arm_away
+    target:
+      entity_id: alarm_control_panel.alarmo
+    data: {}
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F512 Starting to arm the alarm"
+      message: As you left home
+  mode: single
+- id: '1726841337575'
+  alias: Notification - High server power consumption
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.server_power_switch_0_energy
+    for:
+      hours: 24
+      minutes: 0
+      seconds: 0
+    above: 18
+  condition: []
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      message: Server consumption didn't go below 18W over the last 24 hours. Are
+        disks powering off?
+      title: ⚡ High power consumption alert!
+  mode: single
+- id: '1726841583602'
+  alias: Notify when entering Zandvoort
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.zandvoort
+    event: enter
+  condition: []
+  action:
+  - data:
+      title: Charging Station update
+      message: '{{ state_attr(''sensor.station_1'', ''location_short'') }} is {{ states(''sensor.station_1'')
+        | lower }}'
+      data:
+        tag: charging-update
+    action: notify.mobile_app_jean_pauls_iphone
+  mode: single
+- id: '1726841626945'
+  alias: Notify when Station 1 is available
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.station_1
+    to: Available
+  condition: []
+  action:
+  - data:
+      title: Charging Station update
+      message: '{{ state_attr(''sensor.station_1'', ''location_short'') }} is now
+        {{ states(''sensor.station_1'') | lower }}'
+      data:
+        tag: charging-update
+    action: notify.mobile_app_jean_pauls_iphone
+  - target:
+      entity_id: automation.notify_when_station_1_is_available
+    action: automation.turn_off
+    data:
+      stop_actions: true
+  mode: single
+- id: '1726863777053'
+  alias: When Jean-Paul gets home
+  description: ''
+  triggers:
+  - entity_id:
+    - person.jean_paul
+    to: home
+    trigger: state
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: vacuum.roborock_s4
+      state: cleaning
+    then:
+    - action: input_select.select_option
+      metadata: {}
+      data:
+        option: Move back to the dock
+      target:
+        entity_id: input_select.vacuum_room
+  mode: single
+- id: '1726864691758'
+  alias: Out of Bed
+  description: ''
+  triggers:
+  - entity_id: binary_sensor.living_room_occupancy
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'off'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_vacation
+  - condition: time
+    after: 06:00:00
+    before: '12:00:00'
+  actions:
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.awake
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - light.bedroom
+      - light.bathroom
+  - action: media_player.media_pause
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.bedroom
+  - entity_id: media_player.living_room_tv
+    action: media_player.turn_on
+  - wait_template: '{{ is_state(''media_player.living_room_tv'', ''on'') }}'
+    timeout: '100'
+    continue_on_timeout: false
+  - data:
+      entity_id: media_player.living_room_tv
+      source: LiveTV
+    action: media_player.select_source
+  - wait_template: '{{ state_attr(''media_player.living_room_tv'', ''source'') ==
+      ''LiveTV'' }}'
+    timeout: '100'
+    continue_on_timeout: false
+  - data:
+      entity_id: media_player.living_room_tv
+      media_content_id: NPO 1 HD
+      media_content_type: channel
+    action: media_player.play_media
+  - wait_template: '{{ is_state(''media_player.living_room_receiver_http'', ''on'')
+      }}'
+    timeout: '120'
+    continue_on_timeout: false
+  - data:
+      volume_level: 0.67
+    action: media_player.volume_set
+    target:
+      entity_id: media_player.living_room_receiver_http
+- id: '1726865570805'
+  alias: Pause Spotify if TV turns on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.living_room_tv
+    to: home
+  condition:
+  - condition: template
+    value_template: '{{ not is_state(''media_player.spotify_jptjee'', ''paused'')
+      }}'
+  - condition: template
+    value_template: '{% set receiver = states.media_player.living_room_receiver_http
+      %} {{ receiver.attributes.source == ''HEOS Music'' if receiver else false }}
+
+      '
+  action:
+  - action: media_player.media_pause
+    target:
+      entity_id: media_player.spotify_jptjee
+  - action: media_player.select_source
+    target:
+      entity_id: media_player.living_room_receiver_http
+    data:
+      source: TV Audio
+  mode: single
+- id: '1726865981559'
+  alias: Pause Sonos on bedroom window open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bedroom_window_opening
+    to: 'on'
+  condition: []
+  action:
+  - action: media_player.media_pause
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.bedroom
+  mode: single
+- id: '1726866070872'
+  alias: Pause Sonos when it starts playing and bedroom is open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.bedroom
+    to: playing
+  condition:
+  - condition: state
+    entity_id: binary_sensor.bedroom_window_opening
+    state: 'on'
+  action:
+  - action: media_player.media_pause
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.bedroom
+  mode: single
+- id: '1726867335951'
+  alias: Notification - Bread Freezer Reminder
+  description: ''
+  trigger:
+  - platform: time
+    at: '10:58:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_vacation
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F35E Bread Reminder"
+      message: Do not forget to take your bread out of the freezer!
+  mode: single
+- id: '1726903549680'
+  alias: Create Full Backup
+  description: Triggered when the 'Backup Now' toggle is on and daily at 1 AM.
+  triggers:
+  - entity_id: input_boolean.backup_trigger
+    to: 'on'
+    trigger: state
+  - at: 01:00:00
+    trigger: time
+    enabled: false
+  actions:
+  - entity_id: input_boolean.backup_trigger
+    action: input_boolean.turn_off
+  - action: backup.create_automatic
+    metadata: {}
+    data: {}
+- id: '1726904067295'
+  alias: Turn Off Living Room TV if Receiver Turns Off
+  description: Turn off the living room TV if the receiver turns off and the TV is
+    on.
+  trigger:
+  - platform: state
+    entity_id: media_player.living_room_receiver_http
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: media_player.living_room_tv
+    state: 'on'
+  action:
+  - target:
+      entity_id: media_player.living_room_tv
+    action: media_player.turn_off
+- id: '1726904281464'
+  alias: Reset Vacuum Maintenance Task
+  description: Resets the selected maintenance task counter for the vacuum.
+  trigger:
+  - platform: state
+    entity_id: input_select.vacuum_reset_maintenance
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.vacuum_reset_maintenance
+        state: Sensors
+      sequence:
+      - target:
+          entity_id:
+          - vacuum.roborock_s4
+        data:
+          command: reset_consumable
+          params:
+          - sensor_dirty_time
+        action: vacuum.send_command
+    - conditions:
+      - condition: state
+        entity_id: input_select.vacuum_reset_maintenance
+        state: Filter
+      sequence:
+      - target:
+          entity_id:
+          - vacuum.roborock_s4
+        data:
+          command: reset_consumable
+          params:
+          - filter_work_time
+        action: vacuum.send_command
+    - conditions:
+      - condition: state
+        entity_id: input_select.vacuum_reset_maintenance
+        state: Main Brush
+      sequence:
+      - target:
+          entity_id:
+          - vacuum.roborock_s4
+        data:
+          command: reset_consumable
+          params:
+          - main_brush_work_time
+        action: vacuum.send_command
+    - conditions:
+      - condition: state
+        entity_id: input_select.vacuum_reset_maintenance
+        state: Side Brush
+      sequence:
+      - target:
+          entity_id:
+          - vacuum.roborock_s4
+        data:
+          command: reset_consumable
+          params:
+          - side_brush_work_time
+        action: vacuum.send_command
+  - action: input_select.select_option
+    metadata: {}
+    data:
+      option: Select a maintenance task...
+    target:
+      entity_id: input_select.vacuum_reset_maintenance
+- id: '1726904442852'
+  alias: Turn On Tooth Brush Power at 2:00
+  description: Turns on the power to the toothbrush plug at 2:00 if vacation mode
+    is off.
+  triggers:
+  - at: 02:00:00
+    trigger: time
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_vacation
+  actions:
+  - action: switch.turn_on
+    target:
+      entity_id:
+      - switch.bathroom_toothbrush_switch
+    data: {}
+- id: '1726904466889'
+  alias: Turn Off Tooth Brush Power at 4:00
+  description: Turns off the power to the toothbrush plug at 4:00.
+  triggers:
+  - at: 04:00:00
+    trigger: time
+  actions:
+  - action: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.bathroom_toothbrush_switch
+- id: '1726904965492'
+  alias: Manage Vacation Mode
+  description: Handles the state changes when Vacation Mode is turned on or off.
+  trigger:
+  - platform: state
+    entity_id:
+    - alarm_control_panel.alarmo
+    attribute: arm_mode
+    from: armed_vacation
+  - platform: state
+    entity_id:
+    - alarm_control_panel.alarmo
+    attribute: arm_mode
+    to: armed_vacation
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: alarm_control_panel.alarmo
+        state: armed_vacation
+        attribute: arm_mode
+      sequence:
+      - action: input_boolean.turn_off
+        target:
+          entity_id:
+          - input_boolean.wakeup_enabled
+          - input_boolean.awake
+          - input_boolean.vacuum_clean_enabled
+        data: {}
+      - action: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.bathroom_toothbrush_switch
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.all_lights
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F334 Vacation Mode On - Enjoy!"
+          message: Alarm, Awake and Scheduled Vacuum Clean has been disabled.
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: alarm_control_panel.alarmo
+          attribute: arm_mode
+          state: armed_vacation
+      sequence:
+      - action: input_boolean.turn_on
+        target:
+          entity_id:
+          - input_boolean.wakeup_enabled
+          - input_boolean.awake
+          - input_boolean.vacuum_clean_enabled
+        data: {}
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F3E0 Vacation Mode Off - Welcome Home!"
+          message: Alarm, Awake and Scheduled Vacuum Clean have been enabled. Next
+            alarm at {{ states('input_datetime.wakeup_time') }}.
+- id: '1726906598387'
+  alias: Wake Up Desktop
+  description: Wake up the desktop PC when the input_boolean.wake_up_desktop turns
+    on.
+  trigger:
+  - platform: state
+    entity_id: input_boolean.wake_up_desktop
+    from: 'off'
+    to: 'on'
+  action:
+  - action: switch.turn_on
+    target:
+      entity_id: switch.wake_on_lan_desktop
+  - wait_template: '{{ is_state(''switch.wake_on_lan_desktop'', ''on'') }}'
+    timeout: 00:00:30
+    continue_on_timeout: true
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.wake_up_desktop
+- id: '1726906770932'
+  alias: Enable PC Audio on Receiver
+  description: Sets the receiver to PC audio mode and sends a notification.
+  trigger:
+  - platform: state
+    entity_id: input_button.enable_pc_audio_on_receiver
+  action:
+  - action: media_player.turn_on
+    target:
+      entity_id: media_player.living_room_receiver_http
+    data: {}
+  - wait_template: '{{ not is_state(''media_player.living_room_receiver_heos'', ''off'')
+      }}'
+    timeout: 00:02:00
+    continue_on_timeout: false
+  - action: media_player.select_source
+    target:
+      entity_id: media_player.living_room_receiver_heos
+    data:
+      source: Media Player
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      title: "\U0001F509 Receiver is set to PC Audio"
+      message: Don't forget to add screen 2 and change the PC output
+- id: '1726907061543'
+  alias: Actions When Leaving House
+  description: Turn off TV, receiver, Sonos, and lights when leaving the house and
+    send notifications.
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+    event: leave
+  - platform: state
+    entity_id:
+    - alarm_control_panel.alarmo
+    attribute: arm_mode
+    from: disarmed
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_home
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_night
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.living_room_tv
+        state: 'on'
+      sequence:
+      - action: media_player.turn_off
+        target:
+          entity_id: media_player.living_room_tv
+        data: {}
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: Living Room TV turned off
+          message: "\U0001F4B0 Saved you some $$$ while you are away!"
+    - conditions:
+      - condition: state
+        entity_id: media_player.living_room_receiver_http
+        state: 'on'
+      sequence:
+      - action: media_player.turn_off
+        target:
+          entity_id: media_player.living_room_receiver_http
+        data: {}
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: Receiver turned off
+          message: "\U0001F4B0 Saved you some $$$ while you are away!"
+    - conditions:
+      - condition: state
+        entity_id: media_player.bedroom
+        state: playing
+      sequence:
+      - action: media_player.media_pause
+        target:
+          entity_id: media_player.bedroom
+        data: {}
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: Sonos music turned off
+          message: "\U0001F4B0 Saved you some $$$ while you are away!"
+  - action: light.turn_off
+    data: {}
+    target:
+      entity_id: light.all_lights
+- id: '1726954321977'
+  alias: Switch - Living Room Workplace
+  description: ''
+  use_blueprint:
+    path: carlosmesquita/zha-xiaomi-mijia-round-wireless-switch-wxkg01lm-lumi-sensor-switch.yaml
+    input:
+      mijia_round_switch: 6453cf48ee1b455ba82a7dd5c29530c9
+      remote_button_short_press:
+      - if:
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: media_player.spotify_jptjee
+            state: playing
+        then:
+        - action: script.play_spotify_playlist
+          metadata: {}
+          data:
+            media_player: media_player.living_room_receiver_http
+        else:
+        - action: media_player.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.living_room_receiver_http
+      remote_button_triple_press:
+      - action: script.play_spotify_playlist
+        metadata: {}
+        data:
+          media_player: media_player.spotify_jptjee
+      remote_button_hold_press:
+      - action: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.wake_up_desktop
+      remote_button_double_press:
+      - if:
+        - condition: state
+          entity_id: media_player.spotify_jptjee
+          state: playing
+        then:
+        - action: media_player.media_pause
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.spotify_jptjee
+        else:
+        - action: media_player.select_source
+          metadata: {}
+          data:
+            source: Living Room Receiver
+          target:
+            entity_id: media_player.spotify_jptjee
+        - action: media_player.media_play
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.spotify_jptjee
+- id: '1726955288158'
+  alias: Cube - Living Room
+  description: ''
+  use_blueprint:
+    path: SirGoodenough/ZHA-Xiaomi_Cube_Controller.yaml
+    input:
+      last_side_input: input_number.xiaomi_magic_cube_last_side_up_helper
+      cube: cd17ae5cc24c46daa31f1f53c5a3682d
+      shake:
+      - if:
+        - condition: state
+          entity_id: media_player.spotify_jptjee
+          state: playing
+        then:
+        - action: media_player.media_play_pause
+          target:
+            entity_id: media_player.spotify_jptjee
+          data: {}
+        else:
+        - action: media_player.select_source
+          metadata: {}
+          data:
+            source: Living Room
+          target:
+            entity_id: media_player.spotify_jptjee
+        - action: media_player.media_play
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.spotify_jptjee
+      drop:
+      - if:
+        - condition: state
+          entity_id: media_player.spotify_jptjee
+          state: playing
+        then:
+        - action: media_player.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.living_room_receiver_http
+        else:
+        - action: script.play_spotify_playlist
+          metadata: {}
+          data:
+            media_player: media_player.living_room_receiver_heos
+      flipped90_any:
+      - if:
+        - condition: state
+          entity_id: media_player.spotify_jptjee
+          state: playing
+        then:
+        - action: media_player.media_next_track
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.spotify_jptjee
+      rotate_cw_any:
+      - action: media_player.volume_set
+        target:
+          entity_id:
+          - media_player.living_room_receiver_http
+        data:
+          volume_level: '{{ state_attr(''media_player.living_room_receiver_http'',
+            ''volume_level'') + 0.02 }}'
+      rotate_ccw_any:
+      - action: media_player.volume_set
+        target:
+          entity_id:
+          - media_player.living_room_receiver_http
+        data:
+          volume_level: '{{ state_attr(''media_player.living_room_receiver_http'',
+            ''volume_level'') - 0.02 }}'
+      flipped180_any:
+      - if:
+        - condition: state
+          entity_id: media_player.spotify_jptjee
+          state: playing
+        then:
+        - action: media_player.media_previous_track
+          target:
+            entity_id:
+            - media_player.spotify_jptjee
+          data: {}
+- id: '1727118356540'
+  alias: Flight entry notification
+  description: ''
+  trigger:
+  - platform: event
+    event_type: flightradar24_entry
+  condition:
+  - condition: state
+    entity_id: device_tracker.jeanpaulsiphone
+    state: home
+  - condition: template
+    value_template: '{{ trigger.event.data.altitude < 10000 }}'
+  action:
+  - data:
+      message: ✈️ {{ trigger.event.data.callsign }} ({{ trigger.event.data.airline
+        }}) to {{ trigger.event.data.airport_destination_city }} from {{ trigger.event.data.airport_origin_city
+        }}
+      data:
+        url: https://fr24.com/{{ trigger.event.data.callsign }}/{{ trigger.event.data.id
+          }}
+        image: '{{ trigger.event.data.aircraft_photo_medium }}'
+    action: notify.mobile_app_jean_pauls_iphone
+- id: '1727378847793'
+  alias: Run vacuum cleaner
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.vacuum_room
+    from: Select a room...
+  condition: []
+  action:
+  - action: script.run_vacuum_cleaner
+    metadata: {}
+    data:
+      variables:
+        rooms: '{{ states(''input_select.vacuum_room'') }}'
+  mode: single
+- id: '1727435064148'
+  alias: Report KIA battery status when in the office
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '1'
+  - platform: state
+    entity_id:
+    - sensor.ev6_last_updated_at
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: sensor.ev6_ev_battery_level
+      state: unavailable
+  - condition: zone
+    entity_id: person.jean_paul
+    zone: zone.office
+  - condition: state
+    entity_id: binary_sensor.ev6_ev_battery_plug
+    state: 'on'
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F50C KIA EV6 Battery"
+      message: 'Status: {{ states(''sensor.ev6_ev_battery_level'') }} % which means
+        you can drive {{ states(''sensor.ev6_ev_range'') }} km'
+  mode: single
+- id: '1727515667258'
+  alias: Update Sonos Alarm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_datetime.wakeup_time
+  - platform: state
+    entity_id:
+    - input_boolean.wakeup_enabled
+  condition: []
+  action:
+  - action: sonos.update_alarm
+    metadata: {}
+    data:
+      alarm_id: 1
+      enabled: '{{ is_state(''input_boolean.wakeup_enabled'', ''on'') }}'
+      time: '{{ state_attr(''input_datetime.wakeup_time'', ''timestamp'') | timestamp_custom(''%H:%M:%S'',
+        false) }}'
+      entity_id: media_player.bedroom
+  mode: single
+- id: '1727516172708'
+  alias: Change Spotify playlist on input_select change
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.spotify_playlist
+  condition: []
+  action:
+  - action: script.play_spotify_playlist
+    metadata: {}
+    data:
+      media_player: media_player.living_room_receiver_http
+      playlist: '{{ states(''input_select.spotify_playlist'') }}'
+  mode: single
+- id: '1727516578007'
+  alias: Turn on washing machine on Friday
+  description: ''
+  triggers:
+  - at: 04:00:00
+    trigger: time
+  conditions:
+  - condition: time
+    weekday:
+    - fri
+  - condition: state
+    entity_id: alarm_control_panel.alarmo
+    state: armed_home
+  actions:
+  - action: switch.turn_on
+    target:
+      entity_id: switch.washing_machine_smart_plug
+    data: {}
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      message: Washing machine power is on. Better use it today!
+      title: Washing Machine Reminder
+  - delay:
+      hours: 5
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.washing_machine_smart_plug_current_consumption
+      below: 10
+    then:
+    - action: notify.mobile_app_jean_pauls_iphone
+      data:
+        message: Looks like the washing machine isn’t running yet!
+        title: Washing Machine Reminder
+- id: '1727516604683'
+  alias: Turn off washing machine on Sunday
+  description: ''
+  trigger:
+  - platform: time
+    at: 02:00:00
+  condition:
+  - condition: time
+    weekday:
+    - sun
+  - condition: numeric_state
+    entity_id: sensor.washing_machine_smart_plug_current_consumption
+    below: 10
+  action:
+  - action: switch.turn_off
+    target:
+      entity_id: switch.washing_machine_smart_plug
+    data: {}
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      message: Washing machine power is off.
+      title: Washing Machine off
+- id: '1727516942520'
+  alias: Turn off receiver when idle for 5 minutes
+  description: 'Turn off the living room receiver when it has been idle for 5 minutes  and
+    certain conditions are met.
+
+    '
+  trigger:
+  - platform: time_pattern
+    minutes: /1
+  condition:
+  - condition: state
+    entity_id: media_player.living_room_receiver_heos
+    state: paused
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - condition: state
+    entity_id: media_player.living_room_receiver_http
+    state: HEOS Music
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    attribute: source
+  - condition: state
+    entity_id: media_player.living_room_tv
+    state: 'off'
+  action:
+  - action: media_player.turn_off
+    target:
+      entity_id: media_player.living_room_receiver_http
+    data: {}
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F4B0 Turned off the receiver"
+      message: Don't leave it on!
+- id: '1727517745909'
+  alias: Vacuum - Start on schedule when not at home
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.vacuum_clean_time
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacuum_clean_enabled
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: zone
+      entity_id: device_tracker.jean_pauls_iphone_app
+      zone: zone.home
+  action:
+  - action: script.run_vacuum_cleaner
+    metadata: {}
+    data:
+      rooms: Living Room & Kitchen
+  mode: single
+- id: '1727517990211'
+  alias: Turn on vacuum when Bathroom Shower is on
+  description: 'Turn on the vacuum for Living Room & Kitchen when the bathroom shower
+    is  turned on and I''m awake. This action is throttled to once every 3 hours.
+
+    '
+  triggers:
+  - entity_id:
+    - input_boolean.bathroom_shower
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'on'
+  actions:
+  - action: script.run_vacuum_cleaner
+    metadata: {}
+    data:
+      rooms: Living Room & Kitchen
+    enabled: false
+  - action: input_select.select_option
+    metadata: {}
+    data:
+      option: Living Room & Kitchen
+    target:
+      entity_id: input_select.vacuum_room
+- id: '1727518568203'
+  alias: Check Roborock Vacuum Sensors
+  description: ''
+  trigger:
+  - platform: time
+    at: '10:00:00'
+  condition:
+  - condition: time
+    weekday:
+    - sun
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  action:
+  - variables:
+      message_list: "{% set messages = [] %} {% if states('sensor.roborock_s4_main_brush_left')
+        | int <= 0 %}\n  {% set messages = messages + ['main brush'] %}\n{% endif
+        %} {% if states('sensor.roborock_s4_sensor_dirty_left') | int <= 0 %}\n  {%
+        set messages = messages + ['sensors'] %}\n{% endif %} {% if states('sensor.roborock_s4_side_brush_left')
+        | int <= 0 %}\n  {% set messages = messages + ['side brush'] %}\n{% endif
+        %} {% if states('sensor.roborock_s4_filter_left') | int <= 0 %}\n  {% set
+        messages = messages + ['filter'] %}\n{% endif %} {{ messages | join(', ')
+        }}\n"
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ message_list != '''' }}'
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F916 Roborock Vacuum needs cleaning"
+          message: 'To clean: {{ message_list }}'
+- id: '1727519498913'
+  alias: Washing Machine Ready
+  description: ''
+  use_blueprint:
+    path: Blackshome/appliance-notifications.yaml
+    input:
+      power_sensor: sensor.washing_machine_smart_plug_current_consumption
+      end_appliance_power: 10
+      include_start_notify: enable_start_notify_options
+      start_notify_device:
+      - 46543360583f3c2044f992f533f51051
+      start_title: "\U0001F4A7 Washing Machine started"
+      start_message: Let's go
+      include_end_notify: enable_end_notify_options
+      end_notify_device:
+      - 46543360583f3c2044f992f533f51051
+      end_message_title: "\U0001F4A7 Washing Machine"
+      power_consumption_sensor: sensor.washing_machine_smart_plug_total_consumption
+      include_power_tracking: enable_power_tracking_and_cost
+      end_message_cost: Approx Cost €
+      cost_per_kwh: sensor.greenchoice_electricity_price_high
+      start_power_consumption: input_number.helper_washing_machine_power_start_number
+      end_power_consumption: input_number.helper_washing_machine_power_end_number
+      include_duration_tracking: enable_duration_tracking
+      start_appliance_power: 7
+      include_custom_actions:
+      - enable_start_custom_actions
+      start_custom_actions:
+      - action: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.washing_machine
+      end_custom_actions:
+      - action: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.washing_machine
+- id: '1727525959760'
+  alias: Smoke Alarm Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - siren.kitchen_smoke_alarm_siren
+    to: 'on'
+  condition: []
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F525 Smoke Alarm activated!"
+      data:
+        push:
+          sound:
+            name: default
+            critical: 1
+            volume: 1
+      message: "\U0001F692"
+  mode: single
+- id: '1727526449921'
+  alias: Notification - Tooth Brush reminder
+  description: ''
+  triggers:
+  - at: '12:55:00'
+    trigger: time
+  conditions:
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: disarmed
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_home
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001FAA5 Don't forget to brush your teeth!"
+      message: Just Do It
+  - wait_for_trigger:
+    - entity_id:
+      - binary_sensor.bathroom_motion
+      to: 'on'
+      trigger: state
+    continue_on_timeout: true
+    timeout:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - if:
+    - condition: zone
+      entity_id: device_tracker.jean_pauls_iphone_app
+      zone: zone.home
+    then:
+    - action: notify.mobile_app_jean_pauls_iphone
+      metadata: {}
+      data:
+        title: "\U0001FAA5 Again: don't forget to brush your teeth!"
+        message: Just Do It
+  mode: single
+- id: '1727527052759'
+  alias: Notify if Bedroom Window is open for 15 minutes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bedroom_window_opening
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition:
+  - condition: template
+    value_template: "{% set last_triggered = state_attr('automation.notify_if_bedroom_window_is_open_for_15_minutes',
+      'last_triggered') %} {% if last_triggered is none %}\n  true\n{% else %}\n  {{
+      (now() - last_triggered).total_seconds() / 3600.0 >= 3 }}\n{% endif %}\n"
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      message: Close Bedroom Window as it has been open for 15 minutes
+      title: "\U0001FA9F Airing finished"
+- id: '1727527131896'
+  alias: Notify if Living Room Window is open for 15 minutes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.living_room_window_opening
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition:
+  - condition: template
+    value_template: "{% set last_triggered = state_attr('automation.notify_if_living_room_window_is_open_for_15_minutes',
+      'last_triggered') %} {% if last_triggered is none %}\n  true\n{% else %}\n  {{
+      (now() - last_triggered).total_seconds() / 3600.0 >= 3 }}\n{% endif %}\n"
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      message: Close Living Room Window as it has been open for 15 minutes
+      title: "\U0001FA9F Airing finished"
+- id: '1727527258915'
+  alias: Fuse Box Temperature Check
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.fuse_box_temperature
+    above: 30
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  condition: []
+  action:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ⚠️ WARNING!
+      message: Temperature is above 30 degrees Celsius. Open the Fuse Box door!
+  mode: single
+- id: '1727527671553'
+  alias: Notify on Open Windows and Doors
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+    event: leave
+  condition:
+  - condition: template
+    value_template: "{% set open_windows = \n  states.binary_sensor \n  | selectattr('attributes.device_class',
+      'eq', 'opening')\n  | selectattr('state', 'eq', 'on')\n  | map(attribute='name')\n
+      \ | list %}\n{{ open_windows | length > 0 }}\n"
+  action:
+  - data:
+      title: "\U0001FA9F Open Door/Window Alert"
+      message: "{% set open_windows = \n  states.binary_sensor \n  | selectattr('attributes.device_class',
+        'eq', 'opening')\n  | selectattr('state', 'eq', 'on')\n  | map(attribute='name')\n
+        \ | map('replace', ' Opening', '')\n  | list %}\nCheck these doors or windows:
+        {{ open_windows | join(', ') }}\n"
+    action: notify.mobile_app_jean_pauls_iphone
+- id: '1727604574614'
+  alias: If I forget to turn off Awake
+  description: Check if Awake is on at 1:30 AM, notify, and turn it off along with
+    all lights.
+  triggers:
+  - at: 03:00:00
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    data:
+      title: Awake is still on
+      message: Setting it to off
+  - action: input_boolean.turn_off
+    entity_id: input_boolean.awake
+  - action: light.turn_off
+    entity_id: light.all_lights
+    data:
+      transition: 5
+  mode: single
+- id: '1727613739758'
+  alias: Maintenance Tasks Sunday 2 AM
+  description: ''
+  trigger:
+  - platform: time
+    at: 02:00:00
+  condition:
+  - condition: time
+    weekday:
+    - sun
+  action:
+  - action: tts.clear_cache
+    metadata: {}
+    data: {}
+  - action: readme.generate
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1727725703135'
+  alias: Light - Bedroom
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.bedroom_occupancy
+      light_switch:
+        entity_id: light.bedroom
+      time_delay: 3
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_transition_off: 10
+      light_brightness: 80
+      include_night_lights: night_lights_enabled
+      night_lights_conditions:
+      - sun_enabled
+      night_lights:
+        entity_id: light.bedroom
+      night_time_delay: 3
+      include_night_light_control:
+      - use_brightness
+      - use_transition
+      night_light_transition_off: 5
+      include_device_tracker: device_tracker_disabled
+      people: []
+      include_sun: sun_disabled
+      include_bypass:
+      - bypass_enabled_turn_off
+      motion_bypass_lights_off:
+      - switch.awake_reversed
+      light_colour_temperature: 2480
+      include_light_colour_control: use_colour_temperature
+      include_night_light_colour_control: use_colour_temperature
+      night_light_colour_temperature: 2480
+      include_dynamic_lighting: enable_lux_controled_brightness
+      night_lights_entity_state:
+      - input_boolean.awake
+      include_ambient: ambient_disabled
+      ambient_light_options: ambient_light_option_disabled
+      dynamic_lighting_lux_sensor: sensor.bedroom_illuminance
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_bedroom
+      dynamic_lighting_max_brightness: 80
+- id: '1727772192031'
+  alias: Light - Living Room Workplace based on Teams Presence
+  description: Turn on/off the living room workplace light based on Microsoft Teams
+    presence status.
+  triggers:
+  - entity_id:
+    - input_select.microsoft_teams_presence
+    to: In a Call
+    id: to-in-a-call
+    trigger: state
+  - entity_id:
+    - input_select.microsoft_teams_presence
+    id: from-in-a-call
+    from: In a Call
+    trigger: state
+  - entity_id:
+    - input_select.microsoft_teams_presence
+    id: from-in-a-call
+    trigger: state
+    to: Available
+  conditions: []
+  actions:
+  - if:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id:
+        - to-in-a-call
+      - condition: numeric_state
+        entity_id: sensor.living_room_window_illuminance
+        below: 3000
+    then:
+    - action: light.turn_on
+      metadata: {}
+      data:
+        brightness_pct: 100
+        kelvin: 6500
+      target:
+        entity_id: light.living_room_workplace
+  - if:
+    - condition: trigger
+      id:
+      - from-in-a-call
+    then:
+    - action: light.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: light.living_room_workplace
+    else: []
+  mode: single
+- id: '1727940385271'
+  alias: Ask to start vacuum cleaning
+  triggers:
+  - trigger: time
+    at: '16:00:00'
+  conditions:
+  - condition: time
+    weekday:
+    - fri
+  actions:
+  - alias: Set up variables for the actions
+    variables:
+      action_vacuum: "{% set options = state_attr('input_select.vacuum_room', 'options')
+        %} {% set id = context.id %} [{% for option in options if option != 'Select
+        a room...' %}\n  {% if not loop.first %}, {% endif %}\n  {\"action\": \"VACUUM_{{
+        option|replace(' ', '-') }}_{{ id }}\", \"title\": \"{{ option }}\" }\n{%
+        endfor %}]\n"
+  - alias: Send notification to start vacuum cleaning
+    data:
+      message: Do you want to start vacuum cleaning?
+      data:
+        actions: '{{ action_vacuum }}'
+    action: notify.mobile_app_jean_pauls_iphone
+  - alias: Wait for a response
+    wait_for_trigger:
+    - event_type: mobile_app_notification_action
+      trigger: event
+      event_data: {}
+    timeout:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - alias: Set up variables for the response
+    variables:
+      selected_action: '{{ wait.trigger.event.data.action }}'
+      selected_room: '{{ selected_action.split(''_'')[1] | replace(''-'', '' '') }}'
+      message_id: '{{ selected_action.split(''_'')[-1] }}'
+    enabled: true
+  - alias: Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ true }}'
+      sequence:
+      - alias: OK
+        data:
+          message: OK, starting action '{{ selected_room }}'
+        action: notify.mobile_app_jean_pauls_iphone
+      - action: input_select.select_option
+        metadata: {}
+        data:
+          option: '{{ selected_room }}'
+        target:
+          entity_id: input_select.vacuum_room
+    default:
+    - alias: NOT OK
+      data:
+        message: '"Couldn''t determine action. Raw input is {{ message_id }} {{ wait.trigger.event.data}}"'
+      action: notify.mobile_app_jean_pauls_iphone
+- id: '1728032596562'
+  alias: Wake-up light with sunrise effect
+  description: ''
+  use_blueprint:
+    path: DevSecNinja/wake-up-light-with-sunrise.yaml
+    input:
+      light_entity: light.bedroom
+      timestamp_sensor: sensor.sonos_alarm_1_timestamp
+      check_entity:
+      - person.jean_paul
+      - switch.sonos_alarm_1
+      - switch.awake_reversed
+      alarm_status_entity: switch.sonos_alarm_1
+      start_brightness: 1
+      sunrise_duration: 15
+      post_sunrise_actions:
+      - action: notify.mobile_app_jean_pauls_iphone
+        metadata: {}
+        data:
+          message: ☀️ Good morning!
+      pre_sunrise_actions: []
+- id: '1728284888024'
+  alias: Pause Sonos when already awake
+  description: ''
+  triggers:
+  - trigger: time
+    at: sensor.sonos_alarm_1_timestamp
+  conditions:
+  - condition: state
+    entity_id: input_boolean.wakeup_enabled
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'on'
+  actions:
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 5
+      milliseconds: 0
+  - if:
+    - condition: state
+      entity_id: media_player.bedroom
+      state: playing
+    then:
+    - action: notify.mobile_app_jean_pauls_iphone
+      metadata: {}
+      data:
+        title: "\U0001F3B5 Music playing while already awake"
+        message: Want to pause the Sonos?
+  mode: single
+- id: '1728385114222'
+  alias: Weather prediction notification on unplugging my phone
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.jean_paul_s_iphone_charging
+    to: 'off'
+    from: 'on'
+  conditions:
+  - condition: time
+    after: 05:00:00
+    before: '11:00:00'
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'off'
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ☀️ Good morning!
+      data:
+        entity_id: camera.buienradar
+      message: 'Weather today: {{ states(''sensor.temperature'') | round(0) }} °C,
+        {{ states(''sensor.full_condition'') | lower }}.'
+  mode: single
+- id: '1728417442294'
+  alias: Light - Living Room
+  description: ''
+  use_blueprint:
+    path: Blackshome/smart-light.yaml
+    input:
+      light_switch:
+        entity_id: light.living_room
+      include_ambient:
+      - ambient_low
+      - ambient_high
+      ambient_light_sensor: sensor.living_room_window_illuminance
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_living_room
+      include_dynamic_lighting: disable_dynamic_lighting
+      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
+      include_bypass:
+      - bypass_enabled_turn_off
+      bypass_lights_off:
+      - binary_sensor.light_living_room_bypass_sensor
+      night_lights_entity_state:
+      - switch.light_living_room_night_light_scene
+      include_night_lights: night_lights_enabled
+      night_lights_conditions:
+      - entity_state_enabled
+      night_lights:
+        entity_id: light.living_room
+      include_night_light_control:
+      - use_brightness
+      - if_lights_are_on_adjust_when_crossing_over
+      - use_transition
+      night_light_brightness: 50
+      include_light_control: []
+      ambient_light_value_off: 1200
+      include_entity_state: []
+      ambient_light_value: 1100
+      night_light_transition_off: 1
+      night_light_transition_on: 10
+      dynamic_lighting_max_lux: 750
+      dynamic_lighting_min_brightness: 20
+      dynamic_lighting_max_brightness: 70
+      dynamic_lighting_max_colour_temp: 2650
+      dynamic_lighting_min_colour_temp: 2000
+      include_night_light_colour_control: use_colour_temperature
+      night_light_colour_temperature: 2000
+- id: '1728493873160'
+  alias: Clear timers automatically
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+    event: leave
+  - trigger: state
+    entity_id:
+    - input_boolean.awake
+    to: 'off'
+  conditions: []
+  actions:
+  - action: timer.cancel
+    target:
+      entity_id: timer.pause_the_automation_living_room_light
+    data: {}
+  mode: single
+- id: '1728566997078'
+  alias: Notify on energy meter unavailable
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.electricity_meter_energy_consumption_tarif_1
+    - sensor.electricity_meter_energy_consumption_tarif_2
+    to: unavailable
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  - trigger: time_pattern
+    minutes: /30
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.electricity_meter_energy_consumption_tarif_1
+      state: unavailable
+    - condition: state
+      entity_id: sensor.electricity_meter_energy_consumption_tarif_2
+      state: unavailable
+    - condition: state
+      entity_id: sensor.electricity_meter_active_tariff
+      state: unavailable
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      message: Energy meter became unavailable. Fix it now by recreating the device
+        in the integration and select DSMR 4
+  mode: single
+- id: '1729122821769'
+  alias: Notify on car recall
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.kia_pending_recall
+    to: 'on'
+    from: 'off'
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ⚠️ New recall for your KIA EV6
+      message: Go fix!
+  mode: single
+- id: '1730047989947'
+  alias: Notify on chores
+  description: ''
+  triggers:
+  - trigger: time
+    at: '12:30:00'
+  conditions:
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      message: Choose one!
+      title: "\U0001F9F9 Time to do a chore!"
+  mode: single
+- id: '1730059015682'
+  alias: Suppress alarm when vacuum starts
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - vacuum.roborock_s4
+    to: cleaning
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_away
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_vacation
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: Vacuum cleaner started while alarm is armed...
+      message: Will report back when done. Fix this automation to set alarm to armed_home
+  - wait_for_trigger:
+    - trigger: state
+      entity_id:
+      - vacuum.roborock_s4
+      to: docked
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: Vacuum cleaner done!
+      message: Fix this automation by setting the alarm back to its original status
+        (maintain in variable)
+  mode: single
+- id: '1730757243166'
+  alias: Dimmer  - Bathroom
+  description: ''
+  use_blueprint:
+    path: sandervv/ZHA - Hue Dimmer Fully Configurable.yaml
+    input:
+      remote: 7984401ffea94afc9edc44b2aa4fe166
+      button_on_short_press:
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - light.bathroom
+      button_down_short_press:
+      - if:
+        - condition: state
+          entity_id: media_player.bedroom
+          state: playing
+        then:
+        - action: media_player.media_pause
+          metadata: {}
+          data: {}
+          target:
+            entity_id: media_player.bedroom
+        else:
+        - action: script.play_spotify_playlist
+          metadata: {}
+          data:
+            media_player: media_player.bedroom
+      button_off_short_press:
+      - action: light.turn_off
+        metadata: {}
+        data:
+          transition: 2
+        target:
+          entity_id: light.bathroom
+        enabled: true
+      button_up_short_press:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.zehnder_comfofan_max_30
+      button_on_long_press:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          brightness_step_pct: 10
+        target:
+          entity_id:
+          - light.bathroom
+      button_off_long_press:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          brightness_step_pct: -10
+        target:
+          entity_id:
+          - light.bathroom
+      button_up_double_press:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.zehnder_comfofan_max_10
+      button_up_long_press:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.zehnder_comfofan_auto
+- id: '1730924477984'
+  alias: Notify to switch from AirPods to receiver when coming home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.front_door_opening
+    to: 'on'
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_away
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: arming
+  - condition: state
+    entity_id: media_player.spotify_jptjee
+    state: playing
+  - condition: state
+    entity_id: media_player.spotify_jptjee
+    attribute: source
+    state: iPhone
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: Switch Spotify to receiver?
+      message: Fix the automation!
+  mode: single
+- id: '1731253341756'
+  alias: Bathroom Humidity Exhaust Fan
+  description: ''
+  use_blueprint:
+    path: Blackshome/bathroom-humidity-exhaust-fan.yaml
+    input:
+      trigger: sensor.bathroom_humidity_derivative
+      fan_switch:
+        entity_id: input_boolean.bathroom_shower
+      bathroom_humidity_sensor: sensor.bathroom_humidity
+- id: '1731350338636'
+  alias: Play music when brushing my teeth
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.smart_series_7000_ad17
+    to: running
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: media_player.spotify_jptjee
+      state: playing
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'on'
+  actions:
+  - action: script.play_spotify_playlist
+    metadata: {}
+    data:
+      media_player: media_player.bedroom
+  - action: media_player.volume_set
+    metadata: {}
+    data:
+      volume_level: 0.4
+    target:
+      entity_id: media_player.bedroom
+  - wait_for_trigger:
+    - trigger: state
+      entity_id:
+      - sensor.smart_series_7000_ad17
+      to: charging
+    - trigger: state
+      entity_id:
+      - sensor.smart_series_7000_ad17
+      to: selection menu
+    timeout:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - action: media_player.media_pause
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.bedroom
+  mode: single
+- id: '1731360427132'
+  alias: Trigger bathroom fan based on shower entity
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.bathroom_shower
+    to: 'on'
+    from: 'off'
+    id: off-to-on
+  - trigger: state
+    entity_id:
+    - input_boolean.bathroom_shower
+    to: 'off'
+    from: 'on'
+    id: on-to-off
+  conditions: []
+  actions:
+  - if:
+    - condition: trigger
+      id:
+      - off-to-on
+    then:
+    - action: button.press
+      metadata: {}
+      data: {}
+      target:
+        entity_id: button.zehnder_comfofan_max_30
+  - if:
+    - condition: trigger
+      id:
+      - on-to-off
+    then:
+    - action: button.press
+      metadata: {}
+      data: {}
+      target:
+        entity_id: button.zehnder_comfofan_auto
+  mode: single
+- id: '1731849616751'
+  alias: Notify weather forecast on door open
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.front_door_opening
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: alarm_control_panel.alarmo
+    state: disarmed
+  actions:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ☀️ Weather forecast
+      data:
+        entity_id: camera.buienradar
+      message: '{{ states(''sensor.temperature'') | round(0) }} °C: {{ states(''sensor.knmi_weather_forecast'')
+        }}'
+  mode: single
+- id: '1731870242326'
+  alias: Notify temperature difference
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.living_room_and_bathroom_temperature_difference
+    above: 2
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.living_room_temperature
+    below: 20
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      message: Living Room and Bathroom temperature difference is {{ states('sensor.living_room_and_bathroom_temperature_difference')
+        }} celcius
+      title: "\U0001FA9F Close a window/vent"
+  mode: single
+- id: '1731879328368'
+  alias: Pause Sonos when taking a shower
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.bathroom_shower
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: media_player.bedroom
+    state: playing
+  actions:
+  - action: media_player.media_pause
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.bedroom
+  mode: single
+- id: '1732398364979'
+  alias: Notify on bad Living Room Air Quality
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.living_room_air_quality_carbon_dioxide
+    above: 1000
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001FA9F Living Room Air Quality is bad!"
+      message: CO₂ value is {{ states('sensor.living_room_air_quality_carbon_dioxide')
+        }} {{ state_attr('sensor.living_room_air_quality_carbon_dioxide', 'unit_of_measurement')
+        }}.
+  mode: single
+- id: '1732475044483'
+  alias: Alarm - Disarm when getting home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.jeanpaulsiphone
+    to: home
+  conditions:
+  - condition: not
+    conditions:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: alarm_control_panel.alarmo
+        state: disarmed
+      - condition: state
+        entity_id: alarm_control_panel.alarmo
+        state: armed_home
+  actions:
+  - action: alarm_control_panel.alarm_disarm
+    metadata: {}
+    data: {}
+    target:
+      entity_id: alarm_control_panel.alarmo
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F513 Alarm disarmed"
+      message: Welcome home!
+  mode: single
+- id: '1732546364748'
+  alias: Notify - Floor Heating meter reading is out of date
+  description: ''
+  triggers:
+  - trigger: time
+    at: 02:00:00
+  conditions:
+  - condition: template
+    value_template: "{% set device_time = state_attr('sensor.water_warm_floor_heating',
+      'device_date_time') %}  \n{% if device_time != 'unknown' %}  \n  {{ (as_timestamp(now())
+      - as_timestamp(device_time)) > 86400 }}  \n{% else %}  \n  false  \n{% endif
+      %}"
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F50C Floor Heating monitor stopped!"
+      message: Have a look at the wmbusmeters integration as the meter readings are
+        not being gathered.
+  mode: single
+- id: '1732650114550'
+  alias: Notify on go to bed
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.hours_until_wakeup
+    below: 8
+  conditions:
+  - condition: state
+    entity_id: device_tracker.jeanpaulsiphone
+    state: home
+  - condition: state
+    entity_id: input_boolean.awake
+    state: 'on'
+  - condition: state
+    entity_id: light.living_room
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_boolean.bathroom_shower
+      state: 'on'
+  - condition: state
+    entity_id: input_boolean.wakeup_enabled
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F634 Time to go to sleep!"
+      message: "\U0001F6CC  Thank me tomorrow!"
+  mode: single
+- id: '1733935570931'
+  alias: Notify on TripIt calendar event start
+  description: ''
+  triggers:
+  - trigger: calendar
+    entity_id: calendar.tripit
+    event: start
+    offset: '-72:00:00'
+  conditions:
+  - condition: template
+    value_template: '{{ ''KL'' in trigger.calendar_event.summary }}'
+    enabled: false
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: 72 hours before calendar event
+      message: bla
+  mode: single
+- id: '1736006673890'
+  alias: Light - Workplace
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.jean_pauls_mac_mini_active
+      light_switch:
+        entity_id: light.living_room_workplace
+      time_delay: 3
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_brightness: 75
+      light_transition_off: 5
+      light_transition_on: 5
+      include_dynamic_lighting: enable_lux_controled_brightness
+      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_workplace
+- id: '1739084652230'
+  alias: Light - Hall Backup 09-02
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.sensor_light_hall
+      light_switch:
+        entity_id: light.hall
+      time_delay: 1
+      night_lights_conditions:
+      - sun_enabled
+      include_night_lights: night_lights_enabled
+      include_night_light_control:
+      - use_brightness
+      - use_transition
+      night_lights:
+        entity_id: light.hall
+      night_time_delay: 1
+      night_light_transition_off: 5
+      light_transition_off: 5
+      light_brightness: 80
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_rgb_colour:
+      - 255
+      - 136
+      - 13
+      include_light_colour_control: use_colour_temperature
+      include_night_light_colour_control: use_colour_temperature
+      night_light_rgb_colour:
+      - 255
+      - 136
+      - 13
+      light_colour_temperature: 2700
+      night_light_colour_temperature: 2700
+      night_lights_entity_state:
+      - input_boolean.awake
+      include_dynamic_lighting: enable_lux_controled_brightness
+      dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
+      dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_hall
+      night_light_brightness: 10
+- id: '1739629434251'
+  alias: Light - Living Room
+  description: ''
+  use_blueprint:
+    path: Blackshome/smart-light.yaml
+    input:
+      light_switch:
+        entity_id: light.living_room
+      include_bypass:
+      - bypass_enabled_turn_off
+      bypass_lights_off:
+      - binary_sensor.light_living_room_bypass_sensor
+      night_lights_entity_state:
+      - switch.light_living_room_night_light_scene
+      night_lights_conditions:
+      - entity_state_enabled
+      include_night_lights: night_lights_enabled
+      night_lights:
+        entity_id: light.living_room
+      include_night_light_control:
+      - use_brightness
+      - if_lights_are_on_adjust_when_crossing_over
+      - use_transition
+      night_light_brightness: 50
+      night_light_transition_on: 10
+      include_ambient:
+      - ambient_low
+      - ambient_high
+      ambient_light_sensor: sensor.living_room_window_illuminance
+      ambient_light_value: 1100
+      ambient_light_value_off: 1200
