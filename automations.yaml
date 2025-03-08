@@ -298,8 +298,8 @@
       start_trigger_state_entity:
       - binary_sensor.washing_machine_leak_moisture
       start_notify_device:
-      - 3a8b570c2364844265d6b63628d76f16
       - 46543360583f3c2044f992f533f51051
+      - 3a8b570c2364844265d6b63628d76f16
       include_start_notify: enable_start_notify_options
       start_title: ⚠️ LEAKAGE DETECTED!
       start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} is
@@ -335,7 +335,7 @@
           data:
             push:
               interruption-level: critical
-      - action: notify.mobile_app_ipad
+      - action: notify.mobile_app_jean_paul_van_ravensbergs_ipad
         data:
           title: "\U0001F50C {{ states[trigger.entity_id].attributes.friendly_name
             }} disconnected!"
@@ -347,8 +347,8 @@
       - enable_start_action_1
       include_end_notify: disable_end_notify_options
       end_notify_device:
-      - 3a8b570c2364844265d6b63628d76f16
       - 46543360583f3c2044f992f533f51051
+      - 3a8b570c2364844265d6b63628d76f16
       end_title: ✅ LEAKAGE RESTORED!
       end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} does
         not seem to be leaking anymore. Don''t forget to turn on the power.'
@@ -2587,7 +2587,7 @@
       - use_brightness
       - if_lights_are_on_adjust_when_crossing_over
       - use_transition
-      night_light_brightness: 50
+      night_light_brightness: 40
       night_light_transition_on: 10
       include_ambient:
       - ambient_low
@@ -2596,7 +2596,7 @@
       ambient_light_value: 1100
       ambient_light_value_off: 1200
       include_dynamic_lighting: enable_sun_elevation_colour_lux_brightness
-      dynamic_lighting_max_brightness: 80
+      dynamic_lighting_max_brightness: 60
       dynamic_lighting_min_brightness: 20
       dynamic_lighting_max_lux: 1000
       dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
@@ -2604,3 +2604,28 @@
       dynamic_lighting_min_lux: 200
       dynamic_lighting_min_colour_temp: 2000
       dynamic_lighting_max_colour_temp: 2800
+      night_boolean_scenes_scripts: input_boolean.toggle_helper_automations_light_living_room
+      light_colour_temperature: 2800
+      include_light_colour_control: use_colour_temperature
+      night_light_colour_temperature: 2000
+      include_night_light_colour_control: use_colour_temperature
+      night_light_transition_off: 10
+- id: '1740773906383'
+  alias: Light - Living Room when not awake
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.living_room_occupancy
+      light_switch:
+        entity_id: light.living_room
+      motion_bypass_lights_stop:
+      - input_boolean.awake
+      boolean_scenes_scripts: input_boolean.toggle_helper_automations_light_living_room_when_not_awake
+      light_brightness: 30
+      include_light_control:
+      - use_brightness
+      include_bypass:
+      - bypass_enabled_stop
+      time_delay: 10

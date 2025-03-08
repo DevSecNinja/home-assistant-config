@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2025.2.0
+2025.2.5
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1219
-Number of sensors | 615
+Number of entities | 1216
+Number of sensors | 608
 
 ## Hardware
 
@@ -64,6 +64,7 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [P2000 Sensor](https://github.com/cyberjunky/home-assistant-p2000)
 - [Powercalc](https://github.com/bramstroker/homeassistant-powercalc)
 - [Proxmox Ve](https://github.com/dougiteixeira/proxmoxve)
+- [Shell Recharge](https://github.com/cyberjunky/home-assistant-shell_recharge)
 - [Simpleicons](https://github.com/vigonotion/hass-simpleicons)
 - [Spook 👻 Your Homie](https://github.com/frenck/spook)
 - [Team Tracker](https://github.com/vasqued2/ha-teamtracker)
@@ -90,4 +91,4 @@ None
 
 ***
 
-Generated at 2025-02-09, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-03-02, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
