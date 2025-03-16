@@ -1,5 +1,5 @@
 blueprint:
-  name: ZHA - Philips Hue Dimmer Switch Config - V2023.12.15
+  name: ZHA - Philips Hue Dimmer Switch Config - V2024.11.25
   description: "Control lights with a Philips Hue Dimmer Switch (only RWL020 (US)
     and RWL021 (EU), RWL022, the one that says 'hue' on the bottom, has a different
     button layout.)\n\nThis blueprint is a simplified version of stefanroelofs's `ZHA
@@ -107,7 +107,7 @@ blueprint:
       default: []
       selector:
         action: {}
-mode: restart
+mode: parallel
 max_exceeded: silent
 trigger:
 - platform: event
