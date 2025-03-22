@@ -213,12 +213,13 @@
       dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_hall
       night_light_brightness: 10
-      include_ambient: ambient_disabled
-      ambient_light_options: ambient_light_option_disabled
+      include_ambient: ambient_enabled
+      ambient_light_options: ambient_light_option_enabled
       dynamic_lighting_min_lux: 100
       dynamic_lighting_max_brightness: 80
       dynamic_lighting_max_lux: 1200
       dynamic_lighting_min_brightness: 0
+      ambient_light_sensor: sensor.hall_illuminance
 - id: '1725701251585'
   alias: Notification - Low Battery
   description: ''
@@ -1834,11 +1835,14 @@
       include_dynamic_lighting: enable_lux_controled_brightness
       night_lights_entity_state:
       - input_boolean.awake
-      include_ambient: ambient_disabled
-      ambient_light_options: ambient_light_option_disabled
+      include_ambient: ambient_enabled
+      ambient_light_options: ambient_light_option_enabled
       dynamic_lighting_lux_sensor: sensor.bedroom_illuminance
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_bedroom
       dynamic_lighting_max_brightness: 80
+      dynamic_lighting_max_lux: 60
+      ambient_light_sensor: sensor.bedroom_illuminance
+      ambient_light_high_value: 60
 - id: '1727772192031'
   alias: Light - Living Room Workplace based on Teams Presence
   description: Turn on/off the living room workplace light based on Microsoft Teams
@@ -2020,6 +2024,10 @@
   - condition: state
     entity_id: input_boolean.awake
     state: 'off'
+  - alias: Check if recently triggered
+    condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(state_attr(this.entity_id,
+      ''last_triggered'')) > 60 }}'
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
@@ -2295,7 +2303,7 @@
   - action: media_player.volume_set
     metadata: {}
     data:
-      volume_level: 0.4
+      volume_level: 0.3
     target:
       entity_id: media_player.bedroom
   - wait_for_trigger:
@@ -2369,6 +2377,10 @@
   - condition: state
     entity_id: alarm_control_panel.alarmo
     state: disarmed
+  - alias: Check if recently triggered
+    condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(state_attr(this.entity_id,
+      ''last_triggered'')) > 60 }}'
   actions:
   - delay:
       hours: 0
