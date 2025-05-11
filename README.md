@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2025.3.1
+2025.4.4
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1220
-Number of sensors | 611
+Number of entities | 1243
+Number of sensors | 618
 
 ## Hardware
 
@@ -37,6 +37,7 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [edge] Wmbusmeters (W-MBus to MQTT)
 - Advanced SSH & Web Terminal
 - ESPHome Device Builder
+- Frigate
 - Grafana
 - InfluxDB
 - Let's Encrypt
@@ -54,10 +55,10 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [Azure Openai Conversation](https://github.com/joselcaguilar/azure-openai-ha)
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
 - [Flightradar24](https://github.com/AlexandrErohin/home-assistant-flightradar24)
+- [Frigate](https://github.com/blakeblackshear/frigate-hass-integration)
 - [Generate Readme](https://github.com/custom-components/readme)
 - [Greenchoice](https://github.com/barisdemirdelen/homeassistant-greenchoice)
 - [HACS](https://github.com/hacs/integration)
-- [Ics Calendar (Icalendar)](https://github.com/franc6/ics_calendar)
 - [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo)
 - [KNMI](https://github.com/golles/ha-knmi)
 - [Neerslag App](https://github.com/aex351/home-assistant-neerslag-app)
@@ -72,6 +73,7 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [🧰 Zha Toolkit   Service For Advanced Zigbee Usage](https://github.com/mdeweerd/zha-toolkit)
 
 ### Lovelace plugins
+- [Advanced Camera Card](https://github.com/dermotduffy/advanced-camera-card)
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Battery State Card / Entity Row](https://github.com/maxwroc/battery-state-card)
 - [Card Mod](https://github.com/thomasloven/lovelace-card-mod)
@@ -91,4 +93,4 @@ None
 
 ***
 
-Generated at 2025-03-16, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-05-04, 00:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

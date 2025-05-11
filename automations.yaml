@@ -2547,15 +2547,16 @@
     offset: '-72:00:00'
   conditions:
   - condition: template
-    value_template: '{{ ''KL'' in trigger.calendar_event.summary }}'
-    enabled: false
+    enabled: true
+    value_template: '{{ ''[Flight]'' in trigger.calendar_event.description }}'
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 72 hours before calendar event
-      message: bla
-  mode: single
+      title: ✈️ 72 hours before flight {{ trigger.calendar_event.summary }}!
+      message: Departure location is {{ trigger.calendar_event.location }}
+  mode: queued
+  max: 10
 - id: '1736006673890'
   alias: Light - Workplace
   description: ''
@@ -2641,3 +2642,34 @@
       include_bypass:
       - bypass_enabled_stop
       time_delay: 10
+- id: '1742730192109'
+  alias: Set Jean-Paul Away When iPhone Not Detected
+  description: Sets person.jean-paul to away if iPhone app and UniFi integration cannot
+    detect the phone for more than 5 minutes
+  triggers:
+  - minutes: /1
+    trigger: time_pattern
+  conditions:
+  - condition: template
+    value_template: '{% set last_updated = states.device_tracker.jean_pauls_iphone_app.last_updated
+      %} {% set time_diff = now() - last_updated %} {{ time_diff.total_seconds() >
+      300 }}
+
+      '
+  - condition: state
+    entity_id: device_tracker.jeanpaulsiphone
+    state: not_home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.jean_paul
+      state: not_home
+  actions:
+  - data:
+      title: Jean-Paul marked as away
+      message: 'iPhone hasn''t updated in over 5 minutes and UniFi can''t find the
+        device. Last update: {{ states.device_tracker.jean_pauls_iphone_app.last_updated
+        }}'
+    action: persistent_notification.create
+    enabled: false
+  mode: single
