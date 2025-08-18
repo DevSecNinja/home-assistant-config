@@ -19,6 +19,7 @@
 !scripts.yaml
 !README.md
 !.gitignore
+!VALIDATION_STATUS.md
 
 # Validation configuration files
 !.yamllint
