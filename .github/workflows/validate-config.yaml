@@ -48,22 +48,35 @@ jobs:
   esphome-check:
     name: "ESPHome Configuration Validation"
     runs-on: "ubuntu-24.04"
-    if: hashFiles('esphome/*.yaml') != ''
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4"
         
+      - name: "Check for ESPHome configurations"
+        id: check_esphome
+        run: |
+          if ls esphome/*.yaml 1> /dev/null 2>&1; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "ESPHome configuration files found"
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "No ESPHome configuration files found"
+          fi
+        
       - name: "Set up Python"
+        if: steps.check_esphome.outputs.found == 'true'
         uses: "actions/setup-python@v5"
         with:
           python-version: "3.12"
           
       - name: "Install ESPHome"
+        if: steps.check_esphome.outputs.found == 'true'
         run: |
           python -m pip install --upgrade pip
           pip install esphome
           
       - name: "Validate ESPHome configurations"
+        if: steps.check_esphome.outputs.found == 'true'
         run: |
           echo "Checking ESPHome configurations..."
           for config in esphome/*.yaml; do
