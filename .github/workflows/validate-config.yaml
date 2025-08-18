@@ -1,0 +1,177 @@
+---
+name: "Validate Configuration"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  yaml-lint:
+    name: "YAML Linting"
+    runs-on: "ubuntu-24.04"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4"
+        
+      - name: "Set up Python"
+        uses: "actions/setup-python@v5"
+        with:
+          python-version: "3.12"
+          
+      - name: "Install yamllint"
+        run: |
+          python -m pip install --upgrade pip
+          pip install yamllint
+          
+      - name: "Run yamllint"
+        run: |
+          yamllint --version
+          yamllint .
+
+  hassfest:
+    name: "Home Assistant Config Validation (hassfest)"
+    runs-on: "ubuntu-24.04"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4"
+        
+      - name: "Run hassfest validation"
+        uses: "home-assistant/actions/hassfest@master"
+
+  esphome-check:
+    name: "ESPHome Configuration Validation"
+    runs-on: "ubuntu-24.04"
+    if: ${{ hashFiles('esphome/*.yaml') != '' }}
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4"
+        
+      - name: "Set up Python"
+        uses: "actions/setup-python@v5"
+        with:
+          python-version: "3.12"
+          
+      - name: "Install ESPHome"
+        run: |
+          python -m pip install --upgrade pip
+          pip install esphome
+          
+      - name: "Validate ESPHome configurations"
+        run: |
+          echo "Checking ESPHome configurations..."
+          for config in esphome/*.yaml; do
+            if [[ -f "$config" ]]; then
+              echo "Validating $config"
+              esphome config "$config"
+            fi
+          done
+
+  home-assistant-check:
+    name: "Home Assistant Configuration Check"
+    runs-on: "ubuntu-24.04"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4"
+        
+      - name: "Create secrets file"
+        run: |
+          # Create a dummy secrets.yaml for validation
+          cat > secrets.yaml << EOF
+          # Dummy secrets for validation
+          api_password: dummy_password
+          http_base_url: http://localhost:8123
+          latitude: 52.3676
+          longitude: 4.9041
+          elevation: 0
+          time_zone: Europe/Amsterdam
+          EOF
+          
+      - name: "Run Home Assistant config check"
+        uses: "docker://homeassistant/home-assistant:stable"
+        with:
+          args: python -m homeassistant --config /github/workspace --script check_config --info all
+        env:
+          # Suppress warnings for missing integrations in CI
+          PYTHONPATH: /usr/src/homeassistant
+
+  markdown-lint:
+    name: "Markdown Linting"
+    runs-on: "ubuntu-24.04"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4"
+        
+      - name: "Install markdownlint"
+        run: npm install -g markdownlint-cli2
+        
+      - name: "Run markdownlint (excluding auto-generated README)"
+        run: |
+          # Check if there are any markdown files to lint (excluding auto-generated README)
+          if find . -name "*.md" -not -name "README.md" | head -1 | read; then
+            markdownlint-cli2 "**/*.md" --ignore README.md
+          else
+            echo "No markdown files to lint (excluding auto-generated README.md)"
+          fi
+
+  validation-summary:
+    name: "Validation Summary"
+    runs-on: "ubuntu-24.04"
+    needs: [yaml-lint, hassfest, esphome-check, home-assistant-check, markdown-lint]
+    if: always()
+    steps:
+      - name: "Check validation results"
+        run: |
+          echo "## Validation Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Check each job result
+          if [[ "${{ needs.yaml-lint.result }}" == "success" ]]; then
+            echo "✅ YAML Linting: Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ YAML Linting: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [[ "${{ needs.hassfest.result }}" == "success" ]]; then
+            echo "✅ hassfest validation: Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ hassfest validation: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [[ "${{ needs.esphome-check.result }}" == "success" ]] || [[ "${{ needs.esphome-check.result }}" == "skipped" ]]; then
+            echo "✅ ESPHome validation: Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ ESPHome validation: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [[ "${{ needs.home-assistant-check.result }}" == "success" ]]; then
+            echo "✅ Home Assistant config check: Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Home Assistant config check: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [[ "${{ needs.markdown-lint.result }}" == "success" ]]; then
+            echo "✅ Markdown linting: Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Markdown linting: Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Overall result
+          if [[ "${{ needs.yaml-lint.result }}" == "success" ]] && \
+             [[ "${{ needs.hassfest.result }}" == "success" ]] && \
+             ([[ "${{ needs.esphome-check.result }}" == "success" ]] || [[ "${{ needs.esphome-check.result }}" == "skipped" ]]) && \
+             [[ "${{ needs.home-assistant-check.result }}" == "success" ]] && \
+             [[ "${{ needs.markdown-lint.result }}" == "success" ]]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 **All validations passed successfully!**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **Some validations failed. Please check the logs above.**" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
