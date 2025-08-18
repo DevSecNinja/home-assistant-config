@@ -35,15 +35,8 @@ jobs:
           yamllint --version
           yamllint .
 
-  hassfest:
-    name: "Home Assistant Config Validation (hassfest)"
-    runs-on: "ubuntu-24.04"
-    steps:
-      - name: "Checkout Repository"
-        uses: "actions/checkout@v4"
-        
-      - name: "Run hassfest validation"
-        uses: "home-assistant/actions/hassfest@master"
+# hassfest validation is not applicable for configuration repositories
+  # It's designed for validating custom integrations, not Home Assistant configurations
 
   esphome-check:
     name: "ESPHome Configuration Validation"
@@ -62,6 +55,36 @@ jobs:
             echo "found=false" >> $GITHUB_OUTPUT
             echo "No ESPHome configuration files found"
           fi
+      
+      - name: "Create ESPHome secrets files"
+        if: steps.check_esphome.outputs.found == 'true'
+        run: |
+          # Create ESPHome secrets files with dummy values for validation
+          mkdir -p esphome/common
+          
+          # Create esphome/secrets.yaml
+          cat > esphome/secrets.yaml << 'EOF'
+          # ESPHome secrets for validation - DO NOT USE IN PRODUCTION
+          wifi_iot_internal_ssid: "dummy_wifi"
+          wifi_iot_internal_password: "dummy_password"
+          wifi_ap_password: "dummy_ap_password"
+          esphome_ota_password: "dummy_ota_password"
+          esphome_api_encryption_key: "dummy_key_1234567890123456789012345678901234567890123456="
+          esphome_web_server_password: "dummy_web_password"
+          zehnder_config: "// dummy config"
+          EOF
+          
+          # Create esphome/common/secrets.yaml
+          cat > esphome/common/secrets.yaml << 'EOF'
+          # ESPHome common secrets for validation - DO NOT USE IN PRODUCTION
+          wifi_iot_internal_ssid: "dummy_wifi"
+          wifi_iot_internal_password: "dummy_password"
+          wifi_ap_password: "dummy_ap_password"
+          esphome_ota_password: "dummy_ota_password"
+          esphome_api_encryption_key: "dummy_key_1234567890123456789012345678901234567890123456="
+          esphome_web_server_password: "dummy_web_password"
+          zehnder_config: "// dummy config"
+          EOF
         
       - name: "Set up Python"
         if: steps.check_esphome.outputs.found == 'true'
@@ -148,6 +171,9 @@ jobs:
           access_token: dummy_token
           client_id: dummy_client_id
           client_secret: dummy_client_secret
+          
+          # Add missing influxdb secret
+          influxdb_homeassistant_port: 8086
           EOF
           
       - name: "Run Home Assistant config check"
@@ -184,10 +210,10 @@ jobs:
       - name: "Install markdownlint"
         run: npm install -g markdownlint-cli2
         
-      - name: "Run markdownlint (excluding auto-generated README)"
+      - name: "Run markdownlint (excluding auto-generated files)"
         run: |
-          # Check if there are any markdown files to lint (excluding auto-generated README)
-          if find . -name "*.md" -not -name "README.md" | head -1 | read; then
+          # Check if there are any markdown files to lint (excluding auto-generated files)
+          if find . -name "*.md" -not -name "README.md" | head -1 | grep -q .; then
             markdownlint-cli2 "**/*.md" --ignore README.md
           else
             echo "No markdown files to lint (excluding auto-generated README.md)"
@@ -196,7 +222,7 @@ jobs:
   validation-summary:
     name: "Validation Summary"
     runs-on: "ubuntu-24.04"
-    needs: [yaml-lint, hassfest, esphome-check, home-assistant-check, markdown-lint]
+    needs: [yaml-lint, esphome-check, home-assistant-check, markdown-lint]
     if: always()
     steps:
       - name: "Check validation results"
@@ -209,12 +235,6 @@ jobs:
             echo "✅ YAML Linting: Passed" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ YAML Linting: Failed" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          if [[ "${{ needs.hassfest.result }}" == "success" ]]; then
-            echo "✅ hassfest validation: Passed" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "❌ hassfest validation: Failed" >> $GITHUB_STEP_SUMMARY
           fi
           
           if [[ "${{ needs.esphome-check.result }}" == "success" ]] || [[ "${{ needs.esphome-check.result }}" == "skipped" ]]; then
@@ -239,7 +259,6 @@ jobs:
           
           # Overall result - Home Assistant check failure is not blocking due to expected CI limitations
           if [[ "${{ needs.yaml-lint.result }}" == "success" ]] && \
-             [[ "${{ needs.hassfest.result }}" == "success" ]] && \
              ([[ "${{ needs.esphome-check.result }}" == "success" ]] || [[ "${{ needs.esphome-check.result }}" == "skipped" ]]) && \
              [[ "${{ needs.markdown-lint.result }}" == "success" ]]; then
             echo "" >> $GITHUB_STEP_SUMMARY
