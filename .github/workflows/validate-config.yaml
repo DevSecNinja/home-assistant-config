@@ -48,7 +48,7 @@ jobs:
   esphome-check:
     name: "ESPHome Configuration Validation"
     runs-on: "ubuntu-24.04"
-    if: ${{ hashFiles('esphome/*.yaml') != '' }}
+    if: hashFiles('esphome/*.yaml') != ''
     steps:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4"
