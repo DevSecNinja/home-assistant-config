@@ -3,9 +3,10 @@
 #
 # An ESP32-based board with 4MB flash, Wi-Fi and Bluetooth
 # Chip description: WROOM32
-# 
+#
 # Chip is ESP32-D0WD-V3 (revision v3.1)
-# Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+# Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse,
+# Coding Scheme None
 # Crystal is 40MHz
 #
 # https://www.amazon.nl/-/en/dp/B0CL9VZKMT
@@ -14,10 +15,12 @@
 esp32:
   board: denky32
   framework:
-    type: arduino
-    # esp-idf is needed to have a better performance on Bluetooth Proxy vs Arduino
-    # Unfortunately, the Zehnder module fails on esp-idf
-    # type: esp-idf
+    type: esp-idf
+    # esp-idf is needed to have better performance on Bluetooth Proxy vs Arduino
+    # Switch to esp-idf to resolve memory issues - ventilation project exceeds
+    # flash space
+    # Previous note: "Zehnder module fails on esp-idf" - testing if still true
+    # type: arduino
 
 light:
   - platform: status_led
