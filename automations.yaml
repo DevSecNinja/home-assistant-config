@@ -42,20 +42,20 @@
 - id: '1709450048502'
   alias: Notify - Server Power Above 40W
   description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.server_power_switch_0_power
+  triggers:
+  - entity_id:
+    - sensor.shelly_nas_switch_0_power
     for:
       hours: 4
       minutes: 0
       seconds: 0
     above: 40
-  condition: []
-  action:
+    trigger: numeric_state
+  conditions: []
+  actions:
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: Server Power
+      title: NAS Power
       message: Above 40W for 4 hours!
   mode: single
 - id: '1720873118886'
@@ -607,22 +607,22 @@
 - id: '1726841337575'
   alias: Notification - High server power consumption
   description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id:
-    - sensor.server_power_switch_0_energy
+  triggers:
+  - entity_id:
+    - sensor.shelly_nas_switch_0_power
     for:
       hours: 24
       minutes: 0
       seconds: 0
     above: 18
-  condition: []
-  action:
+    trigger: numeric_state
+  conditions: []
+  actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      message: Server consumption didn't go below 18W over the last 24 hours. Are
-        disks powering off?
+      message: NAS consumption didn't go below 18W over the last 24 hours. Are disks
+        powering off?
       title: ⚡ High power consumption alert!
   mode: single
 - id: '1726841583602'
@@ -726,6 +726,7 @@
       entity_id: media_player.bedroom
   - entity_id: media_player.living_room_tv
     action: media_player.turn_on
+    enabled: false
   - wait_template: '{{ is_state(''media_player.living_room_tv'', ''on'') }}'
     timeout: '100'
     continue_on_timeout: false
@@ -816,19 +817,19 @@
 - id: '1726867335951'
   alias: Notification - Bread Freezer Reminder
   description: ''
-  trigger:
-  - platform: time
-    at: '10:58:00'
-  condition:
-  - condition: zone
-    entity_id: device_tracker.jean_pauls_iphone_app
-    zone: zone.home
+  triggers:
+  - at: '10:58:00'
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: person.jean_paul
+    state: home
   - condition: not
     conditions:
     - condition: state
       entity_id: alarm_control_panel.alarmo
       state: armed_vacation
-  action:
+  actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
@@ -2002,8 +2003,12 @@
     - action: notify.mobile_app_jean_pauls_iphone
       metadata: {}
       data:
-        title: "\U0001F3B5 Music playing while already awake"
-        message: Want to pause the Sonos?
+        title: "\U0001F3B5 Music playing while awake"
+        data:
+          actions:
+          - action: PAUSE_SONOS
+            title: Pause music
+        message: Pause the music?
   mode: single
 - id: '1728385114222'
   alias: Weather prediction notification on unplugging my phone
@@ -2435,24 +2440,6 @@
     target:
       entity_id: media_player.bedroom
   mode: single
-- id: '1732398364979'
-  alias: Notify on bad Living Room Air Quality
-  description: ''
-  triggers:
-  - trigger: numeric_state
-    entity_id:
-    - sensor.living_room_air_quality_carbon_dioxide
-    above: 1000
-  conditions: []
-  actions:
-  - action: notify.mobile_app_jean_pauls_iphone
-    metadata: {}
-    data:
-      title: "\U0001FA9F Living Room Air Quality is bad!"
-      message: CO₂ value is {{ states('sensor.living_room_air_quality_carbon_dioxide')
-        }} {{ state_attr('sensor.living_room_air_quality_carbon_dioxide', 'unit_of_measurement')
-        }}.
-  mode: single
 - id: '1732475044483'
   alias: Alarm - Disarm when getting home
   description: ''
@@ -2538,13 +2525,21 @@
       message: "\U0001F6CC  Thank me tomorrow!"
   mode: single
 - id: '1733935570931'
-  alias: Notify on TripIt calendar event start
+  alias: Notify on TripIt flight calendar event start
   description: ''
   triggers:
   - trigger: calendar
     entity_id: calendar.tripit
     event: start
-    offset: '-72:00:00'
+    offset: '-72:0:0'
+  - trigger: calendar
+    entity_id: calendar.tripit
+    event: start
+    offset: '-30:0:0'
+  - trigger: calendar
+    entity_id: calendar.tripit
+    event: start
+    offset: '-24:0:0'
   conditions:
   - condition: template
     enabled: true
@@ -2553,7 +2548,11 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: ✈️ 72 hours before flight {{ trigger.calendar_event.summary }}!
+      title: "{% set start = trigger.calendar_event.start | as_datetime %}\n        {%
+        set hours = ((start - now()).total_seconds() / 3600) | int %}\n        ✈️
+        {{ hours }} hours before flight {{ trigger.calendar_event.summary }}!\n✈️
+        {{ hours }} hours or less before flight {{ trigger.calendar_event.summary
+        }}!"
       message: Departure location is {{ trigger.calendar_event.location }}
   mode: queued
   max: 10
@@ -2672,4 +2671,77 @@
         }}'
     action: persistent_notification.create
     enabled: false
+  mode: single
+- id: '1747895911015'
+  alias: Notify on DNS/Ping errors
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.1_1_1_1
+    to: 'off'
+  - trigger: state
+    entity_id:
+    - binary_sensor.google_com
+    to: 'off'
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ⚠️ Network offline
+      message: Ping or DNS doesn't work anymore!
+  mode: single
+- id: '1749062970357'
+  alias: Notify on DNS/Ping back online
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.1_1_1_1
+    to: 'on'
+    from: 'off'
+  - trigger: state
+    entity_id:
+    - binary_sensor.google_com
+    to: 'on'
+    from: 'off'
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ✅ Network back online
+      message: Ping or DNS back online!
+  mode: single
+- id: '1750105404218'
+  alias: Reset Bedroom Sonos volume when idle
+  description: ''
+  triggers:
+  - device_id: 55d556a10e644f19ae88705a6dfbf26f
+    domain: media_player
+    entity_id: a6113c453548a203a4b12b0a30617efe
+    type: paused
+    trigger: device
+  conditions: []
+  actions:
+  - action: media_player.volume_set
+    metadata: {}
+    data:
+      volume_level: 0.2
+    target:
+      device_id: 55d556a10e644f19ae88705a6dfbf26f
+  mode: single
+- id: '1753081891927'
+  alias: Event - Handle Pause Sonos Notification Action
+  description: ''
+  triggers:
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: PAUSE_SONOS
+    trigger: event
+  actions:
+  - target:
+      entity_id: media_player.bedroom
+    action: media_player.media_pause
   mode: single
