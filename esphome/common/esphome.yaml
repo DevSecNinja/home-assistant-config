@@ -14,6 +14,12 @@ esphome:
   project:
     name: ${project_name}
     version: ${device_name}
+  on_boot:
+    priority: -100
+    then:
+      - logger.log: "Debug mode disabled"
+      - logger.set_level:
+          level: INFO
 
 preferences:
   # Prevent rapid changes to a component from being quickly written to the flash and wearing it out

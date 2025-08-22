@@ -16,7 +16,8 @@ esp32:
   framework:
     type: arduino
     # esp-idf is needed to have a better performance on Bluetooth Proxy vs Arduino
-    # Unfortunately, the Zehnder module fails on esp-idf
+    # Unfortunately, the Zehnder module seems to work not as reliable on esp-idf as with arduino
+    # When I run a 10m timer, it sometimes work and sometimes doesn't while with Arduino this is much more stable
     # type: esp-idf
 
 light:

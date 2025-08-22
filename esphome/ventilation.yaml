@@ -27,10 +27,4 @@ packages:
   <<: !include_dir_named common
   board: !include boards/esp32.yaml
   zehnder-comfofan: !include components/zehnder-comfofan.yaml
-  bluetooth-proxy: !include packages/bluetooth_proxy.yaml
-
-# logger:
-#  id: component_logger
-#  level: VERBOSE
-#  # Make sure to select 'CP2102 USB to UART Bridge Controller'
-# #  baud_rate: 115200
+  # bluetooth-proxy: !include packages/bluetooth_proxy.yaml

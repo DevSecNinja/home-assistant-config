@@ -19,3 +19,4 @@
 
 platform: uptime
 id: sensor_uptime
+update_interval: 120s

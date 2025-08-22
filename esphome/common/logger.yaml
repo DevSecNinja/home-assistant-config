@@ -9,8 +9,12 @@
 
 logger:
   id: component_logger
-  level: INFO
+  level: VERBOSE # We set it back to INFO on boot, but we have to compile in the lowest level to be able to leverage the debug mode switch
   # Disabling logging over UART by default.
   # Some devices this is needed, and in general,
   # I really don't look at it.
   baud_rate: 0
+  # Personal note: make sure to select 'CP2102 USB to UART Bridge Controller'
+
+switch:
+  - <<: !include ../switch/debug.yaml

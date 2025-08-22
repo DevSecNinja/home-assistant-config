@@ -1,0 +1,21 @@
+---
+  #
+  # Debug Mode switch
+  #
+  
+platform: template
+id: "${device_id}_debug_mode"
+name: "Debug Mode"
+icon: mdi:bug
+entity_category: diagnostic
+optimistic: true
+disabled_by_default: true
+restore_mode: ALWAYS_OFF
+on_turn_on:
+  - logger.log: "Debug mode enabled"
+  - logger.set_level:
+      level: VERBOSE
+on_turn_off:
+  - logger.log: "Debug mode disabled"
+  - logger.set_level:
+      level: INFO
