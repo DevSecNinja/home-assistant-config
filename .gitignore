@@ -24,7 +24,6 @@
 # Skip upload for now until Home Assistant supports secrets via the GUI
 # Issue: https://github.com/home-assistant/frontend/issues/19871
 automations/secret/**/*
-scripts.yaml
 integrations/mqtt.yaml
 
 # ESPHome has it's own gitignore

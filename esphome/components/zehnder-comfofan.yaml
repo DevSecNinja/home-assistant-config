@@ -78,6 +78,18 @@ binary_sensor:
     icon: mdi:fan-clock
     lambda: !lambda 'return ${device_id}_ventilation->timer;'
 
+  # Connection health status sensor
+  # This sensor monitors the communication with the Zehnder ventilation system
+  # It will turn OFF if there are 3+ consecutive communication failures
+  # Use this sensor in Home Assistant automations to alert about connection issues
+  - platform: template
+    name: "Connection Status"
+    id: "${device_id}_connection_status"
+    device_class: connectivity
+    entity_category: diagnostic
+    icon: mdi:wifi-check
+    lambda: !lambda 'return ${device_id}_ventilation->connection_healthy_;'
+
 sensor:
   - platform: template
     name: "Ventilation Percentage"

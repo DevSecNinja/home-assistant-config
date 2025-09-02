@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2025.4.4
+2025.8.3
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1243
-Number of sensors | 618
+Number of entities | 1247
+Number of sensors | 622
 
 ## Hardware
 
@@ -29,7 +29,6 @@ USB Device name | Host identifier short | Description | Purpose
 usb0 | 1cf1 | ConBee II | Zigbee Stick
 usb1 | 10c4 | WiMOD iM871A | wmbusmeters stick for heat/water sensors
 usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
-usb4 | 1a86 | USB Serial | Various connections such as ESP32
 
 ## My installed extensions
 
@@ -54,18 +53,19 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [Alarmo](https://github.com/nielsfaber/alarmo)
 - [Azure Openai Conversation](https://github.com/joselcaguilar/azure-openai-ha)
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
+- [Enbw Charge Stations](https://github.com/mKenfenheuer/enbw_chargestations)
 - [Flightradar24](https://github.com/AlexandrErohin/home-assistant-flightradar24)
 - [Frigate](https://github.com/blakeblackshear/frigate-hass-integration)
 - [Generate Readme](https://github.com/custom-components/readme)
 - [Greenchoice](https://github.com/barisdemirdelen/homeassistant-greenchoice)
 - [HACS](https://github.com/hacs/integration)
 - [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo)
+- [Kleenex Pollen Radar](https://github.com/MarcoGos/kleenex_pollenradar)
 - [KNMI](https://github.com/golles/ha-knmi)
+- [Mercedesme 2020](https://github.com/ReneNulschDE/mbapi2020)
 - [Neerslag App](https://github.com/aex351/home-assistant-neerslag-app)
 - [P2000 Sensor](https://github.com/cyberjunky/home-assistant-p2000)
 - [Powercalc](https://github.com/bramstroker/homeassistant-powercalc)
-- [Proxmox Ve](https://github.com/dougiteixeira/proxmoxve)
-- [Shell Recharge](https://github.com/cyberjunky/home-assistant-shell_recharge)
 - [Simpleicons](https://github.com/vigonotion/hass-simpleicons)
 - [Spook 👻 Your Homie](https://github.com/frenck/spook)
 - [Team Tracker](https://github.com/vasqued2/ha-teamtracker)
@@ -84,6 +84,7 @@ usb4 | 1a86 | USB Serial | Various connections such as ESP32
 - [Sonos Card](https://github.com/punxaphil/custom-sonos-card)
 - [Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
 - [Vacuum Card](https://github.com/denysdovhan/vacuum-card)
+- [Vehicle Info Card](https://github.com/ngocjohn/vehicle-info-card)
 - [Weather Card](https://github.com/bramkragten/weather-card)
 - [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
 - [Xiaomi Vacuum Map Card](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card)
@@ -93,4 +94,4 @@ None
 
 ***
 
-Generated at 2025-05-04, 00:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-09-02, 13:35 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

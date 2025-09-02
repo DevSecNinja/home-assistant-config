@@ -1766,6 +1766,9 @@
   - condition: state
     entity_id: input_boolean.awake
     state: 'on'
+  - condition: state
+    entity_id: person.jean_paul
+    state: home
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     data:
@@ -2744,4 +2747,55 @@
   - target:
       entity_id: media_player.bedroom
     action: media_player.media_pause
+  mode: single
+- id: '1756132723552'
+  alias: Notify when getting to Ly (parking disc)
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: device_tracker.ev6_location
+    zone: zone.girlfriend
+    event: enter
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: ⚠️ Parking disc
+      message: Don’t forget to set your parking disc + alarm!
+  mode: single
+- id: '1756817698779'
+  alias: Notify - Ventilation System Connection Status
+  description: ''
+  triggers:
+  - id: lost
+    trigger: state
+    entity_id: binary_sensor.zehnder_comfofan_connection_status
+    to: 'off'
+    for:
+      minutes: 1
+  - id: restored
+    trigger: state
+    entity_id: binary_sensor.zehnder_comfofan_connection_status
+    to: 'on'
+    for:
+      minutes: 1
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: lost
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: ⚠️ Zehnder ventilation system
+          message: Connection lost!
+    - conditions:
+      - condition: trigger
+        id: restored
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: ✅ Zehnder ventilation system
+          message: Connection restored
   mode: single
