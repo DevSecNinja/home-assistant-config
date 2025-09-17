@@ -1,0 +1,54 @@
+---
+# yamllint configuration for Home Assistant
+extends: default
+
+rules:
+  # Home Assistant configurations often have long lines due to Jinja2 templates
+  line-length:
+    max: 200
+    
+  # Allow empty values for Home Assistant integrations that don't require configuration
+  empty-values:
+    forbid-in-block-mappings: false
+    forbid-in-flow-mappings: false
+    
+  # Home Assistant YAML can use various indentation styles - be flexible
+  indentation: disable
+    
+  # Allow truthy values like 'on'/'off' which are common in Home Assistant
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
+    check-keys: false
+    
+  # Allow comments with only one space after #
+  comments:
+    min-spaces-from-content: 1
+    require-starting-space: false
+    
+  # Allow document start marker to be omitted
+  document-start: disable
+  
+  # Allow octal values (used for file permissions)
+  octal-values: disable
+  
+  # Home Assistant configurations can have quoted strings
+  quoted-strings: disable
+  
+  # Be lenient with trailing whitespace and newlines for existing configs
+  trailing-spaces: disable
+  new-line-at-end-of-file: disable
+    
+  # Allow key duplicates for certain Home Assistant use cases
+  key-duplicates: disable
+
+# Ignore certain file patterns
+ignore: |
+  .github/
+  esphome/
+  esphome/.esphome/
+  esphome/secrets.yaml
+  blueprints/
+  secrets.yaml
+  known_devices.yaml
+  *secret*.yaml
+  *.log
