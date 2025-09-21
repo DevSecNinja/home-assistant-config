@@ -1,11 +1,11 @@
-influxdb:
-  host: !secret influxdb_homeassistant_host
-  port: !secret influxdb_homeassistant_port
-  database: !secret influxdb_homeassistant_database
-  username: !secret influxdb_homeassistant_user
-  password: !secret influxdb_homeassistant_password
-  max_retries: 3
-  default_measurement: state
-  tags:
-    instance: prod
-    source: hass
+# influxdb:
+#   host: !secret influxdb_homeassistant_host
+#   port: !secret influxdb_homeassistant_port
+#   database: !secret influxdb_homeassistant_database
+#   username: !secret influxdb_homeassistant_user
+#   password: !secret influxdb_homeassistant_password
+#   max_retries: 3
+#   default_measurement: state
+#   tags:
+#     instance: prod
+#     source: hass
