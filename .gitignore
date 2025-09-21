@@ -14,7 +14,7 @@
 
 !automations.yaml
 !configuration.yaml
-!scripts.yaml
+# !scripts.yaml
 !README.md
 !.gitignore
 
