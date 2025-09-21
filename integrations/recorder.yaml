@@ -1,3 +1,15 @@
+# Run the following in the SQLite Web interface to identify
+# sensors that take up the most space:
+# 
+# SELECT
+#   COUNT(*) AS cnt,
+#   COUNT(*) * 100 / (SELECT COUNT(*) FROM states) AS cnt_pct,
+#   states_meta.entity_id
+# FROM states
+# INNER JOIN states_meta ON states.metadata_id=states_meta.metadata_id
+# GROUP BY states_meta.entity_id
+# ORDER BY cnt DESC;
+
 recorder:
   #db_url: !secret db_url
   exclude:
@@ -9,18 +21,27 @@ recorder:
       - weather
       - worldclock
     entity_globs:
-      - sensor.*_smart_plug_voltage
+      - sensor.*_cpu_*
+      - sensor.*_energy
+      - sensor.*_memory_*
+      - sensor.*_power
       - sensor.*_smart_plug_current
+      - sensor.*_smart_plug_voltage
       - sensor.clock*
       - sensor.date*
+      - sensor.flightradar*
       - sensor.glances*
       - sensor.load_*m
       - sensor.network_*
       - sensor.time*
       - sensor.uptime*
+      - sensor.watchman*
     entities:
       - light.all_lights
+      - sensor.expected_bedtime
+      - sensor.hours_until_wakeup
       - sensor.memory_use_percent
       - sensor.processor_use
-      - sensor.hours_until_wakeup
-      - sensor.expected_bedtime
+  include:
+    entities:
+      - device_tracker.jeanpaulsiphone
