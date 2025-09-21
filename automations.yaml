@@ -643,28 +643,6 @@
         tag: charging-update
     action: notify.mobile_app_jean_pauls_iphone
   mode: single
-- id: '1726841626945'
-  alias: Notify when Station 1 is available
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.station_1
-    to: Available
-  condition: []
-  action:
-  - data:
-      title: Charging Station update
-      message: '{{ state_attr(''sensor.station_1'', ''location_short'') }} is now
-        {{ states(''sensor.station_1'') | lower }}'
-      data:
-        tag: charging-update
-    action: notify.mobile_app_jean_pauls_iphone
-  - target:
-      entity_id: automation.notify_when_station_1_is_available
-    action: automation.turn_off
-    data:
-      stop_actions: true
-  mode: single
 - id: '1726863777053'
   alias: When Jean-Paul gets home
   description: ''
