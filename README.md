@@ -13,8 +13,8 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 Description | Count
 -- | --
-Number of entities | 1243
-Number of sensors | 621
+Number of entities | 1224
+Number of sensors | 609
 
 ## Hardware
 
@@ -38,7 +38,6 @@ usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
 - ESPHome Device Builder
 - Frigate
 - Grafana
-- InfluxDB
 - Let's Encrypt
 - Matter Server
 - Mosquitto broker
@@ -46,15 +45,12 @@ usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
 - Node-RED
 - SQLite Web
 - Studio Code Server
-- Wmbusmeters (W-MBus to MQTT)
 
 ### Custom integrations
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting)
 - [Alarmo](https://github.com/nielsfaber/alarmo)
 - [Azure Openai Conversation](https://github.com/joselcaguilar/azure-openai-ha)
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
-- [Enbw Charge Stations](https://github.com/mKenfenheuer/enbw_chargestations)
-- [Flightradar24](https://github.com/AlexandrErohin/home-assistant-flightradar24)
 - [Frigate](https://github.com/blakeblackshear/frigate-hass-integration)
 - [Generate Readme](https://github.com/custom-components/readme)
 - [Greenchoice](https://github.com/barisdemirdelen/homeassistant-greenchoice)
@@ -94,4 +90,4 @@ None
 
 ***
 
-Generated at 2025-09-21, 00:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-09-22, 06:18 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).

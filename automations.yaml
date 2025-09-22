@@ -2748,16 +2748,16 @@
   triggers:
   - id: lost
     trigger: state
-    entity_id: binary_sensor.zehnder_comfofan_connection_status
+    entity_id:
+    - binary_sensor.zehnder_comfofan_connection_status
     to: 'off'
-    for:
-      minutes: 1
+    from: 'on'
   - id: restored
     trigger: state
-    entity_id: binary_sensor.zehnder_comfofan_connection_status
+    entity_id:
+    - binary_sensor.zehnder_comfofan_connection_status
     to: 'on'
-    for:
-      minutes: 1
+    from: 'off'
   actions:
   - choose:
     - conditions:
