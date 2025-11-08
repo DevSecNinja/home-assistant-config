@@ -625,24 +625,6 @@
         powering off?
       title: ⚡ High power consumption alert!
   mode: single
-- id: '1726841583602'
-  alias: Notify when entering Zandvoort
-  description: ''
-  trigger:
-  - platform: zone
-    entity_id: device_tracker.jean_pauls_iphone_app
-    zone: zone.zandvoort
-    event: enter
-  condition: []
-  action:
-  - data:
-      title: Charging Station update
-      message: '{{ state_attr(''sensor.station_1'', ''location_short'') }} is {{ states(''sensor.station_1'')
-        | lower }}'
-      data:
-        tag: charging-update
-    action: notify.mobile_app_jean_pauls_iphone
-  mode: single
 - id: '1726863777053'
   alias: When Jean-Paul gets home
   description: ''
@@ -708,28 +690,36 @@
   - wait_template: '{{ is_state(''media_player.living_room_tv'', ''on'') }}'
     timeout: '100'
     continue_on_timeout: false
+    enabled: false
   - data:
       entity_id: media_player.living_room_tv
       source: LiveTV
     action: media_player.select_source
+    enabled: false
   - wait_template: '{{ state_attr(''media_player.living_room_tv'', ''source'') ==
       ''LiveTV'' }}'
     timeout: '100'
     continue_on_timeout: false
+    enabled: false
   - data:
       entity_id: media_player.living_room_tv
-      media_content_id: NPO 1 HD
-      media_content_type: channel
+      media:
+        media_content_id: NPO 1 HD
+        media_content_type: channel
+        metadata: {}
     action: media_player.play_media
+    enabled: false
   - wait_template: '{{ is_state(''media_player.living_room_receiver_http'', ''on'')
       }}'
     timeout: '120'
     continue_on_timeout: false
+    enabled: false
   - data:
       volume_level: 0.67
     action: media_player.volume_set
     target:
       entity_id: media_player.living_room_receiver_http
+    enabled: false
 - id: '1726865570805'
   alias: Pause Spotify if TV turns on
   description: ''
@@ -1297,35 +1287,6 @@
       variables:
         rooms: '{{ states(''input_select.vacuum_room'') }}'
   mode: single
-- id: '1727435064148'
-  alias: Report KIA battery status when in the office
-  description: ''
-  trigger:
-  - platform: time_pattern
-    hours: '1'
-  - platform: state
-    entity_id:
-    - sensor.ev6_last_updated_at
-  condition:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: sensor.ev6_ev_battery_level
-      state: unavailable
-  - condition: zone
-    entity_id: person.jean_paul
-    zone: zone.office
-  - condition: state
-    entity_id: binary_sensor.ev6_ev_battery_plug
-    state: 'on'
-  action:
-  - action: notify.mobile_app_jean_pauls_iphone
-    metadata: {}
-    data:
-      title: "\U0001F50C KIA EV6 Battery"
-      message: 'Status: {{ states(''sensor.ev6_ev_battery_level'') }} % which means
-        you can drive {{ states(''sensor.ev6_ev_range'') }} km'
-  mode: single
 - id: '1727515667258'
   alias: Update Sonos Alarm
   description: ''
@@ -1885,6 +1846,9 @@
   - condition: time
     weekday:
     - fri
+  - condition: state
+    entity_id: person.jean_paul
+    state: home
   actions:
   - alias: Set up variables for the actions
     variables:
@@ -2101,9 +2065,9 @@
   - trigger: time
     at: '12:30:00'
   conditions:
-  - condition: zone
-    entity_id: device_tracker.jean_pauls_iphone_app
-    zone: zone.home
+  - condition: state
+    entity_id: person.jean_paul
+    state: home
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
@@ -2667,6 +2631,12 @@
     to: 'off'
   conditions: []
   actions:
+  - action: input_datetime.set_datetime
+    metadata: {}
+    target:
+      entity_id: input_datetime.last_internet_outtage
+    data:
+      timestamp: '{{ now().timestamp() }}'
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
@@ -2689,11 +2659,24 @@
     from: 'off'
   conditions: []
   actions:
+  - variables:
+      outage_start_str: '{{ states(''input_datetime.last_internet_outtage'') }}'
+      outage_start_ts: "{% if outage_start_str in ['', 'unknown', 'unavailable'] %}\n
+        \ 0\n{% else %}\n  {{ as_timestamp(outage_start_str) }}\n{% endif %}\n"
+      outage_end_ts: '{{ as_timestamp(now()) }}'
+      downtime_seconds: "{% if outage_start_ts | float > 0 %}\n  {{ (outage_end_ts
+        - outage_start_ts) | int }}\n{% else %}\n  0\n{% endif %}\n"
+      downtime_human: "{% set s = downtime_seconds | int %} {% if s <= 0 %}\n  unknown\n{%
+        else %}\n  {% set h = s // 3600 %}\n  {% set m = (s % 3600) // 60 %}\n  {%
+        if h > 0 %}{{ h }}h {{ m }}m{% else %}{{ m }}m{% endif %}\n{% endif %}\n"
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
       title: ✅ Network back online
-      message: Ping or DNS back online!
+      message: "{% if outage_start_ts | int == 0 %}\n  Internet is back — outage start
+        time not recorded. Downtime: {{ downtime_human }}.\n{% else %}\n  Internet
+        is back. Outage started at {{ outage_start_ts | int | timestamp_custom('%Y-%m-%d
+        %H:%M:%S', true) }} and lasted {{ downtime_human }}.\n{% endif %}\n"
   mode: single
 - id: '1750105404218'
   alias: Reset Bedroom Sonos volume when idle
@@ -2752,12 +2735,21 @@
     - binary_sensor.zehnder_comfofan_connection_status
     to: 'off'
     from: 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
   - id: restored
     trigger: state
     entity_id:
     - binary_sensor.zehnder_comfofan_connection_status
     to: 'on'
     from: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    enabled: false
   actions:
   - choose:
     - conditions:

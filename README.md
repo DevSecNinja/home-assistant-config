@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2025.9.4
+2025.10.4
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1224
-Number of sensors | 609
+Number of entities | 1203
+Number of sensors | 616
 
 ## Hardware
 
@@ -37,12 +37,10 @@ usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
 - Advanced SSH & Web Terminal
 - ESPHome Device Builder
 - Frigate
-- Grafana
 - Let's Encrypt
 - Matter Server
 - Mosquitto broker
 - Nginx Proxy Manager
-- Node-RED
 - SQLite Web
 - Studio Code Server
 
@@ -53,9 +51,7 @@ usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
 - [Frigate](https://github.com/blakeblackshear/frigate-hass-integration)
 - [Generate Readme](https://github.com/custom-components/readme)
-- [Greenchoice](https://github.com/barisdemirdelen/homeassistant-greenchoice)
 - [HACS](https://github.com/hacs/integration)
-- [Kia Uvo / Hyundai Bluelink](https://github.com/Hyundai-Kia-Connect/kia_uvo)
 - [Kleenex Pollen Radar](https://github.com/MarcoGos/kleenex_pollenradar)
 - [KNMI](https://github.com/golles/ha-knmi)
 - [Mercedesme 2020](https://github.com/ReneNulschDE/mbapi2020)
@@ -90,4 +86,4 @@ None
 
 ***
 
-Generated at 2025-09-22, 06:18 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2025-11-02, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
