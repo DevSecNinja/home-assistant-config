@@ -1,5 +1,0 @@
-battery_notes:
-    # Hide the standard battery when adding Battery+. This will not effect existing dashboards, automations etc.
-    hide_battery: true
-    # Round battery+ to whole percentages.
-    round_battery: true
