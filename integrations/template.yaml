@@ -1,0 +1,20 @@
+template:
+  # TP-Link Smart Home - Power Outlets
+  - sensor:
+      # Plug 1 - Ready changed from 6 to 4 at 2020-02-01 as it triggered too many false positives
+      - default_entity_id: sensor.washing_machine_status
+        name: "{{ states.switch.washing_machine_smart_plug.friendly_name }} Status"
+        state: >-  
+          {% if states('sensor.washing_machine_smart_plug_current_consumption') == 'unavailable' %}  
+            Unavailable
+          {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float <= 1) %}  
+            Off
+          {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float <= 4) %}  
+            On - Washing Machine Ready
+          {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float|round == 6) %}  
+            On - Dryer Ready
+          {% elif (states('sensor.washing_machine_smart_plug_current_consumption')|float|round >= 650) %}  
+            On - Drying
+          {% else %} 
+            On - Washing
+          {% endif %}

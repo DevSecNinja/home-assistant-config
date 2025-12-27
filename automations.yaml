@@ -212,7 +212,7 @@
       include_dynamic_lighting: enable_lux_controled_brightness
       dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_hall
-      night_light_brightness: 10
+      night_light_brightness: 15
       include_ambient: ambient_enabled
       ambient_light_options: ambient_light_option_enabled
       dynamic_lighting_min_lux: 100
@@ -357,6 +357,7 @@
       end_trigger_state: 'off'
       end_trigger_state_entity:
       - binary_sensor.washing_machine_leak_moisture
+      global_conditions: []
 - id: '1725714559016'
   alias: Notification - Leak - Dishwasher
   description: ''
@@ -402,6 +403,7 @@
     - binary_sensor.front_door_opening
     to: 'on'
     trigger: state
+    id: front-door-open
   conditions: []
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
@@ -789,14 +791,19 @@
   - at: '10:58:00'
     trigger: time
   conditions:
-  - condition: state
-    entity_id: person.jean_paul
-    state: home
   - condition: not
     conditions:
     - condition: state
       entity_id: alarm_control_panel.alarmo
       state: armed_vacation
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.jean_paul
+      state: home
+    - condition: zone
+      entity_id: device_tracker.jjr91v_device_tracker
+      zone: zone.girlfriend
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
@@ -922,10 +929,10 @@
       - switch.bathroom_toothbrush_switch
     data: {}
 - id: '1726904466889'
-  alias: Turn Off Tooth Brush Power at 4:00
-  description: Turns off the power to the toothbrush plug at 4:00.
+  alias: Turn Off Tooth Brush Power at 5:00
+  description: Turns off the power to the toothbrush plug at 5:00.
   triggers:
-  - at: 04:00:00
+  - at: 05:00:00
     trigger: time
   actions:
   - action: switch.turn_off
@@ -1330,12 +1337,14 @@
   - at: 04:00:00
     trigger: time
   conditions:
-  - condition: time
-    weekday:
-    - fri
-  - condition: state
-    entity_id: alarm_control_panel.alarmo
-    state: armed_home
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - fri
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_home
   actions:
   - action: switch.turn_on
     target:
@@ -1362,17 +1371,19 @@
 - id: '1727516604683'
   alias: Turn off washing machine on Sunday
   description: ''
-  trigger:
-  - platform: time
-    at: 02:00:00
-  condition:
-  - condition: time
-    weekday:
-    - sun
-  - condition: numeric_state
-    entity_id: sensor.washing_machine_smart_plug_current_consumption
-    below: 10
-  action:
+  triggers:
+  - at: 02:00:00
+    trigger: time
+  conditions:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - sun
+    - condition: numeric_state
+      entity_id: sensor.washing_machine_smart_plug_current_consumption
+      below: 10
+  actions:
   - action: switch.turn_off
     target:
       entity_id: switch.washing_machine_smart_plug
@@ -2237,14 +2248,16 @@
     - sensor.smart_series_7000_ad17
     to: running
   conditions:
-  - condition: not
+  - condition: and
     conditions:
     - condition: state
-      entity_id: media_player.spotify_jptjee
-      state: playing
-  - condition: state
-    entity_id: input_boolean.awake
-    state: 'on'
+      entity_id: input_boolean.awake
+      state: 'on'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: media_player.spotify_jptjee
+        state: playing
   actions:
   - action: script.play_spotify_playlist
     metadata: {}
@@ -2553,7 +2566,7 @@
       ambient_light_value: 1100
       ambient_light_value_off: 1200
       include_dynamic_lighting: enable_sun_elevation_colour_lux_brightness
-      dynamic_lighting_max_brightness: 60
+      dynamic_lighting_max_brightness: 65
       dynamic_lighting_min_brightness: 20
       dynamic_lighting_max_lux: 1000
       dynamic_lighting_lux_sensor: sensor.living_room_window_illuminance
@@ -2709,22 +2722,6 @@
       entity_id: media_player.bedroom
     action: media_player.media_pause
   mode: single
-- id: '1756132723552'
-  alias: Notify when getting to Ly (parking disc)
-  description: ''
-  triggers:
-  - trigger: zone
-    entity_id: device_tracker.ev6_location
-    zone: zone.girlfriend
-    event: enter
-  conditions: []
-  actions:
-  - action: notify.mobile_app_jean_pauls_iphone
-    metadata: {}
-    data:
-      title: ⚠️ Parking disc
-      message: Don’t forget to set your parking disc + alarm!
-  mode: single
 - id: '1756817698779'
   alias: Notify - Ventilation System Connection Status
   description: ''
@@ -2768,4 +2765,43 @@
         data:
           title: ✅ Zehnder ventilation system
           message: Connection restored
+  mode: single
+- id: '1760433724481'
+  alias: 'Start ventilation when toilet occupied '
+  description: Note that occupancy seems to be a multiple of 11
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.toilet_occupancy
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 12
+      seconds: 0
+  conditions: []
+  actions:
+  - device_id: f21fa4c2d96e64696d0d9eef5a71dd48
+    domain: button
+    entity_id: d08ce03f5ba4c7440160ee85a015282a
+    type: press
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      message: Test - ventilation turn on for toilet
+  mode: single
+- id: '1762693568858'
+  alias: Notify blue parking disc
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: device_tracker.jjr91v_device_tracker
+    zone: zone.girlfriend
+    event: enter
+  conditions: []
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "\U0001F17F️ Blue parking disc! "
+      message: Don’t forget it!
   mode: single
