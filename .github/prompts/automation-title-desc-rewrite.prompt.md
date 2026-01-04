@@ -24,3 +24,4 @@ Rules
 • If a description is missing, add one
 • Keep tone friendly and human, as if explaining it to a partner at home
 • If the automation could be confusing or surprising, explicitly mention that behavior
+• Must run `ha core check` after making changes to ensure no syntax errors were introduced.
