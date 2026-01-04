@@ -1,8 +1,11 @@
 - id: '1598779260284'
   alias: Switch TV receiver to computer sound
-  description: |
-    Automatically switches the living room receiver to play sound from your computer.
-    Turns on the receiver and waits until it's ready.
+  description: 'Automatically switches the living room receiver to play sound from
+    your computer.
+
+    Turns on the receiver and waits until it''s ready.
+
+    '
   trigger:
   - entity_id: automation.enable_pc_audio_on_receiver
     platform: state
@@ -31,9 +34,11 @@
   initial_state: false
 - id: '1651856970463'
   alias: Restart smart home system
-  description: |
-    Restarts the entire smart home system when you press a button.
+  description: 'Restarts the entire smart home system when you press a button.
+
     Everything will reload and start fresh.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -45,9 +50,12 @@
   mode: single
 - id: '1709450048502'
   alias: Alert when server uses too much power
-  description: |
-    Sends a notification if the server uses more than 40W for 4 hours straight.
+  description: 'Sends a notification if the server uses more than 40W for 4 hours
+    straight.
+
     This means the disks might not be powering down properly.
+
+    '
   triggers:
   - entity_id:
     - sensor.shelly_nas_switch_0_power
@@ -66,9 +74,12 @@
   mode: single
 - id: '1720873118886'
   alias: Daily countdown reminder at 6am
-  description: |
-    Every morning at 6am, sends you a message showing how many days are left
-    for any active countdowns you've set up.
+  description: 'Every morning at 6am, sends you a message showing how many days are
+    left
+
+    for any active countdowns you''ve set up.
+
+    '
   trigger:
   - platform: time
     at: 06:00:00
@@ -99,9 +110,11 @@
             | join('\\n') }}\n"
 - id: '1724168359521'
   alias: Turn on toilet light when you enter
-  description: |
-    Automatically turns the toilet light on when you walk in,
+  description: 'Automatically turns the toilet light on when you walk in,
+
     and turns it off after you leave. Uses dimmer light at night.
+
+    '
   use_blueprint:
     path: Blackshome/sensor-light.yaml
     input:
@@ -141,9 +154,11 @@
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_toilet
 - id: '1725698323949'
   alias: Turn on bathroom light when you enter
-  description: |
-    Automatically turns the bathroom light on when you walk in,
+  description: 'Automatically turns the bathroom light on when you walk in,
+
     and turns it off after you leave. Uses dimmer light at night.
+
+    '
   use_blueprint:
     path: Blackshome/sensor-light.yaml
     input:
@@ -182,9 +197,11 @@
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_bathroom
 - id: '1725699907962'
   alias: Turn on hall light when you walk by
-  description: |
-    Automatically turns the hall light on when you walk through,
+  description: 'Automatically turns the hall light on when you walk through,
+
     and turns it off shortly after. Uses dimmer light at night.
+
+    '
   use_blueprint:
     path: Blackshome/sensor-light.yaml
     input:
@@ -235,9 +252,11 @@
       ambient_light_sensor: sensor.hall_illuminance
 - id: '1725701251585'
   alias: Weekly low battery check on Sundays
-  description: |
-    Every Sunday morning at 9am, checks all your wireless devices.
+  description: 'Every Sunday morning at 9am, checks all your wireless devices.
+
     Sends a notification if any batteries are running low.
+
+    '
   use_blueprint:
     path: Blackshome/low-battery-notifications-and-actions.yaml
     input:
@@ -306,9 +325,12 @@
         - binary_sensor.living_room_workplace_switch_battery_plus_low
 - id: '1725710736258'
   alias: Alert and disconnect power if leak detected
-  description: |
-    If water leak is detected near the washing machine, immediately cuts power
+  description: 'If water leak is detected near the washing machine, immediately cuts
+    power
+
     to prevent damage. Sends urgent notification to your phone.
+
+    '
   use_blueprint:
     path: Blackshome/state-notifications-and-actions.yaml
     input:
@@ -377,9 +399,11 @@
       global_conditions: []
 - id: '1725714559016'
   alias: Alert if dishwasher leak detected
-  description: |
-    If water leak is detected near the dishwasher, sends an urgent notification
+  description: 'If water leak is detected near the dishwasher, sends an urgent notification
+
     to your phone so you can take action quickly.
+
+    '
   use_blueprint:
     path: Blackshome/state-notifications-and-actions.yaml
     input:
@@ -409,18 +433,22 @@
       - binary_sensor.dishwasher_leak_moisture
 - id: '1726315782295'
   alias: Daily backup at 1am with monthly cleanup
-  description: |
-    Creates a backup of your smart home setup every night at 1am.
+  description: 'Creates a backup of your smart home setup every night at 1am.
+
     Old backups are automatically removed to save space.
+
+    '
   use_blueprint:
     path: mdeweerd/backup_znp.yaml
     input:
       backup_time: 01:00:00
 - id: '1726588601617'
   alias: Alert when front door opens
-  description: |
-    Sends notification whenever the front door opens.
+  description: 'Sends notification whenever the front door opens.
+
     Shows current alarm status and gives you quick buttons to arm or disarm.
+
+    '
   triggers:
   - entity_id:
     - binary_sensor.front_door_opening
@@ -461,9 +489,12 @@
   mode: single
 - id: '1726648274903'
   alias: Control living room with dimmer remote
-  description: |
-    Lets you control the living room lights and music using the wireless dimmer.
+  description: 'Lets you control the living room lights and music using the wireless
+    dimmer.
+
     Press buttons to turn lights on/off, pause music, or dim the lights.
+
+    '
   use_blueprint:
     path: sandervv/ZHA - Hue Dimmer Fully Configurable.yaml
     input:
@@ -510,9 +541,11 @@
           entity_id: light.living_room
 - id: '1726648299745'
   alias: Control bedroom with dimmer remote
-  description: |
-    Lets you control bedroom lights and music using the wireless dimmer.
+  description: 'Lets you control bedroom lights and music using the wireless dimmer.
+
     Different buttons play music, adjust brightness, or turn everything off.
+
+    '
   use_blueprint:
     path: sandervv/ZHA - Hue Dimmer Fully Configurable.yaml
     input:
@@ -573,9 +606,12 @@
           entity_id: light.bedroom
 - id: '1726661632133'
   alias: Turn on alarm when going to sleep
-  description: |
-    When you mark yourself as not awake (going to bed), automatically turns on
+  description: 'When you mark yourself as not awake (going to bed), automatically
+    turns on
+
     the alarm in home mode to protect the house while you sleep.
+
+    '
   triggers:
   - entity_id:
     - input_boolean.awake
@@ -594,9 +630,12 @@
   mode: single
 - id: '1726661669538'
   alias: Turn off alarm when waking up
-  description: |
-    When you mark yourself as awake in the morning, automatically turns off
+  description: 'When you mark yourself as awake in the morning, automatically turns
+    off
+
     the alarm so you can move around the house freely.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -616,9 +655,11 @@
   mode: single
 - id: '1726764794273'
   alias: Turn on alarm when leaving home
-  description: |
-    Automatically arms the alarm in away mode when you leave the house.
+  description: 'Automatically arms the alarm in away mode when you leave the house.
+
     Sends notification confirming the alarm is being activated.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -641,9 +682,11 @@
   mode: single
 - id: '1726841337575'
   alias: Alert if server stays on for 24 hours
-  description: |
-    If server power doesn't drop below 18W for 24 hours, sends alert.
-    This means the disks aren't powering off as they should.
+  description: 'If server power doesn''t drop below 18W for 24 hours, sends alert.
+
+    This means the disks aren''t powering off as they should.
+
+    '
   triggers:
   - entity_id:
     - sensor.shelly_nas_switch_0_power
@@ -664,9 +707,11 @@
   mode: single
 - id: '1726863777053'
   alias: Send vacuum home when you arrive
-  description: |
-    If the robot vacuum is cleaning when you get home,
-    it automatically returns to its dock so it's out of your way.
+  description: 'If the robot vacuum is cleaning when you get home,
+
+    it automatically returns to its dock so it''s out of your way.
+
+    '
   triggers:
   - entity_id:
     - person.jean_paul
@@ -688,9 +733,11 @@
   mode: single
 - id: '1726864691758'
   alias: Mark as awake when you enter living room
-  description: |
-    Between 6am-noon, if you enter the living room while marked as asleep,
+  description: 'Between 6am-noon, if you enter the living room while marked as asleep,
+
     automatically marks you awake and turns off bedroom/bathroom lights.
+
+    '
   triggers:
   - entity_id: binary_sensor.living_room_occupancy
     to: 'on'
@@ -763,9 +810,11 @@
     enabled: false
 - id: '1726865570805'
   alias: Pause music when TV turns on
-  description: |
-    When you turn on the TV and music is playing through the receiver,
+  description: 'When you turn on the TV and music is playing through the receiver,
+
     automatically pauses the music and switches to TV sound.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -792,9 +841,11 @@
   mode: single
 - id: '1726865981559'
   alias: Pause bedroom music when window opens
-  description: |
-    When you open the bedroom window, automatically pauses the music
-    so it doesn't disturb neighbors or waste sound outside.
+  description: 'When you open the bedroom window, automatically pauses the music
+
+    so it doesn''t disturb neighbors or waste sound outside.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -810,9 +861,11 @@
   mode: single
 - id: '1726866070872'
   alias: Stop music if window already open
-  description: |
-    If music starts playing while the bedroom window is already open,
+  description: 'If music starts playing while the bedroom window is already open,
+
     immediately pauses it to avoid disturbing neighbors.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -831,9 +884,11 @@
   mode: single
 - id: '1726867335951'
   alias: Daily bread reminder before lunch
-  description: |
-    Every day at 10:58am, reminds you to take bread out of the freezer
-    if you're home. Doesn't send reminders during vacation.
+  description: 'Every day at 10:58am, reminds you to take bread out of the freezer
+
+    if you''re home. Doesn''t send reminders during vacation.
+
+    '
   triggers:
   - at: '10:58:00'
     trigger: time
@@ -860,9 +915,11 @@
   mode: single
 - id: '1726903549680'
   alias: Create full backup when requested
-  description: |
-    Creates a complete backup of your smart home setup
-    whenever you turn on the 'Backup Now' button.
+  description: 'Creates a complete backup of your smart home setup
+
+    whenever you turn on the ''Backup Now'' button.
+
+    '
   triggers:
   - entity_id: input_boolean.backup_trigger
     to: 'on'
@@ -878,9 +935,11 @@
     data: {}
 - id: '1726904067295'
   alias: Turn off TV when receiver turns off
-  description: |
-    If you turn off the receiver and the TV is still on,
+  description: 'If you turn off the receiver and the TV is still on,
+
     automatically turns off the TV too. Saves power.
+
+    '
   trigger:
   - platform: state
     entity_id: media_player.living_room_receiver_http
@@ -895,9 +954,11 @@
     action: media_player.turn_off
 - id: '1726904281464'
   alias: Reset vacuum maintenance reminders
-  description: |
-    After you clean or replace vacuum parts (filter, brushes, sensors),
-    resets the timer so it won't remind you again for a while.
+  description: 'After you clean or replace vacuum parts (filter, brushes, sensors),
+
+    resets the timer so it won''t remind you again for a while.
+
+    '
   trigger:
   - platform: state
     entity_id: input_select.vacuum_reset_maintenance
@@ -963,9 +1024,11 @@
       entity_id: input_select.vacuum_reset_maintenance
 - id: '1726904442852'
   alias: Turn on toothbrush charger at 2am
-  description: |
-    Every night at 2am, turns on power to the electric toothbrush
+  description: 'Every night at 2am, turns on power to the electric toothbrush
+
     so it charges overnight. Skips this when on vacation.
+
+    '
   triggers:
   - at: 02:00:00
     trigger: time
@@ -983,9 +1046,11 @@
     data: {}
 - id: '1726904466889'
   alias: Turn off toothbrush charger at 5am
-  description: |
-    Every morning at 5am, turns off power to the electric toothbrush.
+  description: 'Every morning at 5am, turns off power to the electric toothbrush.
+
     Gives it a 3-hour charging window each night.
+
+    '
   triggers:
   - at: 05:00:00
     trigger: time
@@ -996,9 +1061,12 @@
       entity_id: switch.bathroom_toothbrush_switch
 - id: '1726904965492'
   alias: Adjust everything for vacation mode
-  description: |
-    When vacation mode turns on: disables alarms, lights, and cleaning schedules.
+  description: 'When vacation mode turns on: disables alarms, lights, and cleaning
+    schedules.
+
     When you return home: re-enables everything and welcomes you back.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1061,9 +1129,11 @@
             alarm at {{ states('input_datetime.wakeup_time') }}.
 - id: '1726906598387'
   alias: Turn on desktop computer remotely
-  description: |
-    When you press the wake up button, sends a signal
+  description: 'When you press the wake up button, sends a signal
+
     to turn on your desktop computer over the network.
+
+    '
   trigger:
   - platform: state
     entity_id: input_boolean.wake_up_desktop
@@ -1081,9 +1151,12 @@
       entity_id: input_boolean.wake_up_desktop
 - id: '1726906770932'
   alias: Switch receiver to computer audio mode
-  description: |
-    When you press the button, switches the receiver to play sound from computer.
+  description: 'When you press the button, switches the receiver to play sound from
+    computer.
+
     Sends reminder to add the second screen and change computer audio output.
+
+    '
   trigger:
   - platform: state
     entity_id: input_button.enable_pc_audio_on_receiver
@@ -1107,9 +1180,12 @@
       message: Don't forget to add screen 2 and change the PC output
 - id: '1726907061543'
   alias: Turn off entertainment when leaving home
-  description: |
-    When you leave or arm the alarm, checks if TV, receiver, or music is on.
-    Turns off what's running and sends notification that it saved you money.
+  description: 'When you leave or arm the alarm, checks if TV, receiver, or music
+    is on.
+
+    Turns off what''s running and sends notification that it saved you money.
+
+    '
   trigger:
   - platform: zone
     entity_id: device_tracker.jean_pauls_iphone_app
@@ -1176,9 +1252,11 @@
       entity_id: light.all_lights
 - id: '1726954321977'
   alias: Control workplace music with wireless button
-  description: |
-    Round wireless button near workplace: single press plays/pauses music,
+  description: 'Round wireless button near workplace: single press plays/pauses music,
+
     double press resumes, triple press switches device, long press wakes computer.
+
+    '
   use_blueprint:
     path: carlosmesquita/zha-xiaomi-mijia-round-wireless-switch-wxkg01lm-lumi-sensor-switch.yaml
     input:
@@ -1237,9 +1315,11 @@
             entity_id: media_player.spotify_jptjee
 - id: '1726955288158'
   alias: Control music with smart cube
-  description: |
-    Shake to play/pause, drop to turn off/play, flip for next song,
+  description: 'Shake to play/pause, drop to turn off/play, flip for next song,
+
     rotate clockwise/counter to adjust volume, flip 180° for previous song.
+
+    '
   use_blueprint:
     path: SirGoodenough/ZHA-Xiaomi_Cube_Controller.yaml
     input:
@@ -1323,9 +1403,11 @@
           data: {}
 - id: '1727118356540'
   alias: Alert for low-flying aircraft nearby
-  description: |
-    When you're home and a plane flies overhead below 10,000 feet,
+  description: 'When you''re home and a plane flies overhead below 10,000 feet,
+
     sends notification with flight details and photo of the aircraft.
+
+    '
   trigger:
   - platform: event
     event_type: flightradar24_entry
@@ -1347,9 +1429,11 @@
     action: notify.mobile_app_jean_pauls_iphone
 - id: '1727378847793'
   alias: Start vacuum when room is selected
-  description: |
-    When you select a room from the menu, immediately starts
+  description: 'When you select a room from the menu, immediately starts
+
     the robot vacuum to clean that specific room.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1365,9 +1449,11 @@
   mode: single
 - id: '1727515667258'
   alias: Sync alarm time with bedroom speaker
-  description: |
-    Whenever you change your wakeup time or turn alarm on/off,
+  description: 'Whenever you change your wakeup time or turn alarm on/off,
+
     automatically updates the bedroom speaker alarm to match.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1388,9 +1474,11 @@
   mode: single
 - id: '1727516172708'
   alias: Switch playlist when selection changes
-  description: |
-    When you select a different playlist from the menu,
+  description: 'When you select a different playlist from the menu,
+
     automatically starts playing that playlist on the receiver.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1405,9 +1493,11 @@
   mode: single
 - id: '1727516578007'
   alias: Friday morning washing machine power reminder
-  description: |
-    Every Friday at 4am, turns on washing machine power and sends reminder.
+  description: 'Every Friday at 4am, turns on washing machine power and sends reminder.
+
     After 5 hours, checks if you started it and sends second reminder if not.
+
+    '
   triggers:
   - at: 04:00:00
     trigger: time
@@ -1445,9 +1535,11 @@
         title: Washing Machine Reminder
 - id: '1727516604683'
   alias: Sunday morning washing machine power off
-  description: |
-    Every Sunday at 2am, if washing machine isn't running,
+  description: 'Every Sunday at 2am, if washing machine isn''t running,
+
     turns off the power and sends notification.
+
+    '
   triggers:
   - at: 02:00:00
     trigger: time
@@ -1471,9 +1563,11 @@
       title: Washing Machine off
 - id: '1727516942520'
   alias: Turn off receiver after 5 minutes idle
-  description: |
-    If music is paused for 5 minutes with TV off, turns off the receiver
+  description: 'If music is paused for 5 minutes with TV off, turns off the receiver
+
     automatically. Sends reminder not to leave it on.
+
+    '
   trigger:
   - platform: time_pattern
     minutes: /1
@@ -1508,9 +1602,11 @@
       message: Don't leave it on!
 - id: '1727517745909'
   alias: Scheduled vacuum cleaning when away
-  description: |
-    At your set time, if you're awake and not home, automatically starts
-    the vacuum to clean. Won't run if you're home or asleep.
+  description: 'At your set time, if you''re awake and not home, automatically starts
+
+    the vacuum to clean. Won''t run if you''re home or asleep.
+
+    '
   trigger:
   - platform: time
     at: input_datetime.vacuum_clean_time
@@ -1534,9 +1630,11 @@
   mode: single
 - id: '1727517990211'
   alias: Clean while you shower
-  description: |
-    When you turn on the shower and you're awake, starts vacuuming
-    the living room and kitchen so it's done when you finish.
+  description: 'When you turn on the shower and you''re awake, starts vacuuming
+
+    the living room and kitchen so it''s done when you finish.
+
+    '
   triggers:
   - entity_id:
     - input_boolean.bathroom_shower
@@ -1560,9 +1658,12 @@
       entity_id: input_select.vacuum_room
 - id: '1727518568203'
   alias: Sunday vacuum maintenance reminder
-  description: |
-    Every Sunday at 10am, if you're home, checks which vacuum parts need cleaning
+  description: 'Every Sunday at 10am, if you''re home, checks which vacuum parts need
+    cleaning
+
     (brush, sensors, filter) and sends reminder if any need attention.
+
+    '
   trigger:
   - platform: time
     at: '10:00:00'
@@ -1594,9 +1695,11 @@
           message: 'To clean: {{ message_list }}'
 - id: '1727519498913'
   alias: Washing machine start and finish alerts
-  description: |
-    Notifies you when washing machine starts and when it finishes.
+  description: 'Notifies you when washing machine starts and when it finishes.
+
     Shows how long it took and approximate cost of the wash.
+
+    '
   use_blueprint:
     path: Blackshome/appliance-notifications.yaml
     input:
@@ -1635,9 +1738,11 @@
           entity_id: input_boolean.washing_machine
 - id: '1727525959760'
   alias: URGENT alert if smoke detected
-  description: |
-    If the smoke alarm goes off in the kitchen,
+  description: 'If the smoke alarm goes off in the kitchen,
+
     sends critical urgent notification to your phone immediately.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1659,9 +1764,11 @@
   mode: single
 - id: '1727526449921'
   alias: Daily toothbrush reminder at 12:55pm
-  description: |
-    If you're home at 12:55pm, reminds you to brush your teeth.
-    Sends second reminder 30 minutes later if you haven't gone to bathroom.
+  description: 'If you''re home at 12:55pm, reminds you to brush your teeth.
+
+    Sends second reminder 30 minutes later if you haven''t gone to bathroom.
+
+    '
   triggers:
   - at: '12:55:00'
     trigger: time
@@ -1707,9 +1814,12 @@
   mode: single
 - id: '1727527052759'
   alias: Bedroom airing done after 15 minutes
-  description: |
-    After bedroom window is open for 15 minutes, reminds you to close it.
-    Won't send repeated reminders within 3 hours.
+  description: 'After bedroom window is open for 15 minutes, reminds you to close
+    it.
+
+    Won''t send repeated reminders within 3 hours.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1731,9 +1841,12 @@
       title: "\U0001FA9F Airing finished"
 - id: '1727527131896'
   alias: Living room airing done after 15 minutes
-  description: |
-    After living room window is open for 15 minutes, reminds you to close it.
-    Won't send repeated reminders within 3 hours.
+  description: 'After living room window is open for 15 minutes, reminds you to close
+    it.
+
+    Won''t send repeated reminders within 3 hours.
+
+    '
   trigger:
   - platform: state
     entity_id:
@@ -1755,9 +1868,11 @@
       title: "\U0001FA9F Airing finished"
 - id: '1727527258915'
   alias: Warning if fuse box gets too hot
-  description: |
-    If temperature in the fuse box goes above 30°C for 30 seconds,
+  description: 'If temperature in the fuse box goes above 30°C for 30 seconds,
+
     sends urgent warning to open the fuse box door for ventilation.
+
+    '
   trigger:
   - platform: numeric_state
     entity_id:
@@ -1777,9 +1892,11 @@
   mode: single
 - id: '1727527671553'
   alias: Remind about open windows when leaving
-  description: |
-    When you leave home, checks if any windows or doors are open.
-    Sends list of what's still open so you can go back if needed.
+  description: 'When you leave home, checks if any windows or doors are open.
+
+    Sends list of what''s still open so you can go back if needed.
+
+    '
   trigger:
   - platform: zone
     entity_id: device_tracker.jean_pauls_iphone_app
@@ -1800,9 +1917,11 @@
     action: notify.mobile_app_jean_pauls_iphone
 - id: '1727604574614'
   alias: Safety check at 3am if still awake
-  description: |
-    If at 3am you're still marked as awake, sends notification and automatically
+  description: 'If at 3am you''re still marked as awake, sends notification and automatically
+
     marks you asleep and turns off all lights. Prevents staying up too late.
+
+    '
   triggers:
   - at: 03:00:00
     trigger: time
@@ -1827,9 +1946,11 @@
   mode: single
 - id: '1727613739758'
   alias: Weekly cleanup tasks Sunday night
-  description: |
-    Every Sunday at 2am, performs maintenance tasks:
+  description: 'Every Sunday at 2am, performs maintenance tasks:
+
     clears cached voice files and regenerates the README documentation.
+
+    '
   trigger:
   - platform: time
     at: 02:00:00
@@ -1847,9 +1968,11 @@
   mode: single
 - id: '1727725703135'
   alias: Turn on bedroom light when you enter
-  description: |
-    Automatically turns bedroom light on when you enter,
+  description: 'Automatically turns bedroom light on when you enter,
+
     and off when you leave. Adjusts brightness based on available daylight.
+
+    '
   use_blueprint:
     path: Blackshome/sensor-light.yaml
     input:
@@ -1897,9 +2020,11 @@
       ambient_light_high_value: 60
 - id: '1727772192031'
   alias: Bright workplace light during video calls
-  description: |
-    When you join a video call, turns on bright workplace light.
+  description: 'When you join a video call, turns on bright workplace light.
+
     Turns it back off when call ends. Only activates if room is dark.
+
+    '
   triggers:
   - entity_id:
     - input_select.microsoft_teams_presence
@@ -1949,9 +2074,11 @@
   mode: single
 - id: '1727940385271'
   alias: Friday afternoon vacuum cleaning offer
-  description: |
-    Every Friday at 4pm if you're home, sends notification asking
-    which room you'd like to vacuum clean. You can choose from a list.
+  description: 'Every Friday at 4pm if you''re home, sends notification asking
+
+    which room you''d like to vacuum clean. You can choose from a list.
+
+    '
   triggers:
   - trigger: time
     at: '16:00:00'
@@ -2015,9 +2142,11 @@
       action: notify.mobile_app_jean_pauls_iphone
 - id: '1728032596562'
   alias: Gradual bedroom light at alarm time
-  description: |
-    15 minutes before alarm, gradually brightens bedroom light like sunrise.
-    Only works if you're home and alarm is enabled.
+  description: '15 minutes before alarm, gradually brightens bedroom light like sunrise.
+
+    Only works if you''re home and alarm is enabled.
+
+    '
   use_blueprint:
     path: DevSecNinja/wake-up-light-with-sunrise.yaml
     input:
@@ -2038,9 +2167,12 @@
       pre_sunrise_actions: []
 - id: '1728284888024'
   alias: Offer to pause alarm if already awake
-  description: |
-    If bedroom music starts playing at alarm time but you're already awake,
+  description: 'If bedroom music starts playing at alarm time but you''re already
+    awake,
+
     sends notification asking if you want to pause the music.
+
+    '
   triggers:
   - trigger: time
     at: sensor.sonos_alarm_1_timestamp
@@ -2074,9 +2206,11 @@
   mode: single
 - id: '1728385114222'
   alias: Morning weather when unplugging phone
-  description: |
-    If you unplug your phone in morning before getting up,
-    sends weather forecast with radar image. Assumes you're checking before rising.
+  description: 'If you unplug your phone in morning before getting up,
+
+    sends weather forecast with radar image. Assumes you''re checking before rising.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2109,9 +2243,11 @@
   mode: single
 - id: '1728493873160'
   alias: Reset light timers when leaving or sleeping
-  description: |
-    When you leave home or go to sleep, cancels any running light timers
+  description: 'When you leave home or go to sleep, cancels any running light timers
+
     so automations work normally again when you return or wake.
+
+    '
   triggers:
   - trigger: zone
     entity_id: device_tracker.jean_pauls_iphone_app
@@ -2130,9 +2266,11 @@
   mode: single
 - id: '1728566997078'
   alias: Alert if electricity meter stops working
-  description: |
-    If the electricity meter stops reporting for 10 minutes,
+  description: 'If the electricity meter stops reporting for 10 minutes,
+
     sends notification to fix it by recreating the connection.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2166,9 +2304,11 @@
   mode: single
 - id: '1729122821769'
   alias: Alert if car recall announced
-  description: |
-    If a new recall is announced for your car,
+  description: 'If a new recall is announced for your car,
+
     sends notification so you can schedule a fix appointment.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2185,9 +2325,11 @@
   mode: single
 - id: '1730047989947'
   alias: Daily chore reminder at 12:30pm
-  description: |
-    Every day at 12:30pm if you're home,
+  description: 'Every day at 12:30pm if you''re home,
+
     reminds you to pick and do a household chore.
+
+    '
   triggers:
   - trigger: time
     at: '12:30:00'
@@ -2204,9 +2346,11 @@
   mode: single
 - id: '1730059015682'
   alias: Vacuum cleaning while alarm armed away
-  description: |
-    If vacuum starts while alarm is armed away/vacation, sends notification.
+  description: 'If vacuum starts while alarm is armed away/vacation, sends notification.
+
     Alerts when done. This needs fixing to properly handle alarm status.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2246,9 +2390,12 @@
   mode: single
 - id: '1730757243166'
   alias: Control bathroom with dimmer remote
-  description: |
-    Wireless dimmer controls: lights on/off/brightness, bedroom music play/pause,
+  description: 'Wireless dimmer controls: lights on/off/brightness, bedroom music
+    play/pause,
+
     and ventilation fan speed (up button). Multiple presses for different functions.
+
+    '
   use_blueprint:
     path: sandervv/ZHA - Hue Dimmer Fully Configurable.yaml
     input:
@@ -2320,9 +2467,11 @@
           entity_id: button.zehnder_comfofan_auto
 - id: '1730924477984'
   alias: Suggest switching music to receiver when arriving
-  description: |
-    If you arrive home with music playing on AirPods,
+  description: 'If you arrive home with music playing on AirPods,
+
     sends reminder to switch playback to home receiver. Needs fixing.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2353,9 +2502,11 @@
   mode: single
 - id: '1731253341756'
   alias: Turn on fan when bathroom gets humid
-  description: |
-    When humidity rises quickly (showering), turns on bathroom fan.
+  description: 'When humidity rises quickly (showering), turns on bathroom fan.
+
     Keeps running until humidity drops back down. Prevents mold.
+
+    '
   use_blueprint:
     path: Blackshome/bathroom-humidity-exhaust-fan.yaml
     input:
@@ -2365,9 +2516,11 @@
       bathroom_humidity_sensor: sensor.bathroom_humidity
 - id: '1731350338636'
   alias: Play music while brushing teeth
-  description: |
-    When electric toothbrush starts and you're awake without music playing,
+  description: 'When electric toothbrush starts and you''re awake without music playing,
+
     automatically plays music in bedroom at low volume until brushing is done.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2417,9 +2570,11 @@
   mode: single
 - id: '1731360427132'
   alias: Control ventilation when showering
-  description: |
-    When shower turns on, sets ventilation to high for 30 minutes.
+  description: 'When shower turns on, sets ventilation to high for 30 minutes.
+
     When shower turns off, returns ventilation to automatic mode.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2458,9 +2613,12 @@
   mode: single
 - id: '1731849616751'
   alias: Show weather when opening front door
-  description: |
-    When you open front door with alarm off, shows weather forecast after 10 seconds.
-    Helps you know what to expect outside. Won't spam notifications.
+  description: 'When you open front door with alarm off, shows weather forecast after
+    10 seconds.
+
+    Helps you know what to expect outside. Won''t spam notifications.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2491,9 +2649,11 @@
   mode: single
 - id: '1731870242326'
   alias: Alert if temperature difference is large
-  description: |
-    If living room and bathroom temperature differ by more than 2°C
-    when it's cold, reminds you to close a window or vent.
+  description: 'If living room and bathroom temperature differ by more than 2°C
+
+    when it''s cold, reminds you to close a window or vent.
+
+    '
   triggers:
   - trigger: numeric_state
     entity_id:
@@ -2513,9 +2673,11 @@
   mode: single
 - id: '1731879328368'
   alias: Pause bedroom music when showering
-  description: |
-    When you turn on the shower and bedroom music is playing,
-    automatically pauses it so you don't miss any music or waste sound.
+  description: 'When you turn on the shower and bedroom music is playing,
+
+    automatically pauses it so you don''t miss any music or waste sound.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2534,9 +2696,11 @@
   mode: single
 - id: '1732475044483'
   alias: Turn off alarm when you arrive home
-  description: |
-    When you arrive home with alarm armed, automatically disarms it
+  description: 'When you arrive home with alarm armed, automatically disarms it
+
     and sends welcome home notification.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2567,9 +2731,12 @@
   mode: single
 - id: '1732546364748'
   alias: Alert if floor heating monitor stops
-  description: |
-    If floor heating meter hasn't updated in 24 hours, sends alert at 2am.
+  description: 'If floor heating meter hasn''t updated in 24 hours, sends alert at
+    2am.
+
     Means the monitoring system needs attention.
+
+    '
   triggers:
   - trigger: time
     at: 02:00:00
@@ -2589,9 +2756,12 @@
   mode: single
 - id: '1732650114550'
   alias: Bedtime reminder when alarm is soon
-  description: |
-    If it's less than 8 hours until your alarm, you're awake with living room
+  description: 'If it''s less than 8 hours until your alarm, you''re awake with living
+    room
+
     lights on, reminds you to go to bed for enough sleep.
+
+    '
   triggers:
   - trigger: numeric_state
     entity_id:
@@ -2624,9 +2794,11 @@
   mode: single
 - id: '1733935570931'
   alias: Flight reminders at 72h, 30h, and 24h
-  description: |
-    For upcoming flights in your calendar, sends reminders
+  description: 'For upcoming flights in your calendar, sends reminders
+
     72 hours, 30 hours, and 24 hours before departure with location details.
+
+    '
   triggers:
   - trigger: calendar
     entity_id: calendar.tripit
@@ -2658,9 +2830,11 @@
   max: 10
 - id: '1736006673890'
   alias: Turn on workplace light when computer active
-  description: |
-    When your computer is being used, turns on workplace light.
+  description: 'When your computer is being used, turns on workplace light.
+
     Brightness adjusts based on available daylight from window.
+
+    '
   use_blueprint:
     path: Blackshome/sensor-light.yaml
     input:
@@ -2680,9 +2854,11 @@
       dynamic_lighting_boolean: input_boolean.toggle_helper_automations_light_workplace
 - id: '1739629434251'
   alias: Living room smart lighting control
-  description: |
-    Manages living room lights based on: time of day, daylight levels,
+  description: 'Manages living room lights based on: time of day, daylight levels,
+
     and whether lights should be on. Automatically adjusts brightness and color.
+
+    '
   use_blueprint:
     path: Blackshome/smart-light.yaml
     input:
@@ -2728,9 +2904,11 @@
       night_light_transition_off: 10
 - id: '1740773906383'
   alias: Dim living room light before waking up
-  description: |
-    When you're not marked as awake and enter living room,
-    turns on lights at low brightness so you're not blinded.
+  description: 'When you''re not marked as awake and enter living room,
+
+    turns on lights at low brightness so you''re not blinded.
+
+    '
   use_blueprint:
     path: Blackshome/sensor-light.yaml
     input:
@@ -2749,9 +2927,11 @@
       time_delay: 10
 - id: '1742730192109'
   alias: Mark as away if phone not detected
-  description: |
-    If your iPhone hasn't been detected by either the app or WiFi
+  description: 'If your iPhone hasn''t been detected by either the app or WiFi
+
     for over 5 minutes, marks you as away. Helps other automations work correctly.
+
+    '
   triggers:
   - minutes: /1
     trigger: time_pattern
@@ -2781,9 +2961,11 @@
   mode: single
 - id: '1747895911015'
   alias: Alert when internet stops working
-  description: |
-    If DNS lookups or internet pings fail, records the time
+  description: 'If DNS lookups or internet pings fail, records the time
+
     and sends alert that network is offline.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2809,9 +2991,11 @@
   mode: single
 - id: '1749062970357'
   alias: Alert when internet is back online
-  description: |
-    When internet connection is restored, calculates how long it was down
+  description: 'When internet connection is restored, calculates how long it was down
+
     and sends notification with outage duration.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2846,9 +3030,11 @@
   mode: single
 - id: '1750105404218'
   alias: Reset bedroom speaker volume when paused
-  description: |
-    When bedroom music pauses, automatically resets the volume
-    to normal level so it's not too loud next time.
+  description: 'When bedroom music pauses, automatically resets the volume
+
+    to normal level so it''s not too loud next time.
+
+    '
   triggers:
   - device_id: 55d556a10e644f19ae88705a6dfbf26f
     domain: media_player
@@ -2866,9 +3052,11 @@
   mode: single
 - id: '1753081891927'
   alias: Pause music when tapping notification button
-  description: |
-    When you tap the 'Pause Sonos' button in a notification,
+  description: 'When you tap the ''Pause Sonos'' button in a notification,
+
     immediately pauses the bedroom speaker.
+
+    '
   triggers:
   - event_type: mobile_app_notification_action
     event_data:
@@ -2881,9 +3069,11 @@
   mode: single
 - id: '1756817698779'
   alias: Alert if ventilation system disconnects
-  description: |
-    If connection to the ventilation system is lost for 5 minutes,
-    sends alert so you can check what's wrong.
+  description: 'If connection to the ventilation system is lost for 5 minutes,
+
+    sends alert so you can check what''s wrong.
+
+    '
   triggers:
   - id: lost
     trigger: state
@@ -2927,9 +3117,11 @@
   mode: single
 - id: '1760433724481'
   alias: Boost ventilation if toilet occupied long
-  description: |
-    If someone is in the toilet for more than 12 minutes,
+  description: 'If someone is in the toilet for more than 12 minutes,
+
     automatically increases ventilation. Note: this is experimental.
+
+    '
   triggers:
   - trigger: state
     entity_id:
@@ -2952,9 +3144,11 @@
   mode: single
 - id: '1762693568858'
   alias: Parking disc reminder at girlfriend's place
-  description: |
-    When you arrive at your girlfriend's place, reminds you
+  description: 'When you arrive at your girlfriend''s place, reminds you
+
     to display the blue parking disc in your car window.
+
+    '
   triggers:
   - trigger: zone
     entity_id: device_tracker.jjr91v_device_tracker
