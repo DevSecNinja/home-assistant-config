@@ -1,6 +1,6 @@
 blueprint:
   name: Bathroom Humidity Exhaust Fan
-  description: "# \U0001F6BF Bathroom Humidity Exhaust Fan\n**Version: 2.5**\n\nStep
+  description: "# \U0001F6BF Bathroom Humidity Exhaust Fan\n**Version: 2.6**\n\nStep
     into the future of freshness - customize it your way and experience the convenience
     of automated humidity control! \U0001F33F\U0001F6BF\n\n**If you like my blueprints,
     and would like to show your support or just say thank you?** [Click Here](https://www.paypal.com/donate/?hosted_button_id=WAZS3QSDTPGA8)
@@ -66,6 +66,7 @@ blueprint:
               - domain:
                 - sensor
               multiple: false
+              reorder: false
         bathroom_humidity_sensor:
           name: Bathroom Humidity Sensor (Optional)
           description: You will have the option to use 'The Maximum Humidity Option'
@@ -80,6 +81,7 @@ blueprint:
               - domain:
                 - sensor
               multiple: false
+              reorder: false
     manual_settings:
       name: Manual Trigger
       icon: mdi:gesture-tap-button
@@ -120,9 +122,9 @@ blueprint:
                 value: enable_manual_trigger_time_delay
               - label: Disable manual trigger
                 value: disable_manual_trigger
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         manual_trigger:
           name: Manual Trigger
           description: 'Enter an entity that will manually trigger the automation.
@@ -145,6 +147,7 @@ blueprint:
                 - switch
                 - binary_sensor
                 - input_boolean
+              reorder: false
         manual_trigger_default_time_delay:
           name: Default - Auto Off Time Delay
           description: If you've selected option 2 in the 'Manual Trigger Option'
@@ -185,8 +188,12 @@ blueprint:
             please refer to the ''Lights'' section below.
 
 
-            **NOTE** - If you are only selecting a script, it is recommended to create
-            a dummy toggle helper and then select it here to ensure the automation
+            **NOTE** - Only entities should be used, as devices will result in an
+            error log.
+
+
+            **Script** - If you are only selecting a script, it is recommended to
+            create a dummy toggle helper and then select it here to ensure the automation
             functions correctly.
 
 
@@ -226,6 +233,7 @@ blueprint:
                 - switch
                 - script
                 - input_boolean
+              reorder: false
         fan_speed_off:
           name: Fan Speed - Switch Off (Optional)
           description: 'You will have the option to use ''The Fan Speed Options''
@@ -247,6 +255,7 @@ blueprint:
                 - switch
                 - script
                 - input_boolean
+              reorder: false
     default_settings:
       name: Default - Summer Mode
       icon: mdi:weather-sunny
@@ -329,9 +338,9 @@ blueprint:
                 value: maximum_humidity_enabled
               - label: Disable the maximum humidity option
                 value: maximum_humidity_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         max_humidity:
           name: Maximum Humidity
           description: If you have enabled the maximum humidity option above, please
@@ -365,9 +374,9 @@ blueprint:
                 value: fan_speed_off_enabled
               - label: Disable the fan speed options
                 value: fan_speed_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         time_delay_low_speed:
           name: Fan Speed - Low Speed Time Delay
           description: If you've selected option 1 in the 'Fan Speed Options' above,
@@ -399,9 +408,9 @@ blueprint:
                 value: winter_mode_enabled
               - label: Disable winter mode option
                 value: winter_mode_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         month_winter_mode:
           name: Months For Winter Mode
           description: Choose the months during which you want the winter mode settings
@@ -436,8 +445,8 @@ blueprint:
                 value: '11'
               - label: December
                 value: '12'
-              custom_value: false
               sort: false
+              custom_value: false
         winter_rising_humidity:
           name: Winter Rising Humidity Derivative
           description: Specify the percentage increase that the derivative sensor
@@ -515,9 +524,9 @@ blueprint:
                 value: maximum_humidity_enabled
               - label: Disable the maximum humidity option
                 value: maximum_humidity_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         winter_max_humidity:
           name: Winter Maximum Humidity
           description: If you have enabled the maximum humidity option above, please
@@ -551,9 +560,9 @@ blueprint:
                 value: fan_speed_off_enabled
               - label: Disable the fan speed options
                 value: fan_speed_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         winter_time_delay_low_speed:
           name: Winter Fan Speed - Low Speed Time Delay
           description: If you've selected option 1 in the 'Fan Speed Options' above,
@@ -588,9 +597,9 @@ blueprint:
                 value: lights_enabled
               - label: Disable the lights options
                 value: lights_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         light_switch:
           name: Lights
           description: 'Select the lights that will be turned on by the trigger sensor.
@@ -633,8 +642,8 @@ blueprint:
                 value: use_colour_temperature
               - label: Use transition
                 value: use_transition
-              custom_value: false
               sort: false
+              custom_value: false
         light_brightness:
           name: Brightness
           description: The brightness setting for the lights when they are turned
@@ -705,9 +714,9 @@ blueprint:
                 value: enable_manual_fan_switch_auto_off
               - label: Disable manual fan switch
                 value: disable_manual_fan_switch
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         manual_fan_switch:
           name: Manual Fan Switch
           description: 'Enter a switch that will toggle the fan ON/OFF. When the switch
@@ -732,6 +741,7 @@ blueprint:
                 - switch
                 - binary_sensor
                 - input_boolean
+              reorder: false
         manual_fan_switch_time_delay:
           name: Manual Fan Switch Auto OFF - Time Delay
           description: If you've enabled option 2 above, please set the auto OFF time
@@ -766,9 +776,9 @@ blueprint:
                 value: enable_automation_link
               - label: Disable automation link
                 value: disable_automation_link
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         automation_link:
           name: Automation Link - Bypass Control
           description: 'Please enter the bypass entity of the other automations you
@@ -784,6 +794,7 @@ blueprint:
               filter:
               - domain:
                 - input_boolean
+              reorder: false
         automation_link_time_delay:
           name: Automation Link - Time Delay
           description: After the falling humidity derivative percentage has been achieved
@@ -827,9 +838,9 @@ blueprint:
                 value: bypass_enabled_stop
               - label: Disable the bypass option
                 value: bypass_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         by_pass:
           name: Bypass Switch
           description: 'Select a switch that will bypass the humidity derivative sensor
@@ -840,7 +851,9 @@ blueprint:
             selection, as it will cause the automation to malfunction.'
           default: []
           selector:
-            entity: {}
+            entity:
+              multiple: false
+              reorder: false
         bypass_options:
           name: Bypass - Extra Option
           description: Please indicate whether you would like to use this option.
@@ -852,8 +865,8 @@ blueprint:
               - label: When you turn the bypass off - Turn the fan, lights & automation
                   link OFF and do not run the automation.
                 value: bypass_turn_fan_off
-              custom_value: false
               sort: false
+              custom_value: false
         include_bypass_auto_off:
           name: Use The Bypass Auto OFF Option (Optional)
           description: Select this option if you want the bypass to automatically
@@ -868,9 +881,9 @@ blueprint:
                 value: bypass_auto_off_enabled
               - label: Disable the bypass auto off option
                 value: bypass_auto_off_disabled
-              custom_value: false
-              multiple: false
               sort: false
+              multiple: false
+              custom_value: false
         bypass_auto_off_delay:
           name: Bypass Auto OFF - Time Delay
           description: Please set the auto OFF time delay for the bypass.
@@ -943,46 +956,46 @@ variables:
   light_entities: "{% set a =  light_switch and light_switch.entity_id %} {% if a
     %}\n  {{ expand(a) | selectattr('domain', 'eq', 'light') | map(attribute='entity_id')
     | list }}\n{% else %}\n  []\n{% endif %}"
-trigger:
-- platform: numeric_state
+triggers:
+- trigger: numeric_state
   id: t0
   entity_id: !input trigger
   above: !input winter_rising_humidity
   below: '100'
-- platform: numeric_state
+- trigger: numeric_state
   id: t1
   entity_id: !input bathroom_humidity_sensor
   above: !input winter_max_humidity
   below: '100'
-- platform: homeassistant
+- trigger: homeassistant
   id: t2
   event: start
-- platform: numeric_state
+- trigger: numeric_state
   id: t3
   entity_id: !input trigger
   above: !input rising_humidity
   below: '100'
-- platform: numeric_state
+- trigger: numeric_state
   id: t4
   entity_id: !input bathroom_humidity_sensor
   above: !input max_humidity
   below: '100'
-- platform: state
+- trigger: state
   id: t5
   entity_id: !input by_pass
   from: 'off'
   to: 'on'
-- platform: state
+- trigger: state
   id: t6
   entity_id: !input by_pass
   from: 'on'
   to: 'off'
-- platform: state
+- trigger: state
   id: t7
   entity_id: !input manual_fan_switch
   from: 'off'
   to: 'on'
-- platform: state
+- trigger: state
   id: t8
   entity_id: !input manual_trigger
   from: 'off'
@@ -1267,7 +1280,7 @@ action:
               list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual trigger
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_trigger
         - choose:
           - alias: Check if the manual fan switch option is enabled and switch is
@@ -1279,13 +1292,13 @@ action:
               | list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual fan switch
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_fan_switch
         - alias: Parallel Actions for the fan and lights
           parallel:
           - sequence:
             - alias: Turn off the fan
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               target: !input fan_switch
             - choose:
               - alias: Check if the fan speed switch to low speed then off option
@@ -1294,17 +1307,17 @@ action:
                 - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                 sequence:
                 - alias: Fan low speed OFF - Safeguard
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input fan_speed_low
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
               - alias: Check if the fan speed off option is enabled
                 conditions:
                 - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                 sequence:
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
           - sequence:
             - choose:
@@ -1320,7 +1333,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
                       data:
@@ -1332,7 +1345,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
           - sequence:
@@ -1342,7 +1355,7 @@ action:
                 - '{{ include_automation_link == ''enable_automation_link'' }}'
                 sequence:
                 - alias: Turn off the automation link
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target:
                     entity_id: !input automation_link
         - alias: Check by-pass settings and preform the correct action
@@ -1356,7 +1369,7 @@ action:
             delay:
               minutes: !input bypass_auto_off_delay
           - alias: Turn off the by-pass
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input by_pass
         - stop: Stop the automation
       - alias: By-pass is turned on  & check by-pass option - keep the current fan
@@ -1376,7 +1389,7 @@ action:
               list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual trigger
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_trigger
         - choose:
           - alias: Check if the manual fan switch option is enabled and switch is
@@ -1388,7 +1401,7 @@ action:
               | list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual fan switch
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_fan_switch
         - alias: Check by-pass settings and preform the correct action
           if:
@@ -1401,7 +1414,7 @@ action:
             delay:
               minutes: !input bypass_auto_off_delay
           - alias: Turn off the by-pass
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input by_pass
           - stop: Stop the automation
           else:
@@ -1421,7 +1434,7 @@ action:
               list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual trigger
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_trigger
         - choose:
           - alias: Check if the manual fan switch option is enabled and switch is
@@ -1433,7 +1446,7 @@ action:
               | list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual fan switch
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_fan_switch
         - choose:
           - alias: Check by-pass options - turn fan off is enabled
@@ -1445,7 +1458,7 @@ action:
               parallel:
               - sequence:
                 - alias: Turn off the fan
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target: !input fan_switch
                 - choose:
                   - alias: Check if the fan speed switch to low speed then off option
@@ -1454,17 +1467,17 @@ action:
                     - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                     sequence:
                     - alias: Fan low speed OFF - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_low
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
                   - alias: Check if the fan speed off option is enabled
                     conditions:
                     - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                     sequence:
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
               - sequence:
                 - choose:
@@ -1480,7 +1493,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
                           data:
@@ -1492,7 +1505,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
               - sequence:
@@ -1502,7 +1515,7 @@ action:
                     - '{{ include_automation_link == ''enable_automation_link'' }}'
                     sequence:
                     - alias: Turn off the automation link
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       target:
                         entity_id: !input automation_link
             - stop: Stop the automation
@@ -1526,7 +1539,7 @@ action:
                   delay:
                     minutes: !input winter_time_delay
                 - alias: Turn off the fan
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target: !input fan_switch
                 - choose:
                   - alias: Check if the fan speed switch to low speed then off option
@@ -1535,27 +1548,27 @@ action:
                     - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                     sequence:
                     - alias: Fan Speed - Switch Off - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_off
                     - alias: Fan low speed ON
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_low
                     - alias: Wait the number of minutes set in the low speed time
                         delay
                       delay:
                         minutes: !input winter_time_delay_low_speed
                     - alias: Fan low speed OFF - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_low
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
                   - alias: Check if the fan speed off option is enabled
                     conditions:
                     - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                     sequence:
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
               - sequence:
                 - choose:
@@ -1574,7 +1587,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
                           data:
@@ -1586,7 +1599,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
               - sequence:
@@ -1600,7 +1613,7 @@ action:
                       delay:
                         minutes: !input automation_link_time_delay
                     - alias: Turn off the automation link
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       target:
                         entity_id: !input automation_link
             - stop: Stop the automation
@@ -1628,7 +1641,7 @@ action:
           default:
           - alias: Wait until Humidity Derivative Sensor drops or it times out
             wait_for_trigger:
-            - platform: numeric_state
+            - trigger: numeric_state
               entity_id: !input trigger
               below: !input winter_falling_humidity
             timeout:
@@ -1640,7 +1653,7 @@ action:
                 delay:
                   minutes: !input winter_time_delay
               - alias: Turn off the fan
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target: !input fan_switch
               - choose:
                 - alias: Check if the fan speed switch to low speed then off option
@@ -1649,26 +1662,26 @@ action:
                   - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                   sequence:
                   - alias: Fan Speed - Switch Off - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_off
                   - alias: Fan low speed ON
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_low
                   - alias: Wait the number of minutes set in the low speed time delay
                     delay:
                       minutes: !input winter_time_delay_low_speed
                   - alias: Fan low speed OFF - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_low
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
                 - alias: Check if the fan speed off option is enabled
                   conditions:
                   - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                   sequence:
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
             - sequence:
               - choose:
@@ -1687,7 +1700,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
                         data:
@@ -1699,7 +1712,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
             - sequence:
@@ -1713,7 +1726,7 @@ action:
                     delay:
                       minutes: !input automation_link_time_delay
                   - alias: Turn off the automation link
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     target:
                       entity_id: !input automation_link
           - stop: Stop the automation
@@ -1732,7 +1745,7 @@ action:
               list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual trigger
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_trigger
         - choose:
           - alias: Check if fan speeds are enabled
@@ -1740,7 +1753,7 @@ action:
             - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
             sequence:
             - alias: Fan Speed - Low Speed Switch - Safeguard
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input fan_speed_low
         - choose:
           - alias: Check if fan speeds are enabled
@@ -1749,10 +1762,10 @@ action:
               == ''fan_speed_off_enabled'')}}'
             sequence:
             - alias: Fan Speed - Switch Off - Safeguard
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input fan_speed_off
         - alias: Turn on the fan
-          service: homeassistant.turn_on
+          action: homeassistant.turn_on
           target: !input fan_switch
         - choose:
           - alias: Check if manual fan switch auto off is enabled
@@ -1763,7 +1776,7 @@ action:
             - alias: Wait until manual fan switch is turned off or the time delay
                 passes
               wait_for_trigger:
-              - platform: state
+              - trigger: state
                 entity_id: !input manual_fan_switch
                 from: 'on'
                 to: 'off'
@@ -1775,7 +1788,7 @@ action:
             sequence:
             - alias: Wait until manual fan switch is turned off
               wait_for_trigger:
-              - platform: state
+              - trigger: state
                 entity_id: !input manual_fan_switch
                 from: 'on'
                 to: 'off'
@@ -1783,7 +1796,7 @@ action:
           parallel:
           - sequence:
             - alias: Turn off the fan
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               target: !input fan_switch
             - choose:
               - alias: Check if the fan speed off option is enabled
@@ -1792,7 +1805,7 @@ action:
                   == ''fan_speed_off_enabled'') }}'
                 sequence:
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
             - choose:
               - alias: Check if the run on timer is switch is on
@@ -1801,7 +1814,7 @@ action:
                   | list | count > 0 }}'
                 sequence:
                 - alias: Turn OFF manual fan switch
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input manual_fan_switch
           - sequence:
             - choose:
@@ -1818,7 +1831,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
                       data:
@@ -1830,7 +1843,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
           - sequence:
@@ -1842,7 +1855,7 @@ action:
                   | list | count > 0)) }}'
                 sequence:
                 - alias: Turn off the automation link
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target:
                     entity_id: !input automation_link
         - stop: Stop the automation
@@ -1861,7 +1874,7 @@ action:
               | list | count > 0 }}'
             sequence:
             - alias: Turn OFF manual fan switch
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input manual_fan_switch
         - choose:
           - alias: Check if the automation link is enabled
@@ -1869,7 +1882,7 @@ action:
             - '{{ include_automation_link == ''enable_automation_link'' }}'
             sequence:
             - alias: Turn on the automation link
-              service: homeassistant.turn_on
+              action: homeassistant.turn_on
               target:
                 entity_id: !input automation_link
         - choose:
@@ -1885,7 +1898,7 @@ action:
                     and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                     not in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1897,7 +1910,7 @@ action:
                     and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                     not in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1910,7 +1923,7 @@ action:
                     and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                     in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1924,7 +1937,7 @@ action:
                     and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                     in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1938,7 +1951,7 @@ action:
                     and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                     not in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1950,7 +1963,7 @@ action:
                     and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                     in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1962,7 +1975,7 @@ action:
                     and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                     in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -1975,7 +1988,7 @@ action:
                     and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                     not in include_light_control) }}'
                 sequence:
-                - service: light.turn_on
+                - action: light.turn_on
                   target:
                     entity_id: '{{ light_entities }}'
         - choose:
@@ -1984,7 +1997,7 @@ action:
             - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
             sequence:
             - alias: Fan Speed - Low Speed Switch - Safeguard
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input fan_speed_low
         - choose:
           - alias: Check if fan speeds are enabled
@@ -1993,10 +2006,10 @@ action:
               == ''fan_speed_off_enabled'') }}'
             sequence:
             - alias: Fan Speed - Switch Off - Safeguard
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input fan_speed_off
         - alias: Turn on the fan
-          service: homeassistant.turn_on
+          action: homeassistant.turn_on
           target: !input fan_switch
         - choose:
           - alias: Check manual trigger with safeguard is selected
@@ -2006,7 +2019,7 @@ action:
             - alias: Wait until manual trigger is turned off or the safeguard has
                 passes
               wait_for_trigger:
-              - platform: state
+              - trigger: state
                 entity_id: !input manual_trigger
                 from: 'on'
                 to: 'off'
@@ -2019,7 +2032,7 @@ action:
                   | list | count > 0 }}'
                 sequence:
                 - alias: Turn OFF the manual trigger
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input manual_trigger
           - alias: Check manual trigger with time delay is selected
             conditions:
@@ -2028,7 +2041,7 @@ action:
             - alias: Wait until manual trigger is turned off or the time delay has
                 passes
               wait_for_trigger:
-              - platform: state
+              - trigger: state
                 entity_id: !input manual_trigger
                 from: 'on'
                 to: 'off'
@@ -2041,7 +2054,7 @@ action:
                   | list | count > 0 }}'
                 sequence:
                 - alias: Turn OFF the manual trigger
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input manual_trigger
         - alias: Parallel Actions for the fan, lights and automation link
           parallel:
@@ -2050,7 +2063,7 @@ action:
               delay:
                 minutes: !input winter_time_delay
             - alias: Turn off the fan
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               target: !input fan_switch
             - choose:
               - alias: Check if the fan speed switch to low speed then off option
@@ -2059,26 +2072,26 @@ action:
                 - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                 sequence:
                 - alias: Fan Speed - Switch Off - Safeguard
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input fan_speed_off
                 - alias: Fan low speed ON
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_low
                 - alias: Wait until the low speed time delay passes
                   delay:
                     minutes: !input winter_time_delay_low_speed
                 - alias: Fan low speed OFF - Safeguard
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input fan_speed_low
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
               - alias: Check if the fan speed off option is enabled
                 conditions:
                 - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                 sequence:
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
           - sequence:
             - choose:
@@ -2098,7 +2111,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
                       data:
@@ -2110,7 +2123,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
           - sequence:
@@ -2125,7 +2138,7 @@ action:
                   delay:
                     minutes: !input automation_link_time_delay
                 - alias: Turn off the automation link
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target:
                     entity_id: !input automation_link
         - stop: Stop the automation
@@ -2146,7 +2159,7 @@ action:
             - alias: Wait until manual trigger is turned off or the safeguard has
                 passes
               wait_for_trigger:
-              - platform: state
+              - trigger: state
                 entity_id: !input manual_trigger
                 from: 'on'
                 to: 'off'
@@ -2159,7 +2172,7 @@ action:
                   | list | count > 0 }}'
                 sequence:
                 - alias: Turn OFF the manual trigger
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input manual_trigger
           - alias: Check manual trigger with time delay is selected and manual trigger
               is ON
@@ -2171,7 +2184,7 @@ action:
             - alias: Wait until manual trigger is turned off or the time delay has
                 passes
               wait_for_trigger:
-              - platform: state
+              - trigger: state
                 entity_id: !input manual_trigger
                 from: 'on'
                 to: 'off'
@@ -2184,48 +2197,112 @@ action:
                   | list | count > 0 }}'
                 sequence:
                 - alias: Turn OFF the manual trigger
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input manual_trigger
         - choose:
           - alias: Check manual fan switch is enabled and manual switch is ON
             conditions:
-            - '{{ include_manual_fan_switch == ''enable_manual_fan_switch'' }}'
+            - alias: Check if the humidity derivative sensor is above falling humidity
+                set point and fan / lights are on
+              condition: template
+              value_template: '{{ include_manual_fan_switch == ''enable_manual_fan_switch_auto_off''
+                or include_manual_fan_switch == ''enable_manual_fan_switch'' }}'
             - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='', ''on'')
               | list | count > 0 }}'
             sequence:
-            - alias: Wait until manual fan switch is turned OFF or safeguard has passes
-              wait_for_trigger:
-              - platform: state
-                entity_id: !input manual_fan_switch
-                from: 'on'
-                to: 'off'
-          - alias: Check manual fan switch with time delay is selected and manual
-              switch is ON
-            conditions:
-            - '{{ include_manual_fan_switch == ''enable_manual_fan_switch_auto_off''
-              }}'
-            - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='', ''on'')
-              | list | count > 0 }}'
-            sequence:
-            - alias: Wait until manual fan switch is turned off or the time delay
-                has passes
-              wait_for_trigger:
-              - platform: state
-                entity_id: !input manual_fan_switch
-                from: 'on'
-                to: 'off'
-              timeout:
-                minutes: !input manual_fan_switch_time_delay
             - choose:
-              - alias: Check manual fan switch is ON and turn it OFF
+              - alias: Check if manual fan switch is enabled
                 conditions:
-                - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='', ''on'')
-                  | list | count > 0 }}'
+                - '{{ include_manual_fan_switch == ''enable_manual_fan_switch'' }}'
                 sequence:
-                - alias: Turn OFF manual fan switch
-                  service: homeassistant.turn_off
-                  entity_id: !input manual_fan_switch
-        - choose:
+                - alias: Wait until manual fan switch is turned off
+                  wait_for_trigger:
+                  - trigger: state
+                    entity_id: !input manual_fan_switch
+                    from: 'on'
+                    to: 'off'
+              - alias: Check if manual fan switch auto off is enabled
+                conditions:
+                - '{{ include_manual_fan_switch == ''enable_manual_fan_switch_auto_off''
+                  }}'
+                sequence:
+                - alias: Wait until manual fan switch is turned off or the time delay
+                    passes
+                  wait_for_trigger:
+                  - trigger: state
+                    entity_id: !input manual_fan_switch
+                    from: 'on'
+                    to: 'off'
+                  timeout:
+                    minutes: !input manual_fan_switch_time_delay
+            - alias: Parallel Actions for the fan, lights and automation link
+              parallel:
+              - sequence:
+                - alias: Turn off the fan
+                  action: homeassistant.turn_off
+                  target: !input fan_switch
+                - choose:
+                  - alias: Check if the fan speed off option is enabled
+                    conditions:
+                    - '{{ (winter_include_fan_speed == ''fan_low_speed_enabled'')
+                      or (winter_include_fan_speed == ''fan_speed_off_enabled'') }}'
+                    sequence:
+                    - alias: Fan off speed
+                      action: homeassistant.turn_on
+                      entity_id: !input fan_speed_off
+                - choose:
+                  - alias: Check if the run on timer is switch is on
+                    conditions:
+                    - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='',
+                      ''on'') | list | count > 0 }}'
+                    sequence:
+                    - alias: Turn OFF manual fan switch
+                      action: homeassistant.turn_off
+                      entity_id: !input manual_fan_switch
+              - sequence:
+                - choose:
+                  - alias: Check if the lights are enabled
+                    conditions:
+                    - '{{ ((include_lights == ''lights_enabled'') and (expand(light_switch.entity_id)
+                      | selectattr(''state'', ''=='', ''on'') | list | count > 0))
+                      }}'
+                    sequence:
+                    - choose:
+                      - alias: If transition is selected
+                        conditions:
+                        - condition: template
+                          value_template: '{{ ''use_transition'' in include_light_control
+                            }}'
+                        sequence:
+                        - alias: Turn off the lights
+                          action: light.turn_off
+                          target:
+                            entity_id: '{{ light_entities }}'
+                          data:
+                            transition: '{{ transition_off_value }}'
+                      - alias: If transition is not selected
+                        conditions:
+                        - condition: template
+                          value_template: '{{ ''use_transition'' not in include_light_control
+                            }}'
+                        sequence:
+                        - alias: Turn off the lights
+                          action: light.turn_off
+                          target:
+                            entity_id: '{{ light_entities }}'
+              - sequence:
+                - choose:
+                  - alias: Check if the automation link is enabled
+                    conditions:
+                    - '{{ ((include_automation_link == ''enable_automation_link'')
+                      and (expand(automation_link) | selectattr(''state'', ''=='',
+                      ''on'') | list | count > 0)) }}'
+                    sequence:
+                    - alias: Turn off the automation link
+                      action: homeassistant.turn_off
+                      target:
+                        entity_id: !input automation_link
+            - stop: Stop the automation
           - alias: Check automation and preform the correct action
             conditions:
             - alias: Check if the winter humidity derivative sensor is below falling
@@ -2253,7 +2330,7 @@ action:
                   delay:
                     minutes: !input bypass_auto_off_delay
                 - alias: Turn off the by-pass
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input by_pass
                 - stop: Stop the automation
             - alias: Parallel Actions for the fan and lights
@@ -2264,7 +2341,7 @@ action:
                   delay:
                     minutes: !input winter_time_delay
                 - alias: Turn off the fan
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target: !input fan_switch
                 - choose:
                   - alias: Check if the fan speed switch to low speed then off option
@@ -2273,27 +2350,27 @@ action:
                     - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                     sequence:
                     - alias: Fan Speed - Switch Off - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_off
                     - alias: Fan low speed ON
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_low
                     - alias: Wait the number of minutes set in the low speed time
                         delay
                       delay:
                         minutes: !input winter_time_delay_low_speed
                     - alias: Fan low speed OFF - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_low
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
                   - alias: Check if the fan speed off option is enabled
                     conditions:
                     - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                     sequence:
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
               - sequence:
                 - choose:
@@ -2312,7 +2389,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
                           data:
@@ -2324,7 +2401,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
               - sequence:
@@ -2338,7 +2415,7 @@ action:
                       delay:
                         minutes: !input automation_link_time_delay
                     - alias: Turn off the automation link
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       target:
                         entity_id: !input automation_link
             - stop: Stop the automation
@@ -2372,12 +2449,12 @@ action:
                   delay:
                     minutes: !input bypass_auto_off_delay
                 - alias: Turn off the by-pass
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input by_pass
                 - stop: Stop the automation
             - alias: Wait until Humidity Derivative Sensor drops or it times out
               wait_for_trigger:
-              - platform: numeric_state
+              - trigger: numeric_state
                 entity_id: !input trigger
                 below: !input winter_falling_humidity
               timeout:
@@ -2390,7 +2467,7 @@ action:
                   delay:
                     minutes: !input winter_time_delay
                 - alias: Turn off the fan
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target: !input fan_switch
                 - choose:
                   - alias: Check if the fan speed switch to low speed then off option
@@ -2399,27 +2476,27 @@ action:
                     - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
                     sequence:
                     - alias: Fan Speed - Switch Off - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_off
                     - alias: Fan low speed ON
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_low
                     - alias: Wait the number of minutes set in the low speed time
                         delay
                       delay:
                         minutes: !input winter_time_delay_low_speed
                     - alias: Fan low speed OFF - Safeguard
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       entity_id: !input fan_speed_low
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
                   - alias: Check if the fan speed off option is enabled
                     conditions:
                     - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
                     sequence:
                     - alias: Fan off speed
-                      service: homeassistant.turn_on
+                      action: homeassistant.turn_on
                       entity_id: !input fan_speed_off
               - sequence:
                 - choose:
@@ -2438,7 +2515,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
                           data:
@@ -2450,7 +2527,7 @@ action:
                             }}'
                         sequence:
                         - alias: Turn off the lights
-                          service: light.turn_off
+                          action: light.turn_off
                           target:
                             entity_id: '{{ light_entities }}'
               - sequence:
@@ -2464,7 +2541,7 @@ action:
                       delay:
                         minutes: !input automation_link_time_delay
                     - alias: Turn off the automation link
-                      service: homeassistant.turn_off
+                      action: homeassistant.turn_off
                       target:
                         entity_id: !input automation_link
             - stop: Stop the automation
@@ -2477,7 +2554,7 @@ action:
           | count > 0 }}'
         sequence:
         - alias: Turn OFF manual trigger
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input manual_trigger
     - choose:
       - alias: Check if the manual fan switch option is enabled and switch is on
@@ -2488,7 +2565,7 @@ action:
           list | count > 0 }}'
         sequence:
         - alias: Turn OFF manual fan switch
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input manual_fan_switch
     - choose:
       - alias: Check if fan speeds are enabled
@@ -2496,7 +2573,7 @@ action:
         - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
         sequence:
         - alias: Fan Speed - Low Speed Switch - Safeguard
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input fan_speed_low
     - choose:
       - alias: Check if fan speeds are enabled
@@ -2505,10 +2582,10 @@ action:
           == ''fan_speed_off_enabled'')}}'
         sequence:
         - alias: Fan Speed - Switch Off - Safeguard
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input fan_speed_off
     - alias: Turn on the fan
-      service: homeassistant.turn_on
+      action: homeassistant.turn_on
       target: !input fan_switch
     - choose:
       - alias: Check if the lights are enabled
@@ -2523,7 +2600,7 @@ action:
                 (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                 not in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2535,7 +2612,7 @@ action:
                 (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                 not in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2548,7 +2625,7 @@ action:
                 (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                 in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2562,7 +2639,7 @@ action:
                 (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                 in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2576,7 +2653,7 @@ action:
                 and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                 not in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2588,7 +2665,7 @@ action:
                 and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                 in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2600,7 +2677,7 @@ action:
                 and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                 in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
               data:
@@ -2613,7 +2690,7 @@ action:
                 and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                 not in include_light_control) }}'
             sequence:
-            - service: light.turn_on
+            - action: light.turn_on
               target:
                 entity_id: '{{ light_entities }}'
     - choose:
@@ -2622,7 +2699,7 @@ action:
         - '{{ include_automation_link == ''enable_automation_link'' }}'
         sequence:
         - alias: Turn on the automation link
-          service: homeassistant.turn_on
+          action: homeassistant.turn_on
           target:
             entity_id: !input automation_link
     - choose:
@@ -2644,14 +2721,14 @@ action:
             delay:
               minutes: !input bypass_auto_off_delay
           - alias: Turn off the by-pass
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input by_pass
           - stop: Stop the automation
           else:
           - stop: Stop the automation
     - alias: Wait until Humidity Derivative Sensor drops or it times out
       wait_for_trigger:
-      - platform: numeric_state
+      - trigger: numeric_state
         entity_id: !input trigger
         below: !input winter_falling_humidity
       timeout:
@@ -2663,7 +2740,7 @@ action:
           delay:
             minutes: !input winter_time_delay
         - alias: Turn off the fan
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           target: !input fan_switch
         - choose:
           - alias: Check if the fan speed switch to low speed then off option is enabled
@@ -2671,23 +2748,23 @@ action:
             - '{{ winter_include_fan_speed == ''fan_low_speed_enabled'' }}'
             sequence:
             - alias: Fan low speed ON
-              service: homeassistant.turn_on
+              action: homeassistant.turn_on
               entity_id: !input fan_speed_low
             - alias: Wait the number of minutes set in the low speed time delay
               delay:
                 minutes: !input winter_time_delay_low_speed
             - alias: Fan low speed OFF - Safeguard
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               entity_id: !input fan_speed_low
             - alias: Fan off speed
-              service: homeassistant.turn_on
+              action: homeassistant.turn_on
               entity_id: !input fan_speed_off
           - alias: Check if the fan speed off option is enabled
             conditions:
             - '{{ winter_include_fan_speed == ''fan_speed_off_enabled'' }}'
             sequence:
             - alias: Fan off speed
-              service: homeassistant.turn_on
+              action: homeassistant.turn_on
               entity_id: !input fan_speed_off
       - sequence:
         - choose:
@@ -2706,7 +2783,7 @@ action:
                     }}'
                 sequence:
                 - alias: Turn off the lights
-                  service: light.turn_off
+                  action: light.turn_off
                   target:
                     entity_id: '{{ light_entities }}'
                   data:
@@ -2718,7 +2795,7 @@ action:
                     }}'
                 sequence:
                 - alias: Turn off the lights
-                  service: light.turn_off
+                  action: light.turn_off
                   target:
                     entity_id: '{{ light_entities }}'
       - sequence:
@@ -2731,7 +2808,7 @@ action:
               delay:
                 minutes: !input automation_link_time_delay
             - alias: Turn off the automation link
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               target:
                 entity_id: !input automation_link
   default:
@@ -2762,7 +2839,7 @@ action:
             | count > 0 }}'
           sequence:
           - alias: Turn OFF manual trigger
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_trigger
       - choose:
         - alias: Check if the manual fan switch option is enabled and switch is on
@@ -2773,13 +2850,13 @@ action:
             | list | count > 0 }}'
           sequence:
           - alias: Turn OFF manual fan switch
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_fan_switch
       - alias: Parallel Actions for the fan and lights
         parallel:
         - sequence:
           - alias: Turn off the fan
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             target: !input fan_switch
           - choose:
             - alias: Check if the fan speed switch to low speed then off option is
@@ -2788,17 +2865,17 @@ action:
               - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
               sequence:
               - alias: Fan low speed OFF - Safeguard
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input fan_speed_low
               - alias: Fan off speed
-                service: homeassistant.turn_on
+                action: homeassistant.turn_on
                 entity_id: !input fan_speed_off
             - alias: Check if the fan speed off option is enabled
               conditions:
               - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
               sequence:
               - alias: Fan off speed
-                service: homeassistant.turn_on
+                action: homeassistant.turn_on
                 entity_id: !input fan_speed_off
         - sequence:
           - choose:
@@ -2814,7 +2891,7 @@ action:
                       }}'
                   sequence:
                   - alias: Turn off the lights
-                    service: light.turn_off
+                    action: light.turn_off
                     target:
                       entity_id: '{{ light_entities }}'
                     data:
@@ -2826,7 +2903,7 @@ action:
                       }}'
                   sequence:
                   - alias: Turn off the lights
-                    service: light.turn_off
+                    action: light.turn_off
                     target:
                       entity_id: '{{ light_entities }}'
         - sequence:
@@ -2836,7 +2913,7 @@ action:
               - '{{ include_automation_link == ''enable_automation_link'' }}'
               sequence:
               - alias: Turn off the automation link
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target:
                   entity_id: !input automation_link
       - alias: Check by-pass settings and preform the correct action
@@ -2850,7 +2927,7 @@ action:
           delay:
             minutes: !input bypass_auto_off_delay
         - alias: Turn off the by-pass
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input by_pass
       - stop: Stop the automation
     - alias: By-pass is turned on  & check by-pass option - keep the current fan state
@@ -2869,7 +2946,7 @@ action:
             | count > 0 }}'
           sequence:
           - alias: Turn OFF manual trigger
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_trigger
       - choose:
         - alias: Check if the manual fan switch option is enabled and switch is on
@@ -2880,7 +2957,7 @@ action:
             | list | count > 0 }}'
           sequence:
           - alias: Turn OFF manual fan switch
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_fan_switch
       - alias: Check by-pass settings and preform the correct action
         if:
@@ -2893,7 +2970,7 @@ action:
           delay:
             minutes: !input bypass_auto_off_delay
         - alias: Turn off the by-pass
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input by_pass
         - stop: Stop the automation
         else:
@@ -2913,7 +2990,7 @@ action:
             | count > 0 }}'
           sequence:
           - alias: Turn OFF manual trigger
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_trigger
       - choose:
         - alias: Check if the manual fan switch option is enabled and switch is on
@@ -2924,7 +3001,7 @@ action:
             | list | count > 0 }}'
           sequence:
           - alias: Turn OFF manual fan switch
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_fan_switch
       - choose:
         - alias: Check by-pass options - turn fan off is enabled
@@ -2936,7 +3013,7 @@ action:
             parallel:
             - sequence:
               - alias: Turn off the fan
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target: !input fan_switch
               - choose:
                 - alias: Check if the fan speed switch to low speed then off option
@@ -2945,17 +3022,17 @@ action:
                   - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
                   sequence:
                   - alias: Fan low speed OFF - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_low
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
                 - alias: Check if the fan speed off option is enabled
                   conditions:
                   - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
                   sequence:
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
             - sequence:
               - choose:
@@ -2971,7 +3048,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
                         data:
@@ -2983,7 +3060,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
             - sequence:
@@ -2993,7 +3070,7 @@ action:
                   - '{{ include_automation_link == ''enable_automation_link'' }}'
                   sequence:
                   - alias: Turn off the automation link
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     target:
                       entity_id: !input automation_link
           - stop: Stop the automation
@@ -3016,7 +3093,7 @@ action:
                 delay:
                   minutes: !input time_delay
               - alias: Turn off the fan
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target: !input fan_switch
               - choose:
                 - alias: Check if the fan speed switch to low speed then off option
@@ -3025,26 +3102,26 @@ action:
                   - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
                   sequence:
                   - alias: Fan Speed - Switch Off - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_off
                   - alias: Fan low speed ON
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_low
                   - alias: Wait the number of minutes set in the low speed time delay
                     delay:
                       minutes: !input time_delay_low_speed
                   - alias: Fan low speed OFF - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_low
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
                 - alias: Check if the fan speed off option is enabled
                   conditions:
                   - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
                   sequence:
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
             - sequence:
               - choose:
@@ -3063,7 +3140,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
                         data:
@@ -3075,7 +3152,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
             - sequence:
@@ -3089,7 +3166,7 @@ action:
                     delay:
                       minutes: !input automation_link_time_delay
                   - alias: Turn off the automation link
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     target:
                       entity_id: !input automation_link
           - stop: Stop the automation
@@ -3116,7 +3193,7 @@ action:
         default:
         - alias: Wait until Humidity Derivative Sensor drops or it times out
           wait_for_trigger:
-          - platform: numeric_state
+          - trigger: numeric_state
             entity_id: !input trigger
             below: !input falling_humidity
           timeout:
@@ -3128,7 +3205,7 @@ action:
               delay:
                 minutes: !input time_delay
             - alias: Turn off the fan
-              service: homeassistant.turn_off
+              action: homeassistant.turn_off
               target: !input fan_switch
             - choose:
               - alias: Check if the fan speed switch to low speed then off option
@@ -3137,26 +3214,26 @@ action:
                 - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
                 sequence:
                 - alias: Fan Speed - Switch Off - Safeguard
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input fan_speed_off
                 - alias: Fan low speed ON
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_low
                 - alias: Wait the number of minutes set in the low speed time delay
                   delay:
                     minutes: !input time_delay_low_speed
                 - alias: Fan low speed OFF - Safeguard
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   entity_id: !input fan_speed_low
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
               - alias: Check if the fan speed off option is enabled
                 conditions:
                 - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
                 sequence:
                 - alias: Fan off speed
-                  service: homeassistant.turn_on
+                  action: homeassistant.turn_on
                   entity_id: !input fan_speed_off
           - sequence:
             - choose:
@@ -3175,7 +3252,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
                       data:
@@ -3187,7 +3264,7 @@ action:
                         }}'
                     sequence:
                     - alias: Turn off the lights
-                      service: light.turn_off
+                      action: light.turn_off
                       target:
                         entity_id: '{{ light_entities }}'
           - sequence:
@@ -3201,7 +3278,7 @@ action:
                   delay:
                     minutes: !input automation_link_time_delay
                 - alias: Turn off the automation link
-                  service: homeassistant.turn_off
+                  action: homeassistant.turn_off
                   target:
                     entity_id: !input automation_link
         - stop: Stop the automation
@@ -3220,7 +3297,7 @@ action:
             | count > 0 }}'
           sequence:
           - alias: Turn OFF manual trigger
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_trigger
       - choose:
         - alias: Check if fan speeds are enabled
@@ -3228,7 +3305,7 @@ action:
           - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
           sequence:
           - alias: Fan Speed - Low Speed Switch - Safeguard
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input fan_speed_low
       - choose:
         - alias: Check if fan speeds are enabled
@@ -3237,10 +3314,10 @@ action:
             == ''fan_speed_off_enabled'')}}'
           sequence:
           - alias: Fan Speed - Switch Off - Safeguard
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input fan_speed_off
       - alias: Turn on the fan
-        service: homeassistant.turn_on
+        action: homeassistant.turn_on
         target: !input fan_switch
       - choose:
         - alias: Check if manual fan switch auto off is enabled
@@ -3250,7 +3327,7 @@ action:
           sequence:
           - alias: Wait until manual fan switch is turned off or the time delay passes
             wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: !input manual_fan_switch
               from: 'on'
               to: 'off'
@@ -3262,7 +3339,7 @@ action:
           sequence:
           - alias: Wait until manual fan switch is turned off
             wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: !input manual_fan_switch
               from: 'on'
               to: 'off'
@@ -3270,7 +3347,7 @@ action:
         parallel:
         - sequence:
           - alias: Turn off the fan
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             target: !input fan_switch
           - choose:
             - alias: Check if the fan speed off option is enabled
@@ -3279,7 +3356,7 @@ action:
                 == ''fan_speed_off_enabled'') }}'
               sequence:
               - alias: Fan off speed
-                service: homeassistant.turn_on
+                action: homeassistant.turn_on
                 entity_id: !input fan_speed_off
           - choose:
             - alias: Check if the manual fan switch option is enabled and switch is
@@ -3292,7 +3369,7 @@ action:
                 | list | count > 0 }}'
               sequence:
               - alias: Turn OFF manual fan switch
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input manual_fan_switch
         - sequence:
           - choose:
@@ -3309,7 +3386,7 @@ action:
                       }}'
                   sequence:
                   - alias: Turn off the lights
-                    service: light.turn_off
+                    action: light.turn_off
                     target:
                       entity_id: '{{ light_entities }}'
                     data:
@@ -3321,7 +3398,7 @@ action:
                       }}'
                   sequence:
                   - alias: Turn off the lights
-                    service: light.turn_off
+                    action: light.turn_off
                     target:
                       entity_id: '{{ light_entities }}'
         - sequence:
@@ -3332,7 +3409,7 @@ action:
                 | selectattr(''state'', ''=='', ''on'') | list | count > 0)) }}'
               sequence:
               - alias: Turn off the automation link
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target:
                   entity_id: !input automation_link
       - stop: Stop the automation
@@ -3350,7 +3427,7 @@ action:
             | list | count > 0 }}'
           sequence:
           - alias: Turn OFF manual fan switch
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input manual_fan_switch
       - choose:
         - alias: Check if the automation link is enabled
@@ -3358,7 +3435,7 @@ action:
           - '{{ include_automation_link == ''enable_automation_link'' }}'
           sequence:
           - alias: Turn on the automation link
-            service: homeassistant.turn_on
+            action: homeassistant.turn_on
             target:
               entity_id: !input automation_link
       - choose:
@@ -3374,7 +3451,7 @@ action:
                   and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                   not in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3386,7 +3463,7 @@ action:
                   and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                   not in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3399,7 +3476,7 @@ action:
                   and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                   in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3413,7 +3490,7 @@ action:
                   and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                   in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3427,7 +3504,7 @@ action:
                   and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                   not in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3439,7 +3516,7 @@ action:
                   and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                   in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3451,7 +3528,7 @@ action:
                   and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
                   in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -3464,7 +3541,7 @@ action:
                   and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
                   not in include_light_control) }}'
               sequence:
-              - service: light.turn_on
+              - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
       - choose:
@@ -3473,7 +3550,7 @@ action:
           - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
           sequence:
           - alias: Fan Speed - Low Speed Switch - Safeguard
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input fan_speed_low
       - choose:
         - alias: Check if fan speeds are enabled
@@ -3482,10 +3559,10 @@ action:
             == ''fan_speed_off_enabled'') }}'
           sequence:
           - alias: Fan Speed - Switch Off - Safeguard
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input fan_speed_off
       - alias: Turn on the fan
-        service: homeassistant.turn_on
+        action: homeassistant.turn_on
         target: !input fan_switch
       - choose:
         - alias: Check manual trigger with safeguard is selected
@@ -3494,7 +3571,7 @@ action:
           sequence:
           - alias: Wait until manual trigger is turned off or the safeguard has passes
             wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: !input manual_trigger
               from: 'on'
               to: 'off'
@@ -3507,7 +3584,7 @@ action:
                 | list | count > 0 }}'
               sequence:
               - alias: Turn OFF the manual trigger
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input manual_trigger
         - alias: Check manual trigger with time delay is selected
           conditions:
@@ -3515,7 +3592,7 @@ action:
           sequence:
           - alias: Wait until manual trigger is turned off or the time delay has passes
             wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: !input manual_trigger
               from: 'on'
               to: 'off'
@@ -3528,7 +3605,7 @@ action:
                 | list | count > 0 }}'
               sequence:
               - alias: Turn OFF the manual trigger
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input manual_trigger
       - alias: Parallel Actions for the fan, lights and automation link
         parallel:
@@ -3537,7 +3614,7 @@ action:
             delay:
               minutes: !input time_delay
           - alias: Turn off the fan
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             target: !input fan_switch
           - choose:
             - alias: Check if the fan speed switch to low speed then off option is
@@ -3546,26 +3623,26 @@ action:
               - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
               sequence:
               - alias: Fan Speed - Switch Off - Safeguard
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input fan_speed_off
               - alias: Fan low speed ON
-                service: homeassistant.turn_on
+                action: homeassistant.turn_on
                 entity_id: !input fan_speed_low
               - alias: Wait until the low speed time delay passes
                 delay:
                   minutes: !input time_delay_low_speed
               - alias: Fan low speed OFF - Safeguard
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input fan_speed_low
               - alias: Fan off speed
-                service: homeassistant.turn_on
+                action: homeassistant.turn_on
                 entity_id: !input fan_speed_off
             - alias: Check if the fan speed off option is enabled
               conditions:
               - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
               sequence:
               - alias: Fan off speed
-                service: homeassistant.turn_on
+                action: homeassistant.turn_on
                 entity_id: !input fan_speed_off
         - sequence:
           - choose:
@@ -3585,7 +3662,7 @@ action:
                       }}'
                   sequence:
                   - alias: Turn off the lights
-                    service: light.turn_off
+                    action: light.turn_off
                     target:
                       entity_id: '{{ light_entities }}'
                     data:
@@ -3597,7 +3674,7 @@ action:
                       }}'
                   sequence:
                   - alias: Turn off the lights
-                    service: light.turn_off
+                    action: light.turn_off
                     target:
                       entity_id: '{{ light_entities }}'
         - sequence:
@@ -3611,7 +3688,7 @@ action:
                 delay:
                   minutes: !input automation_link_time_delay
               - alias: Turn off the automation link
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target:
                   entity_id: !input automation_link
       - stop: Stop the automation
@@ -3631,7 +3708,7 @@ action:
           sequence:
           - alias: Wait until manual trigger is turned off or the safeguard has passes
             wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: !input manual_trigger
               from: 'on'
               to: 'off'
@@ -3644,7 +3721,7 @@ action:
                 | list | count > 0 }}'
               sequence:
               - alias: Turn OFF the manual trigger
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input manual_trigger
         - alias: Check manual trigger with time delay is selected and manual trigger
             is ON
@@ -3655,7 +3732,7 @@ action:
           sequence:
           - alias: Wait until manual trigger is turned off or the time delay has passes
             wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: !input manual_trigger
               from: 'on'
               to: 'off'
@@ -3668,48 +3745,115 @@ action:
                 | list | count > 0 }}'
               sequence:
               - alias: Turn OFF the manual trigger
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input manual_trigger
       - choose:
         - alias: Check manual fan switch is enabled and manual switch is ON
           conditions:
-          - '{{ include_manual_fan_switch == ''enable_manual_fan_switch'' }}'
+          - alias: Check if the humidity derivative sensor is above falling humidity
+              set point and fan / lights are on
+            condition: template
+            value_template: '{{ include_manual_fan_switch == ''enable_manual_fan_switch_auto_off''
+              or include_manual_fan_switch == ''enable_manual_fan_switch'' }}'
           - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='', ''on'')
             | list | count > 0 }}'
           sequence:
-          - alias: Wait until manual fan switch is turned OFF or safeguard has passes
-            wait_for_trigger:
-            - platform: state
-              entity_id: !input manual_fan_switch
-              from: 'on'
-              to: 'off'
-        - alias: Check manual fan switch with time delay is selected and manual switch
-            is ON
-          conditions:
-          - '{{ include_manual_fan_switch == ''enable_manual_fan_switch_auto_off''
-            }}'
-          - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='', ''on'')
-            | list | count > 0 }}'
-          sequence:
-          - alias: Wait until manual fan switch is turned off or the time delay has
-              passes
-            wait_for_trigger:
-            - platform: state
-              entity_id: !input manual_fan_switch
-              from: 'on'
-              to: 'off'
-            timeout:
-              minutes: !input manual_fan_switch_time_delay
           - choose:
-            - alias: Check manual fan switch is ON and turn it OFF
+            - alias: Check if manual fan switch is enabled
               conditions:
-              - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='', ''on'')
-                | list | count > 0 }}'
+              - '{{ include_manual_fan_switch == ''enable_manual_fan_switch'' }}'
               sequence:
-              - alias: Turn OFF manual fan switch
-                service: homeassistant.turn_off
-                entity_id: !input manual_fan_switch
-      - choose:
+              - alias: Wait until manual fan switch is turned off
+                wait_for_trigger:
+                - trigger: state
+                  entity_id: !input manual_fan_switch
+                  from: 'on'
+                  to: 'off'
+            - alias: Check if manual fan switch auto off is enabled
+              conditions:
+              - '{{ include_manual_fan_switch == ''enable_manual_fan_switch_auto_off''
+                }}'
+              sequence:
+              - alias: Wait until manual fan switch is turned off or the time delay
+                  passes
+                wait_for_trigger:
+                - trigger: state
+                  entity_id: !input manual_fan_switch
+                  from: 'on'
+                  to: 'off'
+                timeout:
+                  minutes: !input manual_fan_switch_time_delay
+          - alias: Parallel Actions for the fan, lights and automation link
+            parallel:
+            - sequence:
+              - alias: Turn off the fan
+                action: homeassistant.turn_off
+                target: !input fan_switch
+              - choose:
+                - alias: Check if the fan speed off option is enabled
+                  conditions:
+                  - '{{ (include_fan_speed == ''fan_low_speed_enabled'') or (include_fan_speed
+                    == ''fan_speed_off_enabled'') }}'
+                  sequence:
+                  - alias: Fan off speed
+                    action: homeassistant.turn_on
+                    entity_id: !input fan_speed_off
+              - choose:
+                - alias: Check if the manual fan switch option is enabled and switch
+                    is on
+                  conditions:
+                  - '{{ (include_manual_fan_switch == ''enable_manual_fan_switch'')
+                    or (include_manual_fan_switch == ''enable_manual_fan_switch_auto_off'')
+                    }}'
+                  - '{{ expand(manual_fan_switch) | selectattr(''state'', ''=='',
+                    ''on'') | list | count > 0 }}'
+                  sequence:
+                  - alias: Turn OFF manual fan switch
+                    action: homeassistant.turn_off
+                    entity_id: !input manual_fan_switch
+            - sequence:
+              - choose:
+                - alias: Check if the lights are enabled
+                  conditions:
+                  - '{{ ((include_lights == ''lights_enabled'') and (expand(light_switch.entity_id)
+                    | selectattr(''state'', ''=='', ''on'') | list | count > 0)) }}'
+                  sequence:
+                  - choose:
+                    - alias: If transition is selected
+                      conditions:
+                      - condition: template
+                        value_template: '{{ ''use_transition'' in include_light_control
+                          }}'
+                      sequence:
+                      - alias: Turn off the lights
+                        action: light.turn_off
+                        target:
+                          entity_id: '{{ light_entities }}'
+                        data:
+                          transition: '{{ transition_off_value }}'
+                    - alias: If transition is not selected
+                      conditions:
+                      - condition: template
+                        value_template: '{{ ''use_transition'' not in include_light_control
+                          }}'
+                      sequence:
+                      - alias: Turn off the lights
+                        action: light.turn_off
+                        target:
+                          entity_id: '{{ light_entities }}'
+            - sequence:
+              - choose:
+                - alias: Check if the automation link is enabled
+                  conditions:
+                  - '{{ ((include_automation_link == ''enable_automation_link'') and
+                    (expand(automation_link) | selectattr(''state'', ''=='', ''on'')
+                    | list | count > 0)) }}'
+                  sequence:
+                  - alias: Turn off the automation link
+                    action: homeassistant.turn_off
+                    target:
+                      entity_id: !input automation_link
+          - stop: Stop the automation
         - alias: Check automation and preform the correct action
           conditions:
           - alias: Check if the humidity derivative sensor is below falling humidity
@@ -3737,7 +3881,7 @@ action:
                 delay:
                   minutes: !input bypass_auto_off_delay
               - alias: Turn off the by-pass
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input by_pass
               - stop: Stop the automation
           - alias: Parallel Actions for the fan and lights
@@ -3747,7 +3891,7 @@ action:
                 delay:
                   minutes: !input time_delay
               - alias: Turn off the fan
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target: !input fan_switch
               - choose:
                 - alias: Check if the fan speed switch to low speed then off option
@@ -3756,26 +3900,26 @@ action:
                   - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
                   sequence:
                   - alias: Fan Speed - Switch Off - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_off
                   - alias: Fan low speed ON
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_low
                   - alias: Wait the number of minutes set in the low speed time delay
                     delay:
                       minutes: !input time_delay_low_speed
                   - alias: Fan low speed OFF - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_low
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
                 - alias: Check if the fan speed off option is enabled
                   conditions:
                   - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
                   sequence:
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
             - sequence:
               - choose:
@@ -3794,7 +3938,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
                         data:
@@ -3806,7 +3950,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
             - sequence:
@@ -3820,7 +3964,7 @@ action:
                     delay:
                       minutes: !input automation_link_time_delay
                   - alias: Turn off the automation link
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     target:
                       entity_id: !input automation_link
           - stop: Stop the automation
@@ -3854,12 +3998,12 @@ action:
                 delay:
                   minutes: !input bypass_auto_off_delay
               - alias: Turn off the by-pass
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 entity_id: !input by_pass
               - stop: Stop the automation
           - alias: Wait until Humidity Derivative Sensor drops or it times out
             wait_for_trigger:
-            - platform: numeric_state
+            - trigger: numeric_state
               entity_id: !input trigger
               below: !input falling_humidity
             timeout:
@@ -3871,7 +4015,7 @@ action:
                 delay:
                   minutes: !input time_delay
               - alias: Turn off the fan
-                service: homeassistant.turn_off
+                action: homeassistant.turn_off
                 target: !input fan_switch
               - choose:
                 - alias: Check if the fan speed switch to low speed then off option
@@ -3880,26 +4024,26 @@ action:
                   - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
                   sequence:
                   - alias: Fan Speed - Switch Off - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_off
                   - alias: Fan low speed ON
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_low
                   - alias: Wait the number of minutes set in the low speed time delay
                     delay:
                       minutes: !input time_delay_low_speed
                   - alias: Fan low speed OFF - Safeguard
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     entity_id: !input fan_speed_low
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
                 - alias: Check if the fan speed off option is enabled
                   conditions:
                   - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
                   sequence:
                   - alias: Fan off speed
-                    service: homeassistant.turn_on
+                    action: homeassistant.turn_on
                     entity_id: !input fan_speed_off
             - sequence:
               - choose:
@@ -3918,7 +4062,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
                         data:
@@ -3930,7 +4074,7 @@ action:
                           }}'
                       sequence:
                       - alias: Turn off the lights
-                        service: light.turn_off
+                        action: light.turn_off
                         target:
                           entity_id: '{{ light_entities }}'
             - sequence:
@@ -3944,7 +4088,7 @@ action:
                     delay:
                       minutes: !input automation_link_time_delay
                   - alias: Turn off the automation link
-                    service: homeassistant.turn_off
+                    action: homeassistant.turn_off
                     target:
                       entity_id: !input automation_link
           - stop: Stop the automation
@@ -3957,7 +4101,7 @@ action:
         | count > 0 }}'
       sequence:
       - alias: Turn OFF manual trigger
-        service: homeassistant.turn_off
+        action: homeassistant.turn_off
         entity_id: !input manual_trigger
   - choose:
     - alias: Check if the manual fan switch option is enabled and switch is on
@@ -3968,7 +4112,7 @@ action:
         | count > 0 }}'
       sequence:
       - alias: Turn OFF manual fan switch
-        service: homeassistant.turn_off
+        action: homeassistant.turn_off
         entity_id: !input manual_fan_switch
   - choose:
     - alias: Check if fan speeds are enabled
@@ -3976,7 +4120,7 @@ action:
       - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
       sequence:
       - alias: Fan Speed - Low Speed Switch - Safeguard
-        service: homeassistant.turn_off
+        action: homeassistant.turn_off
         entity_id: !input fan_speed_low
   - choose:
     - alias: Check if fan speeds are enabled
@@ -3985,10 +4129,10 @@ action:
         == ''fan_speed_off_enabled'')}}'
       sequence:
       - alias: Fan Speed - Switch Off - Safeguard
-        service: homeassistant.turn_off
+        action: homeassistant.turn_off
         entity_id: !input fan_speed_off
   - alias: Turn on the fan
-    service: homeassistant.turn_on
+    action: homeassistant.turn_on
     target: !input fan_switch
   - choose:
     - alias: Check if the lights are enabled
@@ -4003,7 +4147,7 @@ action:
               (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
               not in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4015,7 +4159,7 @@ action:
               (''use_brightness'' in include_light_control) and (''use_colour_temperature''
               not in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4028,7 +4172,7 @@ action:
               (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
               in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4042,7 +4186,7 @@ action:
               (''use_brightness'' in include_light_control) and (''use_colour_temperature''
               in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4056,7 +4200,7 @@ action:
               and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
               not in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4068,7 +4212,7 @@ action:
               and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
               in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4080,7 +4224,7 @@ action:
               and (''use_brightness'' in include_light_control) and (''use_colour_temperature''
               in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
             data:
@@ -4093,7 +4237,7 @@ action:
               and (''use_brightness'' not in include_light_control) and (''use_colour_temperature''
               not in include_light_control) }}'
           sequence:
-          - service: light.turn_on
+          - action: light.turn_on
             target:
               entity_id: '{{ light_entities }}'
   - choose:
@@ -4102,7 +4246,7 @@ action:
       - '{{ include_automation_link == ''enable_automation_link'' }}'
       sequence:
       - alias: Turn on the automation link
-        service: homeassistant.turn_on
+        action: homeassistant.turn_on
         target:
           entity_id: !input automation_link
   - choose:
@@ -4124,14 +4268,14 @@ action:
           delay:
             minutes: !input bypass_auto_off_delay
         - alias: Turn off the by-pass
-          service: homeassistant.turn_off
+          action: homeassistant.turn_off
           entity_id: !input by_pass
         - stop: Stop the automation
         else:
         - stop: Stop the automation
   - alias: Wait until Humidity Derivative Sensor drops or it times out
     wait_for_trigger:
-    - platform: numeric_state
+    - trigger: numeric_state
       entity_id: !input trigger
       below: !input falling_humidity
     timeout:
@@ -4143,7 +4287,7 @@ action:
         delay:
           minutes: !input time_delay
       - alias: Turn off the fan
-        service: homeassistant.turn_off
+        action: homeassistant.turn_off
         target: !input fan_switch
       - choose:
         - alias: Check if the fan speed switch to low speed then off option is enabled
@@ -4151,23 +4295,23 @@ action:
           - '{{ include_fan_speed == ''fan_low_speed_enabled'' }}'
           sequence:
           - alias: Fan low speed ON
-            service: homeassistant.turn_on
+            action: homeassistant.turn_on
             entity_id: !input fan_speed_low
           - alias: Wait the number of minutes set in the low speed time delay
             delay:
               minutes: !input time_delay_low_speed
           - alias: Fan low speed OFF - Safeguard
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             entity_id: !input fan_speed_low
           - alias: Fan off speed
-            service: homeassistant.turn_on
+            action: homeassistant.turn_on
             entity_id: !input fan_speed_off
         - alias: Check if the fan speed off option is enabled
           conditions:
           - '{{ include_fan_speed == ''fan_speed_off_enabled'' }}'
           sequence:
           - alias: Fan off speed
-            service: homeassistant.turn_on
+            action: homeassistant.turn_on
             entity_id: !input fan_speed_off
     - sequence:
       - choose:
@@ -4185,7 +4329,7 @@ action:
                 value_template: '{{ ''use_transition'' in include_light_control }}'
               sequence:
               - alias: Turn off the lights
-                service: light.turn_off
+                action: light.turn_off
                 target:
                   entity_id: '{{ light_entities }}'
                 data:
@@ -4197,7 +4341,7 @@ action:
                   }}'
               sequence:
               - alias: Turn off the lights
-                service: light.turn_off
+                action: light.turn_off
                 target:
                   entity_id: '{{ light_entities }}'
     - sequence:
@@ -4210,6 +4354,6 @@ action:
             delay:
               minutes: !input automation_link_time_delay
           - alias: Turn off the automation link
-            service: homeassistant.turn_off
+            action: homeassistant.turn_off
             target:
               entity_id: !input automation_link
