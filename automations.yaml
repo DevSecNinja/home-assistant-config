@@ -3162,3 +3162,95 @@
       title: "\U0001F17F️ Blue parking disc! "
       message: Don’t forget it!
   mode: single
+- id: '1767296976174'
+  alias: Track carwash visits automatically
+  description: 'When you arrive at the carwash and stay for 3 minutes,
+
+    sends a welcome notification and records today as your last carwash visit.
+
+    '
+  triggers:
+  - trigger: zone
+    entity_id: device_tracker.jjr91v_device_tracker
+    zone: zone.carwash_haarlem
+    event: enter
+  conditions:
+  - condition: state
+    entity_id: device_tracker.jjr91v_device_tracker
+    state:
+    - Carwash Haarlem
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: Welcome at the carwash!
+      message: Resetting carwash timer
+  - action: input_datetime.set_datetime
+    metadata: {}
+    target:
+      entity_id: input_datetime.last_carwash
+    data:
+      date: '{{ now().date() }}'
+  mode: single
+- id: '1767358576022'
+  alias: Remind to unplug finished charger
+  description: 'When your car finishes charging but the charger is still connected,
+
+    sends reminders every hour while you''re awake until you unplug it.
+
+    '
+  triggers:
+  - entity_id: sensor.jjr91v_charging_status
+    to: '1'
+    trigger: state
+  - hours: /1
+    trigger: time_pattern
+  conditions:
+  - condition: state
+    entity_id: sensor.jjr91v_charging_status
+    state: '1'
+  - condition: state
+    entity_id: binary_sensor.jjr91v_charging_active
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.awake
+    state:
+    - 'on'
+  actions:
+  - data:
+      title: "\U0001F50C Charger still connected"
+      message: 'Car charging is finished. Please disconnect the charger.
+
+        '
+    action: notify.mobile_app_jean_pauls_iphone
+  mode: single
+- id: '1767389583265'
+  alias: Arm alarm when visiting girlfriend
+  description: 'When your car arrives at your girlfriend''s place and you''re not at home,
+
+    automatically arms the alarm in vacation mode for extra security.
+
+    '
+  triggers:
+  - trigger: zone
+    entity_id: device_tracker.jjr91v_device_tracker
+    zone: zone.girlfriend
+    event: enter
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.jean_paul
+      state:
+      - home
+  actions:
+  - action: alarm_control_panel.alarm_arm_vacation
+    metadata: {}
+    data: {}
+    target:
+      device_id: f6971f9bc57d99343c938850ecc7482d
+  mode: single
