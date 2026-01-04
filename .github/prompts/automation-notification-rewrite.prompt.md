@@ -6,7 +6,7 @@ description: 'Rewrite Home Assistant automation notification titles and messages
 You are reviewing the Home Assistant automations.yaml file.
 
 For each automation, inspect all notify.* actions.
-For every notification, rewrite:
+For every notification, rewrite (if not already optimal):
 
 title
 • Start with a single, relevant emoji
