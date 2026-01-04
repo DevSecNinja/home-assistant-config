@@ -1,6 +1,6 @@
 blueprint:
   name: Smart Light
-  description: "# \U0001F506 Smart Light\n**Version: 2.8**\n\nSmart Lighting: Your
+  description: "# \U0001F506 Smart Light\n**Version: 3.3**\n\nSmart Lighting: Your
     Lights, Your Way - Take Control and Customize it to Perfection!\U0001F4A1✨\n\n**If
     you like my blueprints, and would like to show your support or just say thank
     you?** [Click Here](https://www.paypal.com/donate/?hosted_button_id=WAZS3QSDTPGA8)
@@ -8,19 +8,21 @@ blueprint:
     \ - **Trigger Options:**\n\n    Activate lights, switches, scenes, and scripts
     when the automation is triggered.\n\n    - **Entity State:**\n      - Turn lights
     ON when an entity changes from OFF to ON.\n      - Turn lights OFF when an entity
-    changes from ON to OFF.\n\n    - **Sun Elevation:**\n      - Turn lights ON when
-    the sun's elevation falls below a set value.\n      - Turn lights OFF when the
-    sun's elevation rises above a set value. \n\n    - **Ambient Light:**\n      -
-    Turn lights ON when ambient light falls below a set LUX value.\n      - Turn lights
-    OFF when ambient light rises above a set LUX value. \n\n    - **Time-Based Option:**\n
-    \     - Define start and end times to turn lights ON and OFF.\n\n  - **Light Control
-    Options:**\n      - Utilize \"Light Control\" to adjust brightness, colour temperature,
-    colour, and transition times.\n\n  - **Dynamic Lighting Options:**\n    - Opt
-    for 'Dynamic Lighting' to automatically adjust brightness based on lux values,
-    and/or adjust brightness and colour temperature according to the sun's position
-    or the time of day.\n    - Opt to use the 'State Control Option,' allowing you
-    to toggle between dynamic lighting and normal lighting based on the entity's activation
-    state.\n\n  - **Night Lights Mode:**\n    - Enable 'Night Lights' for softer illumination
+    changes from ON to OFF.\n\n    - **Press Button:**\n      - Turn lights ON when
+    you press a button.\n      - Turn lights OFF when you press a button.\n\n    -
+    **Sun Elevation:**\n      - Turn lights ON when the sun's elevation falls below
+    a set value.\n      - Turn lights OFF when the sun's elevation rises above a set
+    value.\n\n    - **Ambient Light:**\n      - Turn lights ON when ambient light
+    falls below a set LUX value.\n      - Turn lights OFF when ambient light rises
+    above a set LUX value.\n\n    - **Time-Based Option:**\n      - Define start and
+    end times to turn lights ON and OFF.\n\n  - **Light Control Options:**\n      -
+    Utilize \"Light Control\" to adjust brightness, colour temperature, colour, and
+    transition times.\n\n  - **Dynamic Lighting Options:**\n    - Opt for 'Dynamic
+    Lighting' to automatically adjust brightness based on lux values, and/or adjust
+    brightness and colour temperature according to the sun's position or the time
+    of day.\n    - Opt to use the 'State Control Option,' allowing you to toggle between
+    dynamic lighting and normal lighting based on the entity's activation state.\n\n
+    \ - **Night Lights Mode:**\n    - Enable 'Night Lights' for softer illumination
     during night time activities, automatically enabled based on conditions.\n\n  -
     **Manual Override:**\n    - Use \"Bypass Options\" for manual bypassing of trigger
     sensors, providing manual control and additional customization.\n\n  - **Weekdays
@@ -63,7 +65,43 @@ blueprint:
             '
           default: []
           selector:
-            entity: {}
+            entity:
+              multiple: false
+              reorder: false
+    trigger_button:
+      name: Trigger - Push Button
+      icon: mdi:gesture-tap-button
+      collapsed: true
+      input:
+        include_button:
+          name: Use The Push Button Option (Optional)
+          description: 'Adds triggers that activate when the selected button is pressed.
+            Each time you press the button, choose whether to trigger the lights ON,
+            OFF, or both.
+
+            '
+          default: []
+          selector:
+            select:
+              multiple: true
+              options:
+              - label: Push Button ON
+                value: button_on
+              - label: Push Button OFF
+                value: button_off
+              sort: false
+              custom_value: false
+        button_input:
+          name: Input Button Entity
+          description: 'Choose the physical or virtual button entity that will trigger
+            this automation.
+
+            '
+          default: []
+          selector:
+            entity:
+              multiple: false
+              reorder: false
     trigger_sun:
       name: Trigger - Sun Elevation
       icon: mdi:weather-sunny
@@ -169,6 +207,7 @@ blueprint:
                 device_class:
                 - illuminance
               multiple: false
+              reorder: false
         ambient_light_value:
           name: Ambient Light - Low Lux Value
           description: 'Set the Ambient Light Low Lux Value. The light will turn ON
@@ -284,6 +323,7 @@ blueprint:
               - domain:
                 - input_boolean
               multiple: false
+              reorder: false
         end_scenes:
           name: Scenes - Scripts To Turn OFF
           description: 'If you have selected a scene or a script to be turned ON above
@@ -300,6 +340,7 @@ blueprint:
               - domain:
                 - scene
                 - script
+              reorder: false
     lights_settings:
       name: Light Control
       icon: mdi:lightbulb-on-outline
@@ -430,7 +471,8 @@ blueprint:
           - 255
           - 255
           selector:
-            object: {}
+            object:
+              multiple: false
         light_rgbww_colour:
           name: RGBWW Colour
           description: 'The RGBWW colour setting for the lights when they are turned
@@ -445,7 +487,8 @@ blueprint:
           - 255
           - 255
           selector:
-            object: {}
+            object:
+              multiple: false
     dynamic_lighting_settings:
       name: Dynamic Lighting
       icon: mdi:creation-outline
@@ -551,6 +594,7 @@ blueprint:
                 device_class:
                 - illuminance
               multiple: false
+              reorder: false
         dynamic_lighting_max_lux:
           name: Dynamic Lighting - Max Lux Value
           description: '**Used in options 1, 2, 8 or 9** - Specify the maximum lux
@@ -635,6 +679,7 @@ blueprint:
               - domain:
                 - input_boolean
               multiple: false
+              reorder: false
         dynamic_lighting_max_colour_temp:
           name: Dynamic Lighting - Max Colour Temperature
           description: '**Used in options 3, 6, 7, 8, 9, 10 or 13** - Specify the
@@ -885,7 +930,9 @@ blueprint:
             '
           default: []
           selector:
-            entity: {}
+            entity:
+              multiple: false
+              reorder: false
     bypass_settings:
       name: Bypass
       icon: mdi:cog-pause-outline
@@ -893,28 +940,26 @@ blueprint:
       input:
         include_bypass:
           name: Use The Bypass Options (Optional)
-          description: 'Select if you would like to enable an option. Each option
-            allows manual control of your lights but alters its behaviour by either
-            turning ON, OFF, or keeping its current state when the bypass is switched
-            ON. When enabling an option, please enter the bypass switch into the corresponding
-            input below.
-
-            '
+          description: "Select if you would like to enable an option. Each option
+            determines how your lights will behave when the bypass switch is turned
+            ON:\n\n  1 - Turns the lights ON\n  2 - Turns the lights OFF\n  3 - Keeps
+            the lights current state\n\nIf you enable an option, make sure to enter
+            the corresponding bypass switch in the input below.\n"
           default: []
           selector:
             select:
               options:
-              - label: 1 - Enable the Bypass - Turn lights ON
+              - label: 1 - Enable the Bypass - Turn the Lights ON
                 value: bypass_enabled_turn_on
-              - label: 2 - Enable the Bypass - Turn lights OFF
+              - label: 2 - Enable the Bypass - Turn the Lights OFF
                 value: bypass_enabled_turn_off
-              - label: 3 - Enable the Bypass - Keep the lights current state
+              - label: 3 - Enable the Bypass - Keep the Lights Current State
                 value: bypass_enabled_stop
               multiple: true
               sort: false
               custom_value: false
         bypass_lights_on:
-          name: Bypass Switch - Turn lights ON
+          name: Bypass Switch - Turn the Lights ON
           description: 'Select the switches that will turn your lights ON, bypass
             the trigger sensor, and allow your lights to function as normal. Please
             note that the entity cannot be included in the ''Lights - Switches - Scenes
@@ -925,8 +970,9 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         bypass_lights_off:
-          name: Bypass Switch - Turn lights OFF
+          name: Bypass Switch - Turn the Lights OFF
           description: 'Select the switches that will turn your lights OFF, bypass
             the trigger sensor, and allow your lights to function as normal. Please
             note that the entity cannot be included in the ''Lights - Switches - Scenes
@@ -937,8 +983,9 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         bypass_lights_stop:
-          name: Bypass Switch - Keep The Lights Current State
+          name: Bypass Switch - Keep the Lights Current State
           description: 'Select the switches that will keep your lights current state,
             bypass the trigger sensor, and allow your lights to function as normal.
             Please note that the entity cannot be included in the ''Lights - Switches
@@ -949,16 +996,15 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         bypass_time_delay:
           name: Bypass - Time Delay
-          description: 'This is only used in two bypass scenarios; when the lights
-            are already ON and when the automation turns the lights OFF. The first
-            scenario occurs when you have selected option 2 above to "Enable the Bypass
-            - Turn lights OFF". The second scenario occurs when you turn the bypass
-            OFF, the trigger sensor is OFF, and your lights are ON. In both scenarios,
-            the automation will turn your lights OFF after the set time delay.
-
-            '
+          description: "This is only used in two specific bypass scenarios when your
+            lights are ON:\n\n  1. When you have selected option 2 above to \"Enable
+            the Bypass - Turn the Lights OFF\" and you turn the bypass ON.\n  2. When
+            the bypass is turned OFF, the trigger sensor is OFF, and your lights are
+            still ON.\n\nIn both cases, the automation will turn your lights OFF after
+            the set time delay.\n"
           default: 0
           selector:
             number:
@@ -969,21 +1015,21 @@ blueprint:
               mode: slider
         include_bypass_auto_off:
           name: Use The Bypass Auto OFF Option (Optional)
-          description: 'This is used when you turn ON the bypass and want it to automatically
-            turn OFF after a set time delay. You can choose which bypass option you
-            would like to apply the auto OFF feature to
-
-            '
+          description: "Enable this option if you want the bypass to automatically
+            turn OFF after a set time delay. You can choose which bypass option the
+            auto OFF will apply to:\n\n  1 - Turns the lights ON\n  2 - Turns the
+            lights OFF\n  3 - Keeps the lights current state\n\nEach option corresponds
+            to one of the bypass options above.\n"
           default: []
           selector:
             select:
               options:
-              - label: Enable the auto OFF for the bypass switch - Turn lights ON
+              - label: A - Enable Auto OFF for Bypass Option 1 - Turn the Lights ON
                 value: bypass_auto_off_enabled_on
-              - label: Enable the auto OFF for the bypass switch - Turn lights OFF
+              - label: B - Enable Auto OFF for Bypass Option 2 - Turn the Lights OFF
                 value: bypass_auto_off_enabled_off
-              - label: Enable the auto OFF for the bypass switch - Keep The Lights
-                  Current State
+              - label: C - Enable Auto OFF for Bypass Option 3 - Keep the Lights Current
+                  State
                 value: bypass_auto_off_enabled_stop
               multiple: true
               sort: false
@@ -1126,6 +1172,7 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         night_lights_after_time:
           name: Night Lights - Start Time
           description: 'Set the start time.
@@ -1214,6 +1261,7 @@ blueprint:
               - domain:
                 - input_boolean
               multiple: false
+              reorder: false
     night_lights_light_control_settings:
       name: Night Light Control
       icon: mdi:lightbulb-on-80
@@ -1371,7 +1419,8 @@ blueprint:
           - 255
           - 255
           selector:
-            object: {}
+            object:
+              multiple: false
         night_light_rgbww_colour:
           name: Night Lights - RGBWW Colour
           description: 'The RGBWW colour setting for the lights when they are turned
@@ -1386,13 +1435,42 @@ blueprint:
           - 255
           - 255
           selector:
-            object: {}
+            object:
+              multiple: false
+    ha_restart:
+      name: HA Restart
+      icon: mdi:restart
+      collapsed: true
+      input:
+        include_ha_restart:
+          name: Use The HA Restart Option (Optional)
+          description: 'Because this automation supports many scenarios, the HA Restart
+            safeguard option may not always behave as expected. In most cases it works
+            fine, so it’s enabled by default. However, if you find it causes issues
+            in your setup, you can disable this option. In most cases, when HA restarts,
+            the automation will not land on an ON or OFF state, so disabling this
+            option gives you a higher chance that nothing goes wrong.
+
+            '
+          default: enable_ha_restart
+          selector:
+            select:
+              options:
+              - label: Enable the HA Restart option
+                value: enable_ha_restart
+              - label: Disable the HA Restart
+                value: disable_ha_restart
+              sort: false
+              multiple: false
+              custom_value: false
   source_url: https://gist.github.com/Blackshome/e6c8f1bf846bab2fa4431934a0a85770
 mode: restart
 max_exceeded: silent
 variables:
   include_entity_state: !input include_entity_state
   entity_input: !input entity_input
+  include_button: !input include_button
+  button_input: !input button_input
   include_sun: !input include_sun
   sun_elevation: !input sun_elevation
   sun_elevation_rising: !input sun_elevation_rising
@@ -1466,6 +1544,7 @@ variables:
   night_light_rgb_colour: !input night_light_rgb_colour
   night_light_rgbw_colour: !input night_light_rgbw_colour
   night_light_rgbww_colour: !input night_light_rgbww_colour
+  include_ha_restart: !input include_ha_restart
   light_entities_off: '{{ expand(light_switch.entity_id) | selectattr(''domain'',
     ''eq'', ''light'') | selectattr(''state'', ''eq'', ''off'') | map(attribute=''entity_id'')
     | list }}'
@@ -1747,8 +1826,14 @@ triggers:
   id: t17
   entity_id: !input dynamic_lighting_state_control_entity
   from: !input dynamic_lighting_state_control_activation_state
-- trigger: homeassistant
+- trigger: state
   id: t18
+  entity_id: !input button_input
+- trigger: state
+  id: t19
+  entity_id: !input button_input
+- trigger: homeassistant
+  id: t20
   event: start
 condition:
 - condition: or
@@ -1834,17 +1919,6 @@ condition:
   - condition: and
     conditions:
     - condition: trigger
-      id: t18
-    - condition: or
-      conditions:
-      - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='', ''on'')
-        | list | count > 0) }}'
-      - condition: template
-        value_template: "{% if boolean_scenes_scripts != [] %}\n  {{ is_state(boolean_scenes_scripts,
-          'on') }}\n{% endif %}"
-  - condition: and
-    conditions:
-    - condition: trigger
       id: t10
     - '{{ include_night_lights == ''night_lights_enabled'' }}'
     - '{{ ''entity_state_enabled'' in night_lights_conditions }}'
@@ -1867,6 +1941,9 @@ condition:
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
           'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
   - condition: and
     conditions:
     - condition: trigger
@@ -1888,6 +1965,9 @@ condition:
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
           'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
   - condition: and
     conditions:
     - condition: trigger
@@ -1908,6 +1988,9 @@ condition:
           'on') }}\n{% endif %}"
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
+          'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
           'on') }}\n{% endif %}"
   - condition: and
     conditions:
@@ -1933,6 +2016,9 @@ condition:
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
           'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
   - condition: and
     conditions:
     - condition: trigger
@@ -1953,6 +2039,9 @@ condition:
           'on') }}\n{% endif %}"
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
+          'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
           'on') }}\n{% endif %}"
   - condition: and
     conditions:
@@ -1975,25 +2064,168 @@ condition:
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
           'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
   - condition: and
     conditions:
     - condition: trigger
       id:
       - t16
       - t17
-    - '{{ dynamic_lighting_state_control == ''enable_state_control'' }}'
-    - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='', ''on'')
-      | list | count > 0) }}'
+    - condition: template
+      value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+        }}'
+    - condition: template
+      value_template: '{{ dynamic_lighting_state_control == ''enable_state_control''
+        }}'
+    - condition: or
+      conditions:
+      - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='', ''on'')
+        | list | count > 0) }}'
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ ''button_on'' in include_button }}'
+    - condition: trigger
+      id: t18
+    - condition: or
+      conditions:
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: "{% if (expand(light_switch.entity_id) | selectattr('domain',
+            'in', ['light','switch']) | list | count > 0) %}\n  {{ expand(light_switch.entity_id)
+            | selectattr('state', '==', 'on') | list | count == 0 }}\n{% else %}\n
+            \ true\n{% endif %}\n"
+        - condition: template
+          value_template: "{% if boolean_scenes_scripts != [] %}\n  {{ is_state(boolean_scenes_scripts,
+            'off') }}\n{% else %}\n  true\n{% endif %}"
+        - condition: template
+          value_template: "{% set entity_ok = ('entity_state_enabled' in night_lights_conditions)
+            and\n  (expand(night_lights_entity_state) | selectattr('state','equalto','on')
+            | list | count > 0) %}\n{% set time_ok = ('time_enabled' in night_lights_conditions)
+            and\n  (now().strftime('%H:%M:%S') >= night_lights_after_time and now().strftime('%H:%M:%S')
+            <= night_lights_before_time) %}\n{% set sun_ok = ('sun_enabled' in night_lights_conditions)
+            and (\n    (not is_state_attr('sun.sun','rising', true) and state_attr('sun.sun','elevation')
+            <= night_lights_sun_elevation | float(90)) or\n    (is_state_attr('sun.sun','rising',
+            true) and state_attr('sun.sun','elevation') <= night_lights_sun_elevation_rising
+            | float(90))\n) %} {% if include_night_lights == 'night_lights_enabled'
+            %}\n  {{ not (entity_ok or time_ok or sun_ok) }}\n{% else %}\n  true\n{%
+            endif %}\n"
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+            }}'
+        - condition: template
+          value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+            'off') }}\n{% else %}\n  true\n{% endif %}"
+      - condition: and
+        conditions:
+        - alias: Check if night lights is enabled
+          condition: template
+          value_template: '{{ include_night_lights == ''night_lights_enabled'' }}'
+        - condition: template
+          value_template: "{% if (expand(night_lights.entity_id) | selectattr('domain',
+            'in', ['light','switch']) | list | count > 0) %}\n  {{ expand(night_lights.entity_id)
+            | selectattr('state', '==', 'on') | list | count == 0 }}\n{% else %}\n
+            \ true\n{% endif %}\n"
+        - condition: template
+          value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
+            'off') }}\n{% else %}\n  true\n{% endif %}"
+        - condition: template
+          value_template: "{% set entity_ok = ('entity_state_enabled' in night_lights_conditions)
+            and\n  (expand(night_lights_entity_state) | selectattr('state','equalto','on')
+            | list | count > 0) %}\n{% set time_ok = ('time_enabled' in night_lights_conditions)
+            and\n  (now().strftime('%H:%M:%S') >= night_lights_after_time and now().strftime('%H:%M:%S')
+            <= night_lights_before_time) %}\n{% set sun_ok = ('sun_enabled' in night_lights_conditions)
+            and (\n    (not is_state_attr('sun.sun','rising', true) and state_attr('sun.sun','elevation')
+            <= night_lights_sun_elevation | float(90)) or\n    (is_state_attr('sun.sun','rising',
+            true) and state_attr('sun.sun','elevation') <= night_lights_sun_elevation_rising
+            | float(90))\n) %} {% if include_night_lights == 'night_lights_enabled'
+            %}\n  {{ (entity_ok or time_ok or sun_ok) }}\n{% else %}\n  false\n{%
+            endif %}\n"
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ ''button_off'' in include_button }}'
+    - condition: trigger
+      id: t19
+    - condition: or
+      conditions:
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: "{% if (expand(light_switch.entity_id) | selectattr('domain',
+            'in', ['light','switch']) | list | count > 0) %}\n  {{ expand(light_switch.entity_id)
+            | selectattr('state', '==', 'on') | list | count > 0 }}\n{% else %}\n
+            \ true\n{% endif %}\n"
+        - condition: template
+          value_template: "{% if boolean_scenes_scripts != [] %}\n  {{ is_state(boolean_scenes_scripts,
+            'on') }}\n{% else %}\n  true\n{% endif %}"
+        - condition: template
+          value_template: "{% set entity_ok = ('entity_state_enabled' in night_lights_conditions)
+            and\n  (expand(night_lights_entity_state) | selectattr('state','equalto','on')
+            | list | count > 0) %}\n{% set time_ok = ('time_enabled' in night_lights_conditions)
+            and\n  (now().strftime('%H:%M:%S') >= night_lights_after_time and now().strftime('%H:%M:%S')
+            <= night_lights_before_time) %}\n{% set sun_ok = ('sun_enabled' in night_lights_conditions)
+            and (\n    (not is_state_attr('sun.sun','rising', true) and state_attr('sun.sun','elevation')
+            <= night_lights_sun_elevation | float(90)) or\n    (is_state_attr('sun.sun','rising',
+            true) and state_attr('sun.sun','elevation') <= night_lights_sun_elevation_rising
+            | float(90))\n) %} {% if include_night_lights == 'night_lights_enabled'
+            %}\n  {{ not (entity_ok or time_ok or sun_ok) }}\n{% else %}\n  true\n{%
+            endif %}\n"
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+            }}'
+        - condition: template
+          value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+            'on') }}\n{% else %}\n  true\n{% endif %}"
+      - condition: and
+        conditions:
+        - alias: Check if night lights is enabled
+          condition: template
+          value_template: '{{ include_night_lights == ''night_lights_enabled'' }}'
+        - condition: template
+          value_template: "{% if (expand(night_lights.entity_id) | selectattr('domain',
+            'in', ['light','switch']) | list | count > 0) %}\n  {{ expand(night_lights.entity_id)
+            | selectattr('state', '==', 'on') | list | count > 0 }}\n{% else %}\n
+            \ true\n{% endif %}\n"
+        - condition: template
+          value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
+            'on') }}\n{% else %}\n  true\n{% endif %}"
+        - condition: template
+          value_template: "{% set entity_ok = ('entity_state_enabled' in night_lights_conditions)
+            and\n  (expand(night_lights_entity_state) | selectattr('state','equalto','on')
+            | list | count > 0) %}\n{% set time_ok = ('time_enabled' in night_lights_conditions)
+            and\n  (now().strftime('%H:%M:%S') >= night_lights_after_time and now().strftime('%H:%M:%S')
+            <= night_lights_before_time) %}\n{% set sun_ok = ('sun_enabled' in night_lights_conditions)
+            and (\n    (not is_state_attr('sun.sun','rising', true) and state_attr('sun.sun','elevation')
+            <= night_lights_sun_elevation | float(90)) or\n    (is_state_attr('sun.sun','rising',
+            true) and state_attr('sun.sun','elevation') <= night_lights_sun_elevation_rising
+            | float(90))\n) %} {% if include_night_lights == 'night_lights_enabled'
+            %}\n  {{ (entity_ok or time_ok or sun_ok) }}\n{% else %}\n  false\n{%
+            endif %}\n"
   - condition: and
     conditions:
     - condition: trigger
-      id: t18
+      id: t20
+    - condition: template
+      value_template: '{{ include_ha_restart == ''enable_ha_restart'' }}'
     - condition: template
       value_template: '{{ trigger_options_on }}'
   - condition: and
     conditions:
     - condition: trigger
-      id: t18
+      id: t20
+    - condition: template
+      value_template: '{{ include_ha_restart == ''enable_ha_restart'' }}'
     - condition: or
       conditions:
       - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='', ''on'')
@@ -2006,13 +2238,18 @@ condition:
       - condition: template
         value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
           'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
   - condition: and
     conditions:
     - '{{ (''bypass_auto_off_enabled_on'' in include_bypass_auto_off) or (''bypass_auto_off_enabled_off''
       in include_bypass_auto_off) or (''bypass_auto_off_enabled_stop'' in include_bypass_auto_off)
       }}'
     - condition: trigger
-      id: t18
+      id: t20
+    - condition: template
+      value_template: '{{ include_ha_restart == ''enable_ha_restart'' }}'
     - condition: or
       conditions:
       - condition: state
@@ -2102,7 +2339,7 @@ condition:
     - t9_on
     - t9_off
     - t9_stop
-    - t18
+    - t20
 - condition: or
   conditions:
   - '{{ include_weekdays == ''weekday_disabled'' }}'
@@ -2126,9 +2363,8 @@ action:
     - condition: and
       conditions:
       - alias: Check if night lights is enabled
-        condition: or
-        conditions:
-        - '{{ ''night_lights_enabled'' in include_night_lights }}'
+        condition: template
+        value_template: '{{ include_night_lights == ''night_lights_enabled'' }}'
       - alias: Check if night lights entity state is enabled
         condition: or
         conditions:
@@ -2146,9 +2382,9 @@ action:
       - alias: Check if night lights time is enabled
         condition: or
         conditions:
-        - '{{ (''entity_state_enabled'' in night_lights_conditions)  and not (''time_enabled''
+        - '{{ (''entity_state_enabled'' in night_lights_conditions) and not (''time_enabled''
           in night_lights_conditions) }}'
-        - '{{ (''sun_enabled'' in night_lights_conditions)  and not (''time_enabled''
+        - '{{ (''sun_enabled'' in night_lights_conditions) and not (''time_enabled''
           in night_lights_conditions) }}'
         - condition: and
           conditions:
@@ -2159,7 +2395,7 @@ action:
       - alias: Check if night lights sun is enabled
         condition: or
         conditions:
-        - '{{ (''entity_state_enabled'' in night_lights_conditions)  and not (''sun_enabled''
+        - '{{ (''entity_state_enabled'' in night_lights_conditions) and not (''sun_enabled''
           in night_lights_conditions) }}'
         - '{{ (''time_enabled'' in night_lights_conditions) and not (''sun_enabled''
           in night_lights_conditions) }}'
@@ -2168,6 +2404,20 @@ action:
           | float(90))) or ((is_state_attr(''sun.sun'', ''rising'', true)) and (state_attr(''sun.sun'',''elevation'')
           <= night_lights_sun_elevation_rising | float(90)))) }}'
     sequence:
+    - choose:
+      - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+        conditions:
+        - condition: template
+          value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+            }}'
+        - condition: template
+          value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+            'on') }}\n{% endif %}"
+        sequence:
+        - alias: Turn off the boolean for dynamic lighting
+          action: input_boolean.turn_off
+          data:
+            entity_id: !input dynamic_lighting_boolean
     - choose:
       - alias: By-pass is turned on & check by-pass option - Turn lights off
         conditions:
@@ -3047,10 +3297,15 @@ action:
         - choose:
           - alias: light - switch - scene - script is ON
             conditions:
-            - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='',
-              ''on'') | list | count > 0) or (expand(night_lights.entity_id) | selectattr(''state'',
-              ''=='', ''on'') | list | count > 0) or (is_state(boolean_scenes_scripts,
-              ''on'')) }}'
+            - condition: or
+              conditions:
+              - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='',
+                ''on'') | list | count > 0) }}'
+              - '{{ (include_night_lights == ''night_lights_enabled'') and (expand(night_lights.entity_id)
+                | selectattr(''state'', ''=='', ''on'') | list | count > 0) }}'
+              - condition: template
+                value_template: "{% if boolean_scenes_scripts != [] %}\n  {{ is_state(boolean_scenes_scripts,
+                  'on') }}\n{% endif %}"
             sequence:
             - choose:
               - alias: If transition is selected
@@ -3139,7 +3394,7 @@ action:
       - alias: Safe Guard when HA restarts
         conditions:
         - condition: trigger
-          id: t18
+          id: t20
         sequence:
         - choose:
           - alias: Check all by-pass are off and check conditions if enabled
@@ -3550,6 +3805,7 @@ action:
             - t11
             - t12
             - t18
+            - t20
           - condition: and
             conditions:
             - condition: trigger
@@ -3698,6 +3954,7 @@ action:
           - t3
           - t5
           - t7
+          - t19
         sequence:
         - choose:
           - alias: If transition is selected
@@ -3799,6 +4056,20 @@ action:
         action: input_boolean.turn_off
         data:
           entity_id: !input night_boolean_scenes_scripts
+      - choose:
+        - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+          conditions:
+          - condition: template
+            value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+              }}'
+          - condition: template
+            value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+              'on') }}\n{% endif %}"
+          sequence:
+          - alias: Turn off the boolean for dynamic lighting
+            action: input_boolean.turn_off
+            data:
+              entity_id: !input dynamic_lighting_boolean
       - alias: Check by-pass settings and preform the correct action
         if:
         - alias: Check if the by-pass auto off is enabled
@@ -4044,6 +4315,20 @@ action:
             action: input_boolean.turn_off
             data:
               entity_id: !input night_boolean_scenes_scripts
+          - choose:
+            - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+              conditions:
+              - condition: template
+                value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                  }}'
+              - condition: template
+                value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+                  'on') }}\n{% endif %}"
+              sequence:
+              - alias: Turn off the boolean for dynamic lighting
+                action: input_boolean.turn_off
+                data:
+                  entity_id: !input dynamic_lighting_boolean
           - stop: Stop the automation
         - alias: Trigger is off and check if any by-passes are on
           conditions:
@@ -4258,6 +4543,20 @@ action:
             action: input_boolean.turn_off
             data:
               entity_id: !input boolean_scenes_scripts
+          - choose:
+            - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+              conditions:
+              - condition: template
+                value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                  }}'
+              - condition: template
+                value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+                  'on') }}\n{% endif %}"
+              sequence:
+              - alias: Turn off the boolean for dynamic lighting
+                action: input_boolean.turn_off
+                data:
+                  entity_id: !input dynamic_lighting_boolean
           - stop: Stop the automation
         - alias: Check all by-pass are off and check conditions if enabled
           conditions:
@@ -4384,6 +4683,20 @@ action:
             action: input_boolean.turn_off
             data:
               entity_id: !input boolean_scenes_scripts
+          - choose:
+            - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+              conditions:
+              - condition: template
+                value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                  }}'
+              - condition: template
+                value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+                  'on') }}\n{% endif %}"
+              sequence:
+              - alias: Turn off the boolean for dynamic lighting
+                action: input_boolean.turn_off
+                data:
+                  entity_id: !input dynamic_lighting_boolean
           - stop: Stop the automation
         - alias: Trigger is on and check if any by-passes are on
           conditions:
@@ -4627,6 +4940,20 @@ action:
                 target:
                   entity_id: '{{ crossover_lights_light_on }}'
                 data: '{{ light_data }}'
+              - choose:
+                - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+                  conditions:
+                  - condition: template
+                    value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                      }}'
+                  - condition: template
+                    value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{
+                      is_state(dynamic_lighting_boolean, 'on') }}\n{% endif %}"
+                  sequence:
+                  - alias: Turn off the boolean for dynamic lighting
+                    action: input_boolean.turn_off
+                    data:
+                      entity_id: !input dynamic_lighting_boolean
   - choose:
     - alias: Turn off night lights when trigger by end night lights conditions
       conditions:
@@ -4759,7 +5086,7 @@ action:
     - alias: Safe Guard when HA restarts
       conditions:
       - condition: trigger
-        id: t18
+        id: t20
       sequence:
       - choose:
         - alias: Check all by-pass are off and check conditions if enabled
@@ -4923,6 +5250,20 @@ action:
                 action: input_boolean.turn_off
                 data:
                   entity_id: !input night_boolean_scenes_scripts
+              - choose:
+                - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+                  conditions:
+                  - condition: template
+                    value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                      }}'
+                  - condition: template
+                    value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{
+                      is_state(dynamic_lighting_boolean, 'on') }}\n{% endif %}"
+                  sequence:
+                  - alias: Turn off the boolean for dynamic lighting
+                    action: input_boolean.turn_off
+                    data:
+                      entity_id: !input dynamic_lighting_boolean
               - stop: Stop the automation
         - alias: Check if any by-passes are on
           conditions:
@@ -5150,6 +5491,20 @@ action:
             action: input_boolean.turn_off
             data:
               entity_id: !input night_boolean_scenes_scripts
+          - choose:
+            - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+              conditions:
+              - condition: template
+                value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                  }}'
+              - condition: template
+                value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+                  'on') }}\n{% endif %}"
+              sequence:
+              - alias: Turn off the boolean for dynamic lighting
+                action: input_boolean.turn_off
+                data:
+                  entity_id: !input dynamic_lighting_boolean
           - stop: Stop the automation
   - choose:
     - conditions:
@@ -5168,6 +5523,7 @@ action:
           - t16
           - t17
           - t18
+          - t20
         - condition: and
           conditions:
           - condition: trigger
@@ -5359,7 +5715,11 @@ action:
                         delay:
                           minutes: !input dynamic_lighting_heartbeat
                     - alias: If dynamic lighting brightness is in the dead zone
-                      conditions: '{{ in_dead_zone }}'
+                      conditions:
+                      - condition: template
+                        value_template: '{{ in_dead_zone }}'
+                      - condition: template
+                        value_template: '{{ repeat.index != 1 }}'
                       sequence:
                       - alias: Dynamic lighting heartbeat
                         delay:
@@ -5503,7 +5863,11 @@ action:
                         delay:
                           minutes: !input dynamic_lighting_heartbeat
                     - alias: If dynamic lighting brightness is in the dead zone
-                      conditions: '{{ in_dead_zone }}'
+                      conditions:
+                      - condition: template
+                        value_template: '{{ in_dead_zone }}'
+                      - condition: template
+                        value_template: '{{ repeat.index != 1 }}'
                       sequence:
                       - alias: Dynamic lighting heartbeat
                         delay:
@@ -5537,6 +5901,10 @@ action:
                     ''off''))) }}'
                   sequence:
                   - variables:
+                      dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun', 'rising',
+                        true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                        }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                        }}\n{% endif %}\n"
                       dynamic_kelvin: "{% set elevation = state_attr('sun.sun', 'elevation')
                         | float %} {% set start_slope = (dynamic_lighting_min_colour_temp
                         - dynamic_lighting_max_colour_temp) / (dynamic_lighting_sun_elevation_start_rising
@@ -5547,7 +5915,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_colour_temp %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         colour_temp_value = ((start_slope * elevation) + start_ak)
@@ -5687,6 +6055,10 @@ action:
                     ''off''))) }}'
                   sequence:
                   - variables:
+                      dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun', 'rising',
+                        true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                        }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                        }}\n{% endif %}\n"
                       dynamic_brightness_pct: "{% set elevation = state_attr('sun.sun',
                         'elevation') | float %} {% set start_slope = (dynamic_lighting_min_brightness
                         - dynamic_lighting_max_brightness) / (dynamic_lighting_sun_elevation_start_rising
@@ -5697,7 +6069,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_brightness %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -5746,7 +6118,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_brightness %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -5865,6 +6237,10 @@ action:
                     ''off''))) }}'
                   sequence:
                   - variables:
+                      dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun', 'rising',
+                        true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                        }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                        }}\n{% endif %}\n"
                       dynamic_brightness_pct: "{% set elevation = state_attr('sun.sun',
                         'elevation') | float %} {% set start_slope = (dynamic_lighting_max_brightness
                         - dynamic_lighting_min_brightness) / (dynamic_lighting_sun_elevation_start_rising
@@ -5875,7 +6251,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_max_brightness %} {% if elevation
-                        > -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        > dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -5924,7 +6300,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_max_brightness %} {% if elevation
-                        > -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        > dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -6044,6 +6420,10 @@ action:
                     ''off''))) }}'
                   sequence:
                   - variables:
+                      dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun', 'rising',
+                        true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                        }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                        }}\n{% endif %}\n"
                       dynamic_kelvin: "{% set elevation = state_attr('sun.sun', 'elevation')
                         | float %} {% set start_slope = (dynamic_lighting_min_colour_temp
                         - dynamic_lighting_max_colour_temp) / (dynamic_lighting_sun_elevation_start_rising
@@ -6054,7 +6434,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_colour_temp %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         colour_temp_value = ((start_slope * elevation) + start_ak)
@@ -6085,7 +6465,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_brightness %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -6127,7 +6507,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_brightness %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -6247,6 +6627,10 @@ action:
                     ''off''))) }}'
                   sequence:
                   - variables:
+                      dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun', 'rising',
+                        true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                        }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                        }}\n{% endif %}\n"
                       dynamic_kelvin: "{% set elevation = state_attr('sun.sun', 'elevation')
                         | float %} {% set start_slope = (dynamic_lighting_min_colour_temp
                         - dynamic_lighting_max_colour_temp) / (dynamic_lighting_sun_elevation_start_rising
@@ -6257,7 +6641,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_min_colour_temp %} {% if elevation
-                        >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         colour_temp_value = ((start_slope * elevation) + start_ak)
@@ -6288,7 +6672,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_max_brightness %} {% if elevation
-                        > -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        > dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -6330,7 +6714,7 @@ action:
                         / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                         %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                         * -1) + dynamic_lighting_max_brightness %} {% if elevation
-                        > -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                        > dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                         and elevation <= dynamic_lighting_sun_elevation_end_rising
                         and is_state_attr('sun.sun', 'rising', true) %}\n    {% set
                         brightness_value = ((start_slope * elevation) + start_ak)
@@ -6453,6 +6837,10 @@ action:
                         ''off''))) }}'
                       sequence:
                       - variables:
+                          dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun',
+                            'rising', true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                            }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                            }}\n{% endif %}\n"
                           dynamic_brightness_pct: "{% set lux = states(dynamic_lighting_lux_sensor)
                             | float %} {% set slope = (dynamic_lighting_min_brightness
                             - dynamic_lighting_max_brightness) / (dynamic_lighting_max_lux
@@ -6492,15 +6880,16 @@ action:
                             / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                             %}\n  {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                             * -1) + dynamic_lighting_min_colour_temp %}\n  {% if elevation
-                            >= -10 %}\n    {% if elevation >= dynamic_lighting_sun_elevation_start_rising
-                            and elevation <= dynamic_lighting_sun_elevation_end_rising
-                            and is_state_attr('sun.sun', 'rising', true) %}\n      {%
-                            set colour_temp_value = ((start_slope * elevation) + start_ak)
-                            | round(1) %}\n    {% elif elevation <= dynamic_lighting_sun_elevation_start_falling
-                            and elevation >= dynamic_lighting_sun_elevation_end_falling
-                            and is_state_attr('sun.sun', 'rising', false) %}\n      {%
-                            set colour_temp_value = ((end_slope * elevation) + end_ak)
-                            | round(1) %}\n    {% elif elevation >= dynamic_lighting_sun_elevation_end_rising
+                            >= dynamic_elevation_cutoff %}\n    {% if elevation >=
+                            dynamic_lighting_sun_elevation_start_rising and elevation
+                            <= dynamic_lighting_sun_elevation_end_rising and is_state_attr('sun.sun',
+                            'rising', true) %}\n      {% set colour_temp_value = ((start_slope
+                            * elevation) + start_ak) | round(1) %}\n    {% elif elevation
+                            <= dynamic_lighting_sun_elevation_start_falling and elevation
+                            >= dynamic_lighting_sun_elevation_end_falling and is_state_attr('sun.sun',
+                            'rising', false) %}\n      {% set colour_temp_value =
+                            ((end_slope * elevation) + end_ak) | round(1) %}\n    {%
+                            elif elevation >= dynamic_lighting_sun_elevation_end_rising
                             and elevation >= dynamic_lighting_sun_elevation_start_falling
                             \ %}\n      {% set colour_temp_value = dynamic_lighting_max_colour_temp
                             %}\n    {% elif elevation <= dynamic_lighting_sun_elevation_start_rising
@@ -6620,7 +7009,11 @@ action:
                             delay:
                               minutes: !input dynamic_lighting_heartbeat
                         - alias: If dynamic lighting brightness is in the dead zone
-                          conditions: '{{ in_dead_zone }}'
+                          conditions:
+                          - condition: template
+                            value_template: '{{ in_dead_zone }}'
+                          - condition: template
+                            value_template: '{{ repeat.index != 1 }}'
                           sequence:
                           - alias: Dynamic lighting heartbeat
                             delay:
@@ -6664,6 +7057,10 @@ action:
                         ''off''))) }}'
                       sequence:
                       - variables:
+                          dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun',
+                            'rising', true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                            }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                            }}\n{% endif %}\n"
                           dynamic_kelvin: "{% set elevation = state_attr('sun.sun',
                             'elevation') | float %} {% set start_slope = (dynamic_lighting_min_colour_temp
                             - dynamic_lighting_max_colour_temp) / (dynamic_lighting_sun_elevation_start_rising
@@ -6674,7 +7071,7 @@ action:
                             / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                             %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                             * -1) + dynamic_lighting_min_colour_temp %} {% if elevation
-                            >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                            >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                             and elevation <= dynamic_lighting_sun_elevation_end_rising
                             and is_state_attr('sun.sun', 'rising', true) %}\n    {%
                             set colour_temp_value = ((start_slope * elevation) + start_ak)
@@ -6826,6 +7223,10 @@ action:
                         ''off''))) }}'
                       sequence:
                       - variables:
+                          dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun',
+                            'rising', true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                            }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                            }}\n{% endif %}\n"
                           dynamic_brightness_pct: "{% set lux = states(dynamic_lighting_lux_sensor)
                             | float %} {% set slope = (dynamic_lighting_min_brightness
                             - dynamic_lighting_max_brightness) / (dynamic_lighting_min_lux
@@ -6865,15 +7266,16 @@ action:
                             / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                             %}\n  {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                             * -1) + dynamic_lighting_min_colour_temp %}\n  {% if elevation
-                            >= -10 %}\n    {% if elevation >= dynamic_lighting_sun_elevation_start_rising
-                            and elevation <= dynamic_lighting_sun_elevation_end_rising
-                            and is_state_attr('sun.sun', 'rising', true) %}\n      {%
-                            set colour_temp_value = ((start_slope * elevation) + start_ak)
-                            | round(1) %}\n    {% elif elevation <= dynamic_lighting_sun_elevation_start_falling
-                            and elevation >= dynamic_lighting_sun_elevation_end_falling
-                            and is_state_attr('sun.sun', 'rising', false) %}\n      {%
-                            set colour_temp_value = ((end_slope * elevation) + end_ak)
-                            | round(1) %}\n    {% elif elevation >= dynamic_lighting_sun_elevation_end_rising
+                            >= dynamic_elevation_cutoff %}\n    {% if elevation >=
+                            dynamic_lighting_sun_elevation_start_rising and elevation
+                            <= dynamic_lighting_sun_elevation_end_rising and is_state_attr('sun.sun',
+                            'rising', true) %}\n      {% set colour_temp_value = ((start_slope
+                            * elevation) + start_ak) | round(1) %}\n    {% elif elevation
+                            <= dynamic_lighting_sun_elevation_start_falling and elevation
+                            >= dynamic_lighting_sun_elevation_end_falling and is_state_attr('sun.sun',
+                            'rising', false) %}\n      {% set colour_temp_value =
+                            ((end_slope * elevation) + end_ak) | round(1) %}\n    {%
+                            elif elevation >= dynamic_lighting_sun_elevation_end_rising
                             and elevation >= dynamic_lighting_sun_elevation_start_falling
                             \ %}\n      {% set colour_temp_value = dynamic_lighting_max_colour_temp
                             %}\n    {% elif elevation <= dynamic_lighting_sun_elevation_start_rising
@@ -6993,7 +7395,11 @@ action:
                             delay:
                               minutes: !input dynamic_lighting_heartbeat
                         - alias: If dynamic lighting brightness is in the dead zone
-                          conditions: '{{ in_dead_zone }}'
+                          conditions:
+                          - condition: template
+                            value_template: '{{ in_dead_zone }}'
+                          - condition: template
+                            value_template: '{{ repeat.index != 1 }}'
                           sequence:
                           - alias: Dynamic lighting heartbeat
                             delay:
@@ -7037,6 +7443,10 @@ action:
                         ''off''))) }}'
                       sequence:
                       - variables:
+                          dynamic_elevation_cutoff: "{% if is_state_attr('sun.sun',
+                            'rising', true) %}\n  {{ dynamic_lighting_sun_elevation_start_rising
+                            }}\n{% else %}\n  {{ dynamic_lighting_sun_elevation_end_falling
+                            }}\n{% endif %}\n"
                           dynamic_kelvin: "{% set elevation = state_attr('sun.sun',
                             'elevation') | float %} {% set start_slope = (dynamic_lighting_min_colour_temp
                             - dynamic_lighting_max_colour_temp) / (dynamic_lighting_sun_elevation_start_rising
@@ -7047,7 +7457,7 @@ action:
                             / (dynamic_lighting_sun_elevation_end_falling - dynamic_lighting_sun_elevation_start_falling)
                             %} {% set end_ak = (( end_slope * dynamic_lighting_sun_elevation_end_falling)
                             * -1) + dynamic_lighting_min_colour_temp %} {% if elevation
-                            >= -10 %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
+                            >= dynamic_elevation_cutoff %}\n  {% if elevation >= dynamic_lighting_sun_elevation_start_rising
                             and elevation <= dynamic_lighting_sun_elevation_end_rising
                             and is_state_attr('sun.sun', 'rising', true) %}\n    {%
                             set colour_temp_value = ((start_slope * elevation) + start_ak)
@@ -7950,11 +8360,25 @@ action:
               conditions:
               - condition: trigger
                 id: t17
+              - condition: template
+                value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+                  }}'
               sequence:
               - action: light.turn_on
                 target:
                   entity_id: '{{ light_entities }}'
                 data: '{{ light_data }}'
+              - choose:
+                - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
+                  conditions:
+                  - condition: template
+                    value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{
+                      is_state(dynamic_lighting_boolean, 'on') }}\n{% endif %}"
+                  sequence:
+                  - alias: Turn off the boolean for dynamic lighting
+                    action: input_boolean.turn_off
+                    data:
+                      entity_id: !input dynamic_lighting_boolean
           - choose:
             - alias: If transition is selected
               conditions:
@@ -8057,12 +8481,17 @@ action:
         - t3
         - t5
         - t7
+        - t19
       sequence:
       - choose:
-        - alias: Dynamic Lighting - Input Boolean Helper
+        - alias: Dynamic Lighting - Check if Input Boolean Helper is ON
           conditions:
           - condition: template
-            value_template: '{{ dynamic_lighting_boolean != [] }}'
+            value_template: '{{ include_dynamic_lighting != ''disable_dynamic_lighting''
+              }}'
+          - condition: template
+            value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+              'on') }}\n{% endif %}"
           sequence:
           - alias: Turn off the boolean for dynamic lighting
             action: input_boolean.turn_off
