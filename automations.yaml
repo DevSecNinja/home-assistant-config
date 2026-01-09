@@ -3323,8 +3323,9 @@
     entity_id: update.home_assistant_core_update
     state: 'on'
   - condition: template
-    value_template: '{{ state_attr("update.home_assistant_core_update", "installed_version")[0:7]
-      == state_attr("update.home_assistant_core_update", "latest_version")[0:7] }}'
+    value_template: '{{ state_attr("update.home_assistant_core_update", "installed_version").split(".")[0:2]
+      == state_attr("update.home_assistant_core_update", "latest_version").split(".")[0:2]
+      }}'
   - condition: zone
     entity_id: device_tracker.jean_pauls_iphone_app
     zone: zone.home
@@ -3341,6 +3342,77 @@
     metadata: {}
     data:
       title: "👾 System updating"
+      message: "Updating from {{ state_attr('update.home_assistant_core_update',
+        'installed_version') }} to {{ state_attr('update.home_assistant_core_update',
+        'latest_version') }}"
+  - action: update.install
+    target:
+      entity_id: update.home_assistant_core_update
+    data: {}
+  mode: single
+- id: '1767816500000'
+  alias: Ask before installing big updates
+  description: 'Checks twice a day if a big system update is ready.
+
+    If you''re home and awake, asks your permission before updating.
+
+    You can tap to install now or postpone it for later.
+
+    '
+  triggers:
+  - trigger: time_pattern
+    hours: /12
+  conditions:
+  - condition: state
+    entity_id: update.home_assistant_core_update
+    state: 'on'
+  - condition: template
+    value_template: '{{ state_attr("update.home_assistant_core_update", "installed_version").split(".")[0:2]
+      != state_attr("update.home_assistant_core_update", "latest_version").split(".")[0:2]
+      }}'
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  - condition: state
+    entity_id: input_boolean.awake
+    state:
+    - 'on'
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "🚀 Major system update available"
+      message: "Update from {{ state_attr('update.home_assistant_core_update', 'installed_version')
+        }} to {{ state_attr('update.home_assistant_core_update', 'latest_version')
+        }} is available. Install now?"
+      data:
+        actions:
+        - action: INSTALL_MAJOR_UPDATE
+          title: Install Now
+        - action: DISMISS_UPDATE
+          title: Later
+  mode: single
+- id: '1767816500001'
+  alias: Install update after you approve
+  description: 'When you tap Install Now on the update notification,
+
+    the system updates itself and sends a confirmation message.
+
+    '
+  triggers:
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: INSTALL_MAJOR_UPDATE
+    trigger: event
+  conditions:
+  - condition: state
+    entity_id: update.home_assistant_core_update
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "👾 Installing major update"
       message: "Updating from {{ state_attr('update.home_assistant_core_update',
         'installed_version') }} to {{ state_attr('update.home_assistant_core_update',
         'latest_version') }}"
