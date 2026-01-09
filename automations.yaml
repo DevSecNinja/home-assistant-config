@@ -70,7 +70,9 @@
   - action: notify.mobile_app_jean_pauls_iphone
     data:
       title: ⚡ NAS power too high
-      message: "Above 40W for 4 hours.\nDisks may not be sleeping."
+      message: 'Above 40W for 4 hours.
+
+        Disks may not be sleeping.'
   mode: single
 - id: '1720873118886'
   alias: Daily countdown reminder at 6am
@@ -341,8 +343,9 @@
       - 46543360583f3c2044f992f533f51051
       - 3a8b570c2364844265d6b63628d76f16
       include_start_notify: enable_start_notify_options
-      start_title: 💧 Washing machine leak
-      start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} leaking. Power turning off now.'
+      start_title: "\U0001F4A7 Washing machine leak"
+      start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} leaking.
+        Power turning off now.'
       start_notify_interruption_level: critical
       start_action_1:
       - repeat:
@@ -368,14 +371,16 @@
               state: unavailable
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: "🔌 {{ states[trigger.entity_id].attributes.friendly_name }} off"
+          title: "\U0001F50C {{ states[trigger.entity_id].attributes.friendly_name
+            }} off"
           message: Turn power back on after fixing.
           data:
             push:
               interruption-level: critical
       - action: notify.mobile_app_jean_paul_van_ravensbergs_ipad
         data:
-          title: "🔌 {{ states[trigger.entity_id].attributes.friendly_name }} off"
+          title: "\U0001F50C {{ states[trigger.entity_id].attributes.friendly_name
+            }} off"
           message: Turn power back on after fixing.
           data:
             push:
@@ -387,8 +392,8 @@
       - 46543360583f3c2044f992f533f51051
       - 3a8b570c2364844265d6b63628d76f16
       end_title: ✅ Leak stopped
-      end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} looks dry.
-        Turn power back on.'
+      end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} looks
+        dry. Turn power back on.'
       end_notify_interruption_level: critical
       end_trigger_state: 'off'
       end_trigger_state_entity:
@@ -411,8 +416,9 @@
       - 3a8b570c2364844265d6b63628d76f16
       - 46543360583f3c2044f992f533f51051
       include_start_notify: enable_start_notify_options
-      start_title: 💧 Dishwasher leak
-      start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} leaking! Check it immediately.'
+      start_title: "\U0001F4A7 Dishwasher leak"
+      start_message: '{{ states[trigger.entity_id].attributes.friendly_name }} leaking!
+        Check it immediately.'
       start_notify_interruption_level: critical
       start_action_1: []
       include_start_auto_actions: []
@@ -421,8 +427,8 @@
       - 3a8b570c2364844265d6b63628d76f16
       - 46543360583f3c2044f992f533f51051
       end_title: ✅ Leak stopped
-      end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} looks dry.
-        Turn power back on.'
+      end_message: '{{ states[trigger.entity_id].attributes.friendly_name }} looks
+        dry. Turn power back on.'
       end_notify_interruption_level: critical
       end_trigger_state: 'off'
       end_trigger_state_entity:
@@ -673,7 +679,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🔒 Arming alarm now
+      title: "\U0001F512 Arming alarm now"
       message: You left home.
   mode: single
 - id: '1726841337575'
@@ -698,7 +704,9 @@
     metadata: {}
     data:
       title: ⚡ NAS power still high
-      message: "Stayed above 18W for 24 hours.\nCheck if disks are sleeping."
+      message: 'Stayed above 18W for 24 hours.
+
+        Check if disks are sleeping.'
   mode: single
 - id: '1726863777053'
   alias: Send vacuum home when you arrive
@@ -905,7 +913,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🍞 Bread reminder
+      title: "\U0001F35E Bread reminder"
       message: Take bread out of freezer.
   mode: single
 - id: '1726903549680'
@@ -1100,7 +1108,7 @@
           entity_id: light.all_lights
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: 🌴 Vacation mode on
+          title: "\U0001F334 Vacation mode on"
           message: Enjoy! Alarm and automation paused.
     - conditions:
       - condition: not
@@ -1119,8 +1127,10 @@
         data: {}
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: 🏠 Welcome home
-          message: "Automations restored.\nNext alarm: {{ states('input_datetime.wakeup_time') }}."
+          title: "\U0001F3E0 Welcome home"
+          message: 'Automations restored.
+
+            Next alarm: {{ states(''input_datetime.wakeup_time'') }}.'
 - id: '1726906598387'
   alias: Turn on desktop computer remotely
   description: 'When you press the wake up button, sends a signal
@@ -1170,8 +1180,8 @@
       source: Media Player
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: 🔉 Receiver set to PC
-      message: "Remember: add screen 2 and change output."
+      title: "\U0001F509 Receiver set to PC"
+      message: 'Remember: add screen 2 and change output.'
 - id: '1726907061543'
   alias: Turn off entertainment when leaving home
   description: 'When you leave or arm the alarm, checks if TV, receiver, or music
@@ -1212,7 +1222,7 @@
         data: {}
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: 📺 TV turned off
+          title: "\U0001F4FA TV turned off"
           message: Saving power while you're away.
     - conditions:
       - condition: state
@@ -1225,7 +1235,7 @@
         data: {}
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: 🔊 Receiver turned off
+          title: "\U0001F50A Receiver turned off"
           message: Saving power while you're away.
     - conditions:
       - condition: state
@@ -1238,7 +1248,7 @@
         data: {}
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: 🎵 Music paused
+          title: "\U0001F3B5 Music paused"
           message: Saving power while you're away.
   - action: light.turn_off
     data: {}
@@ -1511,7 +1521,7 @@
     data: {}
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: 💧 Washing machine ready
+      title: "\U0001F4A7 Washing machine ready"
       message: Power is on. Use it today!
   - delay:
       hours: 5
@@ -1553,7 +1563,7 @@
     data: {}
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: 💧 Power turned off
+      title: "\U0001F4A7 Power turned off"
       message: Washing machine is off.
 - id: '1727516942520'
   alias: Turn off receiver after 5 minutes idle
@@ -1592,7 +1602,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 💰 Receiver turned off
+      title: "\U0001F4B0 Receiver turned off"
       message: Saving power. It was idle.
 - id: '1727517745909'
   alias: Scheduled vacuum cleaning when away
@@ -1685,7 +1695,7 @@
       sequence:
       - action: notify.mobile_app_jean_pauls_iphone
         data:
-          title: 🤖 Vacuum needs attention
+          title: "\U0001F916 Vacuum needs attention"
           message: 'Clean these: {{ message_list }}'
 - id: '1727519498913'
   alias: Washing machine start and finish alerts
@@ -1702,12 +1712,12 @@
       include_start_notify: enable_start_notify_options
       start_notify_device:
       - 46543360583f3c2044f992f533f51051
-      start_title: 💧 Washing started
+      start_title: "\U0001F4A7 Washing started"
       start_message: Machine is running.
       include_end_notify: enable_end_notify_options
       end_notify_device:
       - 46543360583f3c2044f992f533f51051
-      end_message_title: 💧 Washing done
+      end_message_title: "\U0001F4A7 Washing done"
       power_consumption_sensor: sensor.washing_machine_smart_plug_total_consumption
       include_power_tracking: enable_power_tracking_and_cost
       end_message_cost: Approx Cost €
@@ -1747,8 +1757,8 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🔥 Smoke detected
-      message: 🚒
+      title: "\U0001F525 Smoke detected"
+      message: "\U0001F692"
       data:
         push:
           sound:
@@ -1782,7 +1792,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🪥 Brush your teeth
+      title: "\U0001FAA5 Brush your teeth"
       message: Take a quick break.
   - wait_for_trigger:
     - entity_id:
@@ -1803,8 +1813,8 @@
     - action: notify.mobile_app_jean_pauls_iphone
       metadata: {}
       data:
-        title: "🪥 Reminder: brush teeth"
-        message: "Still haven't brushed. Do it now."
+        title: "\U0001FAA5 Reminder: brush teeth"
+        message: Still haven't brushed. Do it now.
   mode: single
 - id: '1727527052759'
   alias: Bedroom airing done after 15 minutes
@@ -1831,7 +1841,7 @@
   action:
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: 🪟 Close bedroom window
+      title: "\U0001FA9F Close bedroom window"
       message: Open for 15 minutes.
 - id: '1727527131896'
   alias: Living room airing done after 15 minutes
@@ -1858,7 +1868,7 @@
   action:
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: 🪟 Close living room window
+      title: "\U0001FA9F Close living room window"
       message: Open for 15 minutes.
 - id: '1727527258915'
   alias: Warning if fuse box gets too hot
@@ -1929,7 +1939,7 @@
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     data:
-      title: 😴 Still awake at 3am
+      title: "\U0001F634 Still awake at 3am"
       message: Auto-turning off lights now.
   - action: input_boolean.turn_off
     entity_id: input_boolean.awake
@@ -2191,7 +2201,7 @@
     - action: notify.mobile_app_jean_pauls_iphone
       metadata: {}
       data:
-        title: 🎵 Music still playing
+        title: "\U0001F3B5 Music still playing"
         message: Pause it?
         data:
           actions:
@@ -2335,7 +2345,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🧹 Chore time
+      title: "\U0001F9F9 Chore time"
       message: Pick one and do it.
   mode: single
 - id: '1730059015682'
@@ -2363,7 +2373,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🤖 Vacuum started
+      title: "\U0001F916 Vacuum started"
       message: Alarm is armed. Will notify when done.
   - wait_for_trigger:
     - trigger: state
@@ -2378,7 +2388,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🤖 Vacuum finished
+      title: "\U0001F916 Vacuum finished"
       message: Cleaning complete.
   mode: single
 - id: '1730757243166'
@@ -2490,7 +2500,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🎵 Switch Spotify output
+      title: "\U0001F3B5 Switch Spotify output"
       message: Switch to receiver?
   mode: single
 - id: '1731253341756'
@@ -2660,7 +2670,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🪟 Temperature difference
+      title: "\U0001FA9F Temperature difference"
       message: '{{ states(''sensor.living_room_and_bathroom_temperature_difference'')
         }}°C gap. Close window or vent.'
   mode: single
@@ -2719,7 +2729,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🔓 Alarm off
+      title: "\U0001F513 Alarm off"
       message: Welcome home!
   mode: single
 - id: '1732546364748'
@@ -2782,7 +2792,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 😴 Time for bed
+      title: "\U0001F634 Time for bed"
       message: Your alarm is in less than 8 hours.
   mode: single
 - id: '1733935570931'
@@ -3112,7 +3122,7 @@
   alias: Boost ventilation if toilet occupied long
   description: 'If someone is in the toilet for more than 12 minutes,
 
-    automatically increases ventilation. Note: this is experimental.
+    automatically increases ventilation.
 
     '
   triggers:
@@ -3133,7 +3143,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🚽 Ventilation boost
+      title: "\U0001F6BD Ventilation boost"
       message: Testing long toilet occupancy detection.
   mode: single
 - id: '1762693568858'
@@ -3181,7 +3191,7 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: 🚗 At the carwash
+      title: "\U0001F697 At the carwash"
       message: Timer reset. Enjoy!
   - action: input_datetime.set_datetime
     metadata: {}
@@ -3216,13 +3226,14 @@
     - 'on'
   actions:
   - data:
-      title: 🔌 Unplug charger
+      title: "\U0001F50C Unplug charger"
       message: Charging done. Disconnect now.
     action: notify.mobile_app_jean_pauls_iphone
   mode: single
 - id: '1767389583265'
   alias: Arm alarm when visiting girlfriend
-  description: 'When your car arrives at your girlfriend''s place and you''re not at home,
+  description: 'When your car arrives at your girlfriend''s place and you''re not
+    at home,
 
     automatically arms the alarm in vacation mode for extra security.
 
