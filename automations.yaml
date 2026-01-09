@@ -3257,3 +3257,95 @@
     target:
       device_id: f6971f9bc57d99343c938850ecc7482d
   mode: single
+- id: '1767599293927'
+  alias: Car climate started warming up
+  description: 'When you turn on pre-climate control in your car, sends a notification
+    after 5 seconds to let you know it''s working.
+
+    '
+  use_blueprint:
+    path: Blackshome/notifications-and-announcements.yaml
+    input:
+      trigger_state: 'on'
+      trigger_state_entity:
+      - switch.jjr91v_pre_entry_climate_control
+      include_notify: enable_mobile_app_notify
+      notify_device:
+      - 46543360583f3c2044f992f533f51051
+      notify_title: "🚗 Car warming up"
+      notify_message: Climate control is on
+      notify_tag: car-climate
+      time_delay_state:
+        hours: 0
+        minutes: 0
+        seconds: 5
+      global_conditions:
+      - condition: template
+        value_template: '{{ trigger.from_state.state == ''off'' and trigger.to_state.state
+          == ''on'' }}'
+- id: '1767770178500'
+  alias: Car climate reached temperature
+  description: 'When the car''s climate control turns off, sends a notification
+    that it finished warming or cooling.
+
+    '
+  use_blueprint:
+    path: Blackshome/notifications-and-announcements.yaml
+    input:
+      trigger_state: 'off'
+      trigger_state_entity:
+      - switch.jjr91v_pre_entry_climate_control
+      include_notify: enable_mobile_app_notify
+      notify_device:
+      - 46543360583f3c2044f992f533f51051
+      notify_title: "✅ Car ready"
+      notify_message: Temperature reached
+      notify_tag: car-climate
+      time_delay_state:
+        hours: 0
+        minutes: 0
+        seconds: 0
+      global_conditions:
+      - condition: template
+        value_template: '{{ trigger.from_state.state == ''on'' and trigger.to_state.state
+          == ''off'' }}'
+- id: '1767815981437'
+  alias: Auto-update system every 4 hours
+  description: 'Checks every 4 hours if a minor system update is available.
+    If you''re home and awake for at least 15 minutes, installs it automatically.
+
+    '
+  triggers:
+  - trigger: time_pattern
+    hours: /4
+  conditions:
+  - condition: state
+    entity_id: update.home_assistant_core_update
+    state: 'on'
+  - condition: template
+    value_template: '{{ state_attr("update.home_assistant_core_update", "installed_version")[0:7]
+      == state_attr("update.home_assistant_core_update", "latest_version")[0:7] }}'
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  - condition: state
+    entity_id: input_boolean.awake
+    state:
+    - 'on'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  actions:
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: "👾 System updating"
+      message: "Updating from {{ state_attr('update.home_assistant_core_update',
+        'installed_version') }} to {{ state_attr('update.home_assistant_core_update',
+        'latest_version') }}"
+  - action: update.install
+    target:
+      entity_id: update.home_assistant_core_update
+    data: {}
+  mode: single
