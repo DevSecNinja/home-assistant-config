@@ -3272,7 +3272,7 @@
       include_notify: enable_mobile_app_notify
       notify_device:
       - 46543360583f3c2044f992f533f51051
-      notify_title: "🚗 Car warming up"
+      notify_title: "\U0001F697 Car warming up"
       notify_message: Climate control is on
       notify_tag: car-climate
       time_delay_state:
@@ -3285,8 +3285,8 @@
           == ''on'' }}'
 - id: '1767770178500'
   alias: Car climate reached temperature
-  description: 'When the car''s climate control turns off, sends a notification
-    that it finished warming or cooling.
+  description: 'When the car''s climate control turns off, sends a notification that
+    it finished warming or cooling.
 
     '
   use_blueprint:
@@ -3298,7 +3298,7 @@
       include_notify: enable_mobile_app_notify
       notify_device:
       - 46543360583f3c2044f992f533f51051
-      notify_title: "✅ Car ready"
+      notify_title: ✅ Car ready
       notify_message: Temperature reached
       notify_tag: car-climate
       time_delay_state:
@@ -3311,8 +3311,8 @@
           == ''off'' }}'
 - id: '1767815981437'
   alias: Auto-update system every 4 hours
-  description: 'Checks every 4 hours if a minor system update is available.
-    If you''re home and awake for at least 15 minutes, installs it automatically.
+  description: 'Checks every 4 hours if a minor system update is available. If you''re
+    home and awake for at least 15 minutes, installs it automatically.
 
     '
   triggers:
@@ -3341,10 +3341,10 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: "👾 System updating"
-      message: "Updating from {{ state_attr('update.home_assistant_core_update',
-        'installed_version') }} to {{ state_attr('update.home_assistant_core_update',
-        'latest_version') }}"
+      title: "\U0001F47E System updating"
+      message: Updating from {{ state_attr('update.home_assistant_core_update', 'installed_version')
+        }} to {{ state_attr('update.home_assistant_core_update', 'latest_version')
+        }}
   - action: update.install
     target:
       entity_id: update.home_assistant_core_update
@@ -3381,10 +3381,10 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: "🚀 Major system update available"
-      message: "Update from {{ state_attr('update.home_assistant_core_update', 'installed_version')
+      title: "\U0001F680 Major system update available"
+      message: Update from {{ state_attr('update.home_assistant_core_update', 'installed_version')
         }} to {{ state_attr('update.home_assistant_core_update', 'latest_version')
-        }} is available. Install now?"
+        }} is available. Install now?
       data:
         actions:
         - action: INSTALL_MAJOR_UPDATE
@@ -3412,12 +3412,37 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: "👾 Installing major update"
-      message: "Updating from {{ state_attr('update.home_assistant_core_update',
-        'installed_version') }} to {{ state_attr('update.home_assistant_core_update',
-        'latest_version') }}"
+      title: "\U0001F47E Installing major update"
+      message: Updating from {{ state_attr('update.home_assistant_core_update', 'installed_version')
+        }} to {{ state_attr('update.home_assistant_core_update', 'latest_version')
+        }}
   - action: update.install
     target:
       entity_id: update.home_assistant_core_update
+    data: {}
+  mode: single
+- id: '1768033398320'
+  alias: Finish living room lights timer when leaving home or sleeping
+  description: Finishes the timer that is used by the Living Room light automation
+    to ensure the living room light turns on when coming back home or out of awake
+    mode
+  triggers:
+  - trigger: zone
+    entity_id: person.jean_paul
+    zone: zone.home
+    event: leave
+  - trigger: state
+    entity_id:
+    - input_boolean.awake
+    from:
+    - 'on'
+    to:
+    - 'off'
+  conditions: []
+  actions:
+  - action: timer.finish
+    metadata: {}
+    target:
+      entity_id: timer.pause_the_automation_living_room_light
     data: {}
   mode: single
