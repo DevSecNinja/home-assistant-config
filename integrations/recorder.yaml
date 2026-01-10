@@ -11,37 +11,35 @@
 # ORDER BY cnt DESC;
 
 recorder:
-  #db_url: !secret db_url
   exclude:
     domains:
-      - device_tracker
       - media_player
       - time_date
       - uptime
       - weather
       - worldclock
     entity_globs:
-      - sensor.*_cpu_*
-      - sensor.*_energy
-      - sensor.*_memory_*
-      - sensor.*_power
-      - sensor.*_smart_plug_current
-      - sensor.*_smart_plug_voltage
-      - sensor.clock*
-      - sensor.date*
-      - sensor.flightradar*
-      - sensor.glances*
-      - sensor.load_*m
-      - sensor.network_*
-      - sensor.time*
-      - sensor.uptime*
+      # - sensor.*_cpu_*
+      # - sensor.*_energy
+      # - sensor.*_memory_*
+      # - sensor.*_power
+      # - sensor.*_smart_plug_current
+      # - sensor.*_smart_plug_voltage
+      # - sensor.clock*
+      # - sensor.date*
+      # - sensor.flightradar*
+      # - sensor.glances*
+      # - sensor.load_*m
+      # - sensor.network_*
+      # - sensor.time*
+      # - sensor.uptime*
       - sensor.watchman*
     entities:
-      - light.all_lights
+      # - light.all_lights
       - sensor.expected_bedtime
       - sensor.hours_until_wakeup
-      - sensor.memory_use_percent
-      - sensor.processor_use
-  include:
-    entities:
-      - device_tracker.jeanpaulsiphone
+      # - sensor.memory_use_percent
+      # - sensor.processor_use
+  # include:
+  #   entities:
+  #     - device_tracker.jeanpaulsiphone
