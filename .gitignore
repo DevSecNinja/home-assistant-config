@@ -11,12 +11,21 @@
 !scripts/**/*
 !templates
 !templates/**/*
+!docs
+!docs/**/*
 
 !automations.yaml
 !configuration.yaml
 #!scripts.yaml
 !README.md
 !.gitignore
+!VALIDATION_STATUS.md
+
+# Validation configuration files
+!.yamllint
+!.markdownlint.json
+!.markdownlintignore
+!.pre-commit-config.yaml
 
 # Never ever
 *secret*.y*ml
