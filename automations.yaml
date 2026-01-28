@@ -1070,18 +1070,18 @@
     When you return home: re-enables everything and welcomes you back.
 
     '
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - alarm_control_panel.alarmo
     attribute: arm_mode
     from: armed_vacation
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - alarm_control_panel.alarmo
     attribute: arm_mode
     to: armed_vacation
-  action:
+    trigger: state
+  actions:
   - choose:
     - conditions:
       - condition: state
@@ -1124,6 +1124,11 @@
           - input_boolean.wakeup_enabled
           - input_boolean.awake
           - input_boolean.vacuum_clean_enabled
+        data: {}
+      - action: switch.turn_on
+        metadata: {}
+        target:
+          entity_id: switch.bathroom_toothbrush_switch
         data: {}
       - action: notify.mobile_app_jean_pauls_iphone
         data:
@@ -1190,17 +1195,22 @@
     Turns off what''s running and sends notification that it saved you money.
 
     '
-  trigger:
-  - platform: zone
-    entity_id: device_tracker.jean_pauls_iphone_app
+  triggers:
+  - entity_id: device_tracker.jean_pauls_iphone_app
     zone: zone.home
     event: leave
-  - platform: state
-    entity_id:
+    trigger: zone
+  - entity_id:
     - alarm_control_panel.alarmo
     attribute: arm_mode
     from: disarmed
-  condition:
+    trigger: state
+  - trigger: state
+    entity_id:
+    - person.jean_paul
+    from:
+    - home
+  conditions:
   - condition: not
     conditions:
     - condition: state
@@ -1209,7 +1219,7 @@
     - condition: state
       entity_id: alarm_control_panel.alarmo
       state: armed_night
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: state
@@ -2253,14 +2263,15 @@
 
     '
   triggers:
-  - trigger: zone
-    entity_id: device_tracker.jean_pauls_iphone_app
-    zone: zone.home
-    event: leave
   - trigger: state
     entity_id:
     - input_boolean.awake
     to: 'off'
+  - trigger: state
+    entity_id:
+    - person.jean_paul
+    from:
+    - home
   conditions: []
   actions:
   - action: timer.cancel
@@ -2316,9 +2327,11 @@
   triggers:
   - trigger: state
     entity_id:
-    - binary_sensor.kia_pending_recall
-    to: 'on'
-    from: 'off'
+    - binary_sensor.mercedes_benz_jjr91v_pending_recall
+    to:
+    - 'on'
+    from:
+    - 'off'
   conditions: []
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
@@ -2905,6 +2918,7 @@
       night_light_colour_temperature: 2000
       include_night_light_colour_control: use_colour_temperature
       night_light_transition_off: 10
+      dynamic_lighting_step_value: 10
 - id: '1740773906383'
   alias: Dim living room light before waking up
   description: 'When you''re not marked as awake and enter living room,
@@ -3226,8 +3240,8 @@
     - 'on'
   actions:
   - data:
-      title: "\U0001F50C Unplug charger"
-      message: Charging done. Disconnect now.
+      title: "\U0001F50C Unplug car charger"
+      message: Charging done. Disconnect car now.
     action: notify.mobile_app_jean_pauls_iphone
   mode: single
 - id: '1767389583265'
@@ -3281,8 +3295,8 @@
         seconds: 5
       global_conditions:
       - condition: template
-        value_template: '{{ trigger.from_state.state == ''off'' and trigger.to_state.state
-          == ''on'' }}'
+        value_template: '{{ trigger.from_state.state not in [''unknown'', ''unavailable'']
+          }}'
 - id: '1767770178500'
   alias: Car climate reached temperature
   description: 'When the car''s climate control turns off, sends a notification that
@@ -3307,8 +3321,8 @@
         seconds: 0
       global_conditions:
       - condition: template
-        value_template: '{{ trigger.from_state.state == ''on'' and trigger.to_state.state
-          == ''off'' }}'
+        value_template: '{{ trigger.from_state.state not in [''unknown'', ''unavailable'']
+          }}'
 - id: '1767815981437'
   alias: Auto-update system every 4 hours
   description: 'Checks every 4 hours if a minor system update is available. If you''re
