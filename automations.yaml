@@ -31,7 +31,171 @@
       entity_id: automation.enable_pc_audio_on_receiver
     action: automation.turn_off
   mode: single
+
+  alias: Parking disc reminder at girlfriend's place
+  description: 'Reminds you to change your parking disc 2 hours after arrival at your girlfriend''s place, rounding up to the next :00 or :30, only between 09:00 and 21:00.'
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.jjr91v_device_tracker
+      zone: zone.girlfriend
+      event: enter
+  condition:
+    - condition: time
+      after: '09:00:00'
+      before: '21:00:00'
+  action:
+    - variables:
+        now: "{{ now() }}"
+        minute: "{{ now().minute }}"
+        hour: "{{ now().hour }}"
+        # Calculate the next :00 or :30
+        rounded_minute: >
+          {% if now().minute < 30 %}30{% else %}0{% endif %}
+        rounded_hour: >
+          {% if now().minute < 30 %}{{ now().hour }}{% else %}{{ (now().hour + 1) % 24 }}{% endif %}
+        # Calculate the rounded arrival time
+        rounded_arrival: >
+          {{ now().replace(hour=rounded_hour|int, minute=rounded_minute|int, second=0, microsecond=0) }}
+        # Add 2 hours for the disc change time
+        change_time: >
+          {{ (now().replace(hour=rounded_hour|int, minute=rounded_minute|int, second=0, microsecond=0) + timedelta(hours=2)).strftime('%H:%M') }}
+    - service: notify.mobile_app_jean_pauls_iphone
+      data:
+        title: "🅿️ Parking Disc Reminder"
+        message: >
+          You arrived at your girlfriend's place. Set your parking disc to {{ rounded_hour|int|stringformat('%02d') }}:{{ rounded_minute|int|stringformat('%02d') }}. You need to change it at {{ change_time }}.
+  mode: single
   initial_state: false
+ id: 'PARKING_DISC_GIRLFRIEND_INTERACTIVE'
+  alias: Interactive parking disc reminder at girlfriend's place
+  description: 'Sends actionable notification with two time options and cancel. When a time is picked, reminds again 2 hours later, until 21:00.'
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.jjr91v_device_tracker
+      zone: zone.girlfriend
+      event: enter
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: parking_disc_time_1
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: parking_disc_time_2
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: parking_disc_cancel
+  condition:
+    - condition: time
+      after: '09:00:00'
+      before: '21:00:00'
+  action:
+    - variables:
+        now: "{{ now() }}"
+        minute: "{{ now().minute }}"
+        hour: "{{ now().hour }}"
+        # Calculate the next :00 or :30
+        rounded_minute_1: >
+          {% if now().minute < 30 %}30{% else %}0{% endif %}
+        rounded_hour_1: >
+          {% if now().minute < 30 %}{{ now().hour }}{% else %}{{ (now().hour + 1) % 24 }}{% endif %}
+        # Second option is always 30 min after the first
+        rounded_minute_2: >
+          {% if rounded_minute_1 == 0 %}30{% else %}0{% endif %}
+        rounded_hour_2: >
+          {% if rounded_minute_1 == 0 %}{{ (rounded_hour_1|int) % 24 }}{% else %}{{ (rounded_hour_1|int + 1) % 24 }}{% endif %}
+        # Format both options
+        option_1: "{{ '%02d:%02d' | format(rounded_hour_1|int, rounded_minute_1|int) }}"
+        option_2: "{{ '%02d:%02d' | format(rounded_hour_2|int, rounded_minute_2|int) }}"
+    - service: notify.mobile_app_jean_pauls_iphone
+      data:
+        title: "🅿️ Parking Disc Reminder"
+        message: >
+          Set your parking disc to {{ option_1 }} or {{ option_2 }}. Tap your choice below. You will be reminded again 2 hours after the time you pick, until 21:00.
+        data:
+          actions:
+            - action: parking_disc_time_1
+              title: "Set to {{ option_1 }}"
+            - action: parking_disc_time_2
+              title: "Set to {{ option_2 }}"
+            - action: parking_disc_cancel
+              title: "Cancel reminders"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ trigger.event.data.action == 'parking_disc_time_1' }}"
+          sequence:
+            - variables:
+                picked_time: >
+                  {{ option_1 }}
+            - service: timer.start
+              data:
+                entity_id: timer.parking_disc_reminder
+                duration: '02:00:00'
+            - wait_for_trigger:
+                - platform: event
+                  event_type: timer.finished
+                  event_data:
+                    entity_id: timer.parking_disc_reminder
+              timeout: '02:00:00'
+            - condition: time
+              before: '21:00:00'
+            - service: notify.mobile_app_jean_pauls_iphone
+              data:
+                title: "🅿️ Parking Disc Reminder"
+                message: "Time to change your parking disc! Tap to set a new time."
+                data:
+                  actions:
+                    - action: parking_disc_time_1
+                      title: "Set to {{ option_1 }}"
+                    - action: parking_disc_time_2
+                      title: "Set to {{ option_2 }}"
+                    - action: parking_disc_cancel
+                      title: "Cancel reminders"
+        - conditions:
+            - condition: template
+              value_template: "{{ trigger.event.data.action == 'parking_disc_time_2' }}"
+          sequence:
+            - variables:
+                picked_time: >
+                  {{ option_2 }}
+            - service: timer.start
+              data:
+                entity_id: timer.parking_disc_reminder
+                duration: '02:00:00'
+            - wait_for_trigger:
+                - platform: event
+                  event_type: timer.finished
+                  event_data:
+                    entity_id: timer.parking_disc_reminder
+              timeout: '02:00:00'
+            - condition: time
+              before: '21:00:00'
+            - service: notify.mobile_app_jean_pauls_iphone
+              data:
+                title: "🅿️ Parking Disc Reminder"
+                message: "Time to change your parking disc! Tap to set a new time."
+                data:
+                  actions:
+                    - action: parking_disc_time_1
+                      title: "Set to {{ option_1 }}"
+                    - action: parking_disc_time_2
+                      title: "Set to {{ option_2 }}"
+                    - action: parking_disc_cancel
+                      title: "Cancel reminders"
+        - conditions:
+            - condition: template
+              value_template: "{{ trigger.event.data.action == 'parking_disc_cancel' }}"
+          sequence:
+            - service: timer.cancel
+              data:
+                entity_id: timer.parking_disc_reminder
+            - service: notify.mobile_app_jean_pauls_iphone
+              data:
+                title: "🅿️ Parking Disc Reminder"
+                message: "Parking disc reminders cancelled."
+  mode: restart
 - id: '1651856970463'
   alias: Restart smart home system
   description: 'Restarts the entire smart home system when you press a button.
