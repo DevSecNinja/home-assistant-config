@@ -1,0 +1,9 @@
+plant:
+  basil_gecofure:
+    sensors:
+      moisture: sensor.plant_sensor_2a1f_moisture
+      # battery: sensor.plant_sensor_2a1f_battery # Battery sensor not available on miflora
+      temperature: sensor.plant_sensor_2a1f_temperature
+      conductivity: sensor.plant_sensor_2a1f_conductivity
+      brightness: sensor.plant_sensor_2a1f_illuminance
+    min_moisture: 20

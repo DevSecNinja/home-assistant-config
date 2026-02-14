@@ -2337,8 +2337,8 @@
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: ⚠️ New KIA recall
-      message: Schedule a fix for your EV6.
+      title: ⚠️ New car recall
+      message: Schedule a fix for your car
   mode: single
 - id: '1730047989947'
   alias: Daily chore reminder at 12:30pm
