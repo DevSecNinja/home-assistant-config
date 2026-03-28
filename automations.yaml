@@ -1798,6 +1798,9 @@
     - condition: state
       entity_id: alarm_control_panel.alarmo
       state: armed_home
+  - condition: numeric_state
+    entity_id: sensor.toothbrush_daily_usage
+    below: 1
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
@@ -3161,9 +3164,8 @@
       message: Testing long toilet occupancy detection.
   mode: single
 - id: '1762693568858'
-  alias: Parking disc reminder at girlfriend's place
-  description: 'When you arrive at your girlfriend''s place, reminds you
-
+  alias: Parking disc reminder
+  description: 'When you arrive at your girlfriend''s or parents place, reminds you
     to display the blue parking disc in your car window.
 
     '
@@ -3172,12 +3174,18 @@
     entity_id: device_tracker.jjr91v_device_tracker
     zone: zone.girlfriend
     event: enter
+    enabled: true
+  - trigger: zone
+    entity_id: device_tracker.jjr91v_device_tracker
+    zone: zone.parents
+    event: enter
+    enabled: true
   conditions: []
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
     data:
-      title: "\U0001F17F️ Blue parking disc! "
+      title: "\U0001F17F️ Blue parking disc/app!"
       message: Don’t forget it!
   mode: single
 - id: '1767296976174'
