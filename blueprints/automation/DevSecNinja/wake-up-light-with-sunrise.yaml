@@ -113,7 +113,7 @@ variables:
   minimum_brightness_threshold: !input minimum_brightness_threshold
   range_brightness: '{{float(end_brightness)-float(start_brightness)}}'
   seconds: '{{float(sunrise_duration) * 60}}'
-  start_mired: '{{state_attr(light_entity, ''max_mireds'')}}'
+  start_mired: '{{state_attr(light_entity, ''max_mireds'')|int(500)}}'
   end_mired: '{{[state_attr(light_entity, ''min_mireds'')|int(0), min_mired|int(0)]|max}}'
   tick_time: '{{float(seconds) / float(range_brightness)}}'
 trigger:
@@ -164,9 +164,10 @@ action:
       brightness: >
         {% set brightness_range = end_brightness|int - start_brightness|int %}
         {{ start_brightness|int + (brightness_range * progress)|int }}
-      color_temp: >
-        {% set mired_range = start_mired|int - end_mired|int %}
-        {{ start_mired|int - (mired_range * progress)|int }}
+      color_temp_kelvin: >
+        {% set mired_range = start_mired|int(500) - end_mired|int(0) %}
+        {% set mired_val = [start_mired|int(500) - (mired_range * progress)|int, 1]|max %}
+        {{ (1000000 / mired_val)|int }}
       transition: 60
   # Execute post-sunrise actions when complete
   - if:
