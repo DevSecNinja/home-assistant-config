@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2026.2.1
+2026.2.3
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1266
-Number of sensors | 640
+Number of entities | 1280
+Number of sensors | 652
 
 ## Hardware
 
@@ -87,4 +87,4 @@ None
 
 ***
 
-Generated at 2026-02-08, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2026-03-22, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
