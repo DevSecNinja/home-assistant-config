@@ -3388,17 +3388,20 @@
   - condition: state
     entity_id: update.home_assistant_core_update
     state: 'on'
-  - condition: template
-    value_template: '{{ state_attr("update.home_assistant_core_update", "installed_version").split(".")[0:2]
-      != state_attr("update.home_assistant_core_update", "latest_version").split(".")[0:2]
-      }}'
-  - condition: zone
-    entity_id: device_tracker.jean_pauls_iphone_app
-    zone: zone.home
   - condition: state
     entity_id: input_boolean.awake
     state:
     - 'on'
+  - condition: zone
+    entity_id: device_tracker.jean_pauls_iphone_app
+    zone: zone.home
+  - condition: template
+    value_template: '{{ state_attr("update.home_assistant_core_update", "installed_version").split(".")[0:2]
+      != state_attr("update.home_assistant_core_update", "latest_version").split(".")[0:2]
+      }}'
+  - condition: template
+    value_template: '{{ state_attr("update.home_assistant_core_update", "latest_version").split(".")[-1]
+      != "0" }}'
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
