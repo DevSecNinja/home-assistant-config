@@ -3146,10 +3146,11 @@
   - trigger: state
     entity_id:
     - binary_sensor.toilet_occupancy
-    to: 'on'
+    to:
+    - 'on'
     for:
       hours: 0
-      minutes: 12
+      minutes: 18
       seconds: 0
   conditions: []
   actions:
@@ -3200,15 +3201,7 @@
     entity_id: device_tracker.jjr91v_device_tracker
     zone: zone.carwash_haarlem
     event: enter
-  conditions:
-  - condition: state
-    entity_id: device_tracker.jjr91v_device_tracker
-    state:
-    - Carwash Haarlem
-    for:
-      hours: 0
-      minutes: 3
-      seconds: 0
+  conditions: []
   actions:
   - action: notify.mobile_app_jean_pauls_iphone
     metadata: {}
@@ -3471,3 +3464,91 @@
       entity_id: timer.pause_the_automation_living_room_light
     data: {}
   mode: single
+- id: '1774899195045'
+  alias: Reset vacuum room input_select
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_select.vacuum_room
+    not_to:
+    - Select a room...
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  conditions: []
+  actions:
+  - action: input_select.select_option
+    metadata: {}
+    target:
+      entity_id: input_select.vacuum_room
+    data:
+      option: Select a room...
+  - action: notify.mobile_app_jean_pauls_iphone
+    metadata: {}
+    data:
+      title: Test
+      message: Vacuum room input_select was NOT on 'Select a room...' for 5 minutes
+        and has been reset
+  mode: single
+- id: '1775587115547'
+  alias: Evening PC Break Reminder
+  description: Sends escalating reminders to step away from the Mac Mini in the evening
+    while it is still active.
+  triggers:
+  - at: '20:45:00'
+    id: reminder_gentle
+    trigger: time
+  - at: '21:30:00'
+    id: reminder_firm
+    trigger: time
+  - at: '21:45:00'
+    id: reminder_final
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.jean_pauls_mac_mini_active
+    state: 'on'
+  actions:
+  - variables:
+      current_app: '{{ states(''sensor.jean_pauls_mac_mini_frontmost_app'') }}'
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: reminder_gentle
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F319 Evening check-in"
+          message: It's 20:45 — you're in {{ current_app }}. Consider wrapping up
+            soon.
+          data:
+            push:
+              interruption-level: passive
+    - conditions:
+      - condition: trigger
+        id: reminder_firm
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F319 Time to wind down"
+          message: It's 21:30 and {{ current_app }} is still open. Step away from
+            the PC.
+          data:
+            push:
+              interruption-level: time-sensitive
+    - conditions:
+      - condition: trigger
+        id: reminder_final
+      sequence:
+      - action: notify.mobile_app_jean_pauls_iphone
+        data:
+          title: "\U0001F6D1 Screen time over"
+          message: It's 21:45 PM. Close {{ current_app }} and start your wind-down
+            routine.
+          data:
+            push:
+              interruption-level: time-sensitive
+  mode: single
+  max_exceeded: silent

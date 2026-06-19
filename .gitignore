@@ -30,3 +30,5 @@ integrations/mqtt.yaml
 # ESPHome has it's own gitignore
 !esphome
 !esphome/**/*
+esphome/.device-builder-peer-link-key.bin
+esphome/.device-builder.json.lock

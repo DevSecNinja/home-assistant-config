@@ -7,14 +7,14 @@ I used to do a lot in YAML but since the push for GUI usage from Home Assistant,
 
 ### Version
 
-2026.2.3
+2026.6.2
 
 ### Stats
 
 Description | Count
 -- | --
-Number of entities | 1280
-Number of sensors | 652
+Number of entities | 1316
+Number of sensors | 659
 
 ## Hardware
 
@@ -50,6 +50,7 @@ usb2 | 0403 | FT232R USB UART | DSMR 4.2 Smart Energy Meter
 - [Azure Openai Conversation](https://github.com/joselcaguilar/azure-openai-ha)
 - [Battery Notes](https://github.com/andrew-codechimp/HA-Battery-Notes)
 - [Dawarich](https://github.com/AlbinLind/dawarich-home-assistant)
+- [F1 Sensor](https://github.com/Nicxe/f1_sensor)
 - [Frigate](https://github.com/blakeblackshear/frigate-hass-integration)
 - [Generate Readme](https://github.com/custom-components/readme)
 - [HACS](https://github.com/hacs/integration)
@@ -87,4 +88,4 @@ None
 
 ***
 
-Generated at 2026-03-22, 01:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
+Generated at 2026-06-14, 00:00 UTC by the [custom readme integration](https://github.com/custom-components/readme) based on [my configuration](templates/README.j2).
