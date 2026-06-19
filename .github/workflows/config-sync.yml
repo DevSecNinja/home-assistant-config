@@ -1,0 +1,18 @@
+---
+name: Config Sync
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    uses: DevSecNinja/.github/.github/workflows/config-sync.yml@c1725a7573e1cb5277889d925901b477ee814352 # v1.7.0
+    permissions:
+      contents: write
+      pull-requests: write
