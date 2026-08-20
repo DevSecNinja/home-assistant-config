@@ -1,0 +1,37 @@
+---
+# Pre-commit configuration for Home Assistant Config validation
+# Install: pip install pre-commit && pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--unsafe]  # Allow custom YAML tags used by Home Assistant
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-case-conflict
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.32.0
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint]
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.35.0
+    hooks:
+      - id: markdownlint
+        args: [--config=.markdownlint.json]
+
+  - repo: local
+    hooks:
+      - id: hassfest
+        name: Hassfest validation
+        entry: docker run --rm -v "$PWD":/config -w /config homeassistant/home-assistant:stable python -m homeassistant --config /config --script check_config --info all
+        language: system
+        files: '\.(yaml|yml)$'
+        require_serial: true
