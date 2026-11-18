@@ -1,0 +1,85 @@
+# Line endings for this repository, bootstrapped by DevSecNinja/.github
+# config-sync (config-sync/templates/.gitattributes). Config-sync adds it only
+# when the repository has no .gitattributes and never overwrites it: the
+# repository owns this file. Add repository-specific rules at the end; later
+# lines win. Based on the shared ~/.gitattributes in DevSecNinja/dotfiles
+# (home/dot_gitattributes).
+
+# LF in the repository and in every checkout, on every OS. A path that needs
+# CRLF gets its own rule below, for example:
+#   *.ps1 text eol=crlf   CRLF in the checkout, LF in the repository
+#   *.ics -text           stored byte for byte (RFC 5545 calendars need CRLF)
+# The shared Lint workflow (lint-line-endings) fails on text files committed
+# with CRLF, except -text paths.
+* text=auto eol=lf
+
+# Scripts stay LF even when a repository changes the default above.
+*.bash text eol=lf
+*.fish text eol=lf
+*.ksh  text eol=lf
+*.sh   text eol=lf
+*.zsh  text eol=lf
+
+# cmd.exe misreads labels and GOTO in batch files with LF line endings.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# A patch keeps the line endings of the files it changes.
+*.patch -text
+
+# SVG is XML: text, not binary.
+*.svg text
+
+# Binary files: no line-ending conversion and no text diff.
+# Images
+*.avif binary
+*.eps  binary
+*.gif  binary
+*.ico  binary
+*.jpeg binary
+*.jpg  binary
+*.png  binary
+*.tif  binary
+*.tiff binary
+*.webp binary
+# Documents
+*.docx binary
+*.pdf  binary
+*.pptx binary
+*.xlsx binary
+# Fonts
+*.eot   binary
+*.otf   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+# Audio and video
+*.mp3  binary
+*.mp4  binary
+*.wav  binary
+*.webm binary
+# Archives
+*.7z    binary
+*.bz    binary
+*.bz2   binary
+*.bzip2 binary
+*.gz    binary
+*.lz    binary
+*.lzma  binary
+*.rar   binary
+*.tar   binary
+*.taz   binary
+*.tbz   binary
+*.tbz2  binary
+*.tgz   binary
+*.tlz   binary
+*.txz   binary
+*.xz    binary
+*.Z     binary
+*.zip   binary
+*.zst   binary
+# Executables and libraries
+*.dll   binary
+*.dylib binary
+*.exe   binary
+*.so    binary
