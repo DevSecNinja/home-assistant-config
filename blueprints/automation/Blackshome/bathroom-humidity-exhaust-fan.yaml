@@ -1,6 +1,6 @@
 blueprint:
   name: Bathroom Humidity Exhaust Fan
-  description: "# \U0001F6BF Bathroom Humidity Exhaust Fan\n**Version: 2.6**\n\nStep
+  description: "# \U0001F6BF Bathroom Humidity Exhaust Fan\n**Version: 2.7**\n\nStep
     into the future of freshness - customize it your way and experience the convenience
     of automated humidity control! \U0001F33F\U0001F6BF\n\n**If you like my blueprints,
     and would like to show your support or just say thank you?** [Click Here](https://www.paypal.com/donate/?hosted_button_id=WAZS3QSDTPGA8)
@@ -29,13 +29,16 @@ blueprint:
     particularly useful for removing unwanted fumes from deodorant, hairspray, or
     the toilet.\n\n  - **Automation Link Option:**\n      - This feature simplifies
     the process of automatically disabling your other automations by providing an
-    automation linking mechanism.\n\n  - **Bypass Functionality Option:**\n      -
-    This allows you to bypass the automation, offering manual control and additional
-    customization capabilities.\n\n  - **Safety Measures:**\n      - Set a maximum
-    runtime safeguard for the fan to prevent continuous operation.\n      - Benefit
-    from built-in safeguards to ensure smooth operation and reliability, even if Home
-    Assistant restarts.\n\n  - **Blueprint Add-On Integration:**\n      - Sensor Light:
-    Control your lights in the bathroom. [Click Here](https://community.home-assistant.io/t/509992/240)
+    automation linking mechanism.\n\n  - **Operating Hours Option:**\n      - This
+    allows you to restrict automatic operation of the automation to the selected times
+    and days. The manual trigger, manual fan switch and bypass will still work outside
+    the operating hours.\n\n  - **Bypass Functionality Option:**\n      - This allows
+    you to bypass the automation, offering manual control and additional customization
+    capabilities.\n\n  - **Safety Measures:**\n      - Set a maximum runtime safeguard
+    for the fan to prevent continuous operation.\n      - Benefit from built-in safeguards
+    to ensure smooth operation and reliability, even if Home Assistant restarts.\n\n
+    \ - **Blueprint Add-On Integration:**\n      - Sensor Light: Control your lights
+    in the bathroom. [Click Here](https://community.home-assistant.io/t/509992/240)
     to learn more.\n      - Toilet Exhaust Fan: Integrate with a toilet in the bathroom.
     [Click Here](https://community.home-assistant.io/t/509992/387) to learn more.\n</details>\n\nNeed
     help?\n- FAQ: [Click Here](https://community.home-assistant.io/t/509992/2?u=blacky)\n-
@@ -122,9 +125,9 @@ blueprint:
                 value: enable_manual_trigger_time_delay
               - label: Disable manual trigger
                 value: disable_manual_trigger
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         manual_trigger:
           name: Manual Trigger
           description: 'Enter an entity that will manually trigger the automation.
@@ -338,9 +341,9 @@ blueprint:
                 value: maximum_humidity_enabled
               - label: Disable the maximum humidity option
                 value: maximum_humidity_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         max_humidity:
           name: Maximum Humidity
           description: If you have enabled the maximum humidity option above, please
@@ -374,9 +377,9 @@ blueprint:
                 value: fan_speed_off_enabled
               - label: Disable the fan speed options
                 value: fan_speed_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         time_delay_low_speed:
           name: Fan Speed - Low Speed Time Delay
           description: If you've selected option 1 in the 'Fan Speed Options' above,
@@ -408,9 +411,9 @@ blueprint:
                 value: winter_mode_enabled
               - label: Disable winter mode option
                 value: winter_mode_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         month_winter_mode:
           name: Months For Winter Mode
           description: Choose the months during which you want the winter mode settings
@@ -445,8 +448,8 @@ blueprint:
                 value: '11'
               - label: December
                 value: '12'
-              sort: false
               custom_value: false
+              sort: false
         winter_rising_humidity:
           name: Winter Rising Humidity Derivative
           description: Specify the percentage increase that the derivative sensor
@@ -524,9 +527,9 @@ blueprint:
                 value: maximum_humidity_enabled
               - label: Disable the maximum humidity option
                 value: maximum_humidity_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         winter_max_humidity:
           name: Winter Maximum Humidity
           description: If you have enabled the maximum humidity option above, please
@@ -560,9 +563,9 @@ blueprint:
                 value: fan_speed_off_enabled
               - label: Disable the fan speed options
                 value: fan_speed_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         winter_time_delay_low_speed:
           name: Winter Fan Speed - Low Speed Time Delay
           description: If you've selected option 1 in the 'Fan Speed Options' above,
@@ -597,9 +600,9 @@ blueprint:
                 value: lights_enabled
               - label: Disable the lights options
                 value: lights_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         light_switch:
           name: Lights
           description: 'Select the lights that will be turned on by the trigger sensor.
@@ -642,8 +645,8 @@ blueprint:
                 value: use_colour_temperature
               - label: Use transition
                 value: use_transition
-              sort: false
               custom_value: false
+              sort: false
         light_brightness:
           name: Brightness
           description: The brightness setting for the lights when they are turned
@@ -714,9 +717,9 @@ blueprint:
                 value: enable_manual_fan_switch_auto_off
               - label: Disable manual fan switch
                 value: disable_manual_fan_switch
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         manual_fan_switch:
           name: Manual Fan Switch
           description: 'Enter a switch that will toggle the fan ON/OFF. When the switch
@@ -776,9 +779,9 @@ blueprint:
                 value: enable_automation_link
               - label: Disable automation link
                 value: disable_automation_link
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         automation_link:
           name: Automation Link - Bypass Control
           description: 'Please enter the bypass entity of the other automations you
@@ -808,6 +811,83 @@ blueprint:
               step: 0.5
               unit_of_measurement: minutes
               mode: slider
+    operating_hours:
+      name: Operating Hours
+      icon: mdi:clock-outline
+      collapsed: true
+      input:
+        include_operating_hours:
+          name: Operating Hours (Optional)
+          description: 'Restrict the automation to only run between the start and
+            end times on the selected days.
+
+
+            The operating hours only apply to automatic operation. The manual trigger,
+            manual fan switch and bypass will still work outside the selected times,
+            allowing you to manually run the fan when needed.
+
+            '
+          default: operating_hours_disabled
+          selector:
+            select:
+              options:
+              - label: Enable operating hours
+                value: operating_hours_enabled
+              - label: Disable operating hours
+                value: operating_hours_disabled
+              multiple: false
+              custom_value: false
+              sort: false
+        operating_hours_start_time:
+          name: Start Time
+          description: 'Set the operating hours start time.
+
+            '
+          default: 00:00:00
+          selector:
+            time: {}
+        operating_hours_end_time:
+          name: End Time
+          description: 'Set the operating hours end time.
+
+            '
+          default: 00:00:00
+          selector:
+            time: {}
+        operating_hours_days:
+          name: Days
+          description: 'Select the days the operating hours will apply to.
+
+            '
+          default:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+          - sat
+          - sun
+          selector:
+            select:
+              multiple: true
+              mode: list
+              options:
+              - label: Monday
+                value: mon
+              - label: Tuesday
+                value: tue
+              - label: Wednesday
+                value: wed
+              - label: Thursday
+                value: thu
+              - label: Friday
+                value: fri
+              - label: Saturday
+                value: sat
+              - label: Sunday
+                value: sun
+              custom_value: false
+              sort: false
     bypass_settings:
       name: Bypass
       icon: mdi:cog-pause-outline
@@ -838,9 +918,9 @@ blueprint:
                 value: bypass_enabled_stop
               - label: Disable the bypass option
                 value: bypass_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         by_pass:
           name: Bypass Switch
           description: 'Select a switch that will bypass the humidity derivative sensor
@@ -865,8 +945,8 @@ blueprint:
               - label: When you turn the bypass off - Turn the fan, lights & automation
                   link OFF and do not run the automation.
                 value: bypass_turn_fan_off
-              sort: false
               custom_value: false
+              sort: false
         include_bypass_auto_off:
           name: Use The Bypass Auto OFF Option (Optional)
           description: Select this option if you want the bypass to automatically
@@ -881,9 +961,9 @@ blueprint:
                 value: bypass_auto_off_enabled
               - label: Disable the bypass auto off option
                 value: bypass_auto_off_disabled
-              sort: false
               multiple: false
               custom_value: false
+              sort: false
         bypass_auto_off_delay:
           name: Bypass Auto OFF - Time Delay
           description: Please set the auto OFF time delay for the bypass.
@@ -951,6 +1031,10 @@ variables:
   include_bypass: !input include_bypass
   by_pass: !input by_pass
   bypass_options: !input bypass_options
+  include_operating_hours: !input include_operating_hours
+  operating_hours_start_time: !input operating_hours_start_time
+  operating_hours_end_time: !input operating_hours_end_time
+  operating_hours_days: !input operating_hours_days
   include_bypass_auto_off: !input include_bypass_auto_off
   bypass_auto_off_delay: !input bypass_auto_off_delay
   light_entities: "{% set a =  light_switch and light_switch.entity_id %} {% if a
@@ -1222,6 +1306,23 @@ condition:
       - t8
     - '{{ (include_manual_trigger == ''enable_manual_trigger'') or (include_manual_trigger
       == ''enable_manual_trigger_time_delay'') }}'
+- condition: or
+  conditions:
+  - '{{ include_operating_hours == ''operating_hours_disabled'' }}'
+  - condition: and
+    conditions:
+    - '{{ include_operating_hours == ''operating_hours_enabled'' }}'
+    - condition: time
+      after: !input operating_hours_start_time
+      before: !input operating_hours_end_time
+      weekday: !input operating_hours_days
+  - condition: trigger
+    id:
+    - t2
+    - t5
+    - t6
+    - t7
+    - t8
 - condition: or
   conditions:
   - '{{ include_bypass == ''bypass_disabled'' }}'

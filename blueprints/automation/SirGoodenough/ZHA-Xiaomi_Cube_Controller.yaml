@@ -73,6 +73,7 @@ blueprint:
               - domain:
                 - input_number
               multiple: false
+              reorder: false
         cube:
           name: Aqara Cube
           description: Select the Aqara Cube device
@@ -743,8 +744,8 @@ blueprint:
           default: []
           selector:
             action: {}
-trigger:
-- platform: event
+triggers:
+- trigger: event
   event_type: zha_event
   event_data:
     device_id: !input cube
@@ -763,15 +764,15 @@ variables:
   last_side: '{{ states(last_side_input) | int(0) }}'
   side: '{{ iif((action != ''rotate_right'' and action != ''rotate_left''), current_side,
     last_side) }}'
-condition:
+conditions:
 - condition: template
   value_template: '{{ trigger.event.data.command in (''rotate_right'', ''rotate_left'',
     ''flip'', ''slide'', ''knock'', ''shake'', ''drop'') }}'
 - alias: User pick
   condition: !input additional_conditions
-action:
+actions:
 - alias: Store the current_side as the last_side for the next trigger
-  service: input_number.set_value
+  action: input_number.set_value
   target:
     entity_id: !input last_side_input
   data:
